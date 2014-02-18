@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+	<item android:left="4dp" android:right="4dp" android:top="4dp" android:bottom="4dp">
+		<shape android:shape="rectangle">
+		    <gradient 
+		        android:startColor="#33999999"
+		        android:centerColor="#44999999"
+		        android:endColor="#33999999"
+		        android:angle="-90"
+		        />
+				<stroke
+				    android:width="1dp" android:color="#33888888" />
+		</shape>
+	</item>
+
+</layer-list><!-- From: file:/D:/Windows%207/Dokumenter/SVN/P6%20-%20SW615F14/Temp%20Git/Train/TimerLib/res/drawable/btn_normal.xml --><!-- From: file:/D:/Windows%207/Dokumenter/SVN/P6%20-%20SW615F14/Temp%20Git/Train/build/exploded-bundles/TrainTimerLibUnspecified.aar/res/drawable/btn_normal.xml -->

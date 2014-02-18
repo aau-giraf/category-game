@@ -1,0 +1,1024 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger>
+
+    <dataSet config="TrainOasisLibUnspecified.aar" >
+        <source path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainOasisLibUnspecified.aar\res" >
+            <file
+                name="ic_launcher"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainOasisLibUnspecified.aar\res\drawable-hdpi\ic_launcher.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="ic_launcher"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainOasisLibUnspecified.aar\res\drawable-ldpi\ic_launcher.png"
+                qualifiers="ldpi"
+                type="drawable" />
+            <file
+                name="ic_launcher"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainOasisLibUnspecified.aar\res\drawable-mdpi\ic_launcher.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="main"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainOasisLibUnspecified.aar\res\layout\main.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainOasisLibUnspecified.aar\res\values\values.xml"
+                qualifiers="" >
+                <string name="app_name" >OasisLib
+                </string>
+                <string name="hello" >Hello World!
+                </string>
+            </file>
+        </source>
+    </dataSet>
+    <dataSet config="TrainPictogramLibUnspecified.aar" >
+        <source path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainPictogramLibUnspecified.aar\res" >
+            <file
+                name="ic_launcher"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainPictogramLibUnspecified.aar\res\drawable-hdpi\ic_launcher.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="ic_launcher"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainPictogramLibUnspecified.aar\res\drawable-ldpi\ic_launcher.png"
+                qualifiers="ldpi"
+                type="drawable" />
+            <file
+                name="ic_launcher"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainPictogramLibUnspecified.aar\res\drawable-mdpi\ic_launcher.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="picto_layout"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainPictogramLibUnspecified.aar\res\layout\picto_layout.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainPictogramLibUnspecified.aar\res\values\values.xml"
+                qualifiers="" >
+                <string name="app_name" >ACTIVITY_ENTRY_NAME
+                </string>
+
+                <dimen name="activity_horizontal_margin" >16dp
+                </dimen>
+                <dimen name="activity_vertical_margin" >16dp
+                </dimen>
+
+                <declare-styleable name="Pictogram" >
+                    <attr
+                        name="width"
+                        format="integer" />
+                    <!-- <attr name="height" format="integer"/> -->
+                </declare-styleable>
+            </file>
+            <file
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainPictogramLibUnspecified.aar\res\values-sw720dp-land\values.xml"
+                qualifiers="sw720dp-land" >
+                <dimen name="activity_horizontal_margin" >128dp
+                </dimen>
+            </file>
+        </source>
+    </dataSet>
+    <dataSet config="TrainTimerLibUnspecified.aar" >
+        <source path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res" >
+            <file
+                name="attachment_background"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\drawable\attachment_background.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="attachment_layer"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\drawable\attachment_layer.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="background"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\drawable\background.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="btn"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\drawable\btn.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="btn_normal"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\drawable\btn_normal.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="btn_pressed"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\drawable\btn_pressed.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="checkbox"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\drawable\checkbox.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="color_btn"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\drawable\color_btn.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="color_btn_normal"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\drawable\color_btn_normal.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="list"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\drawable\list.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="list_normal"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\drawable\list_normal.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="list_pressed"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\drawable\list_pressed.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="list_selected"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\drawable\list_selected.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="timer_button"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\drawable\timer_button.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="wdialog_background"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\drawable\wdialog_background.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="checkmark"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\drawable-hdpi\checkmark.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="default_profile"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\drawable-hdpi\default_profile.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="ic_launcher"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\drawable-hdpi\ic_launcher.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="last_used"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\drawable-hdpi\last_used.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="predef"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\drawable-hdpi\predef.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="p_done"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\drawable-hdpi\p_done.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="p_gaa_til_skema"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\drawable-hdpi\p_gaa_til_skema.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="p_gaa_til_taxa"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\drawable-hdpi\p_gaa_til_taxa.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="p_ryd_op"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\drawable-hdpi\p_ryd_op.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="thumbnail_attachment"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\drawable-hdpi\thumbnail_attachment.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="thumbnail_digital"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\drawable-hdpi\thumbnail_digital.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="thumbnail_dual_pic"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\drawable-hdpi\thumbnail_dual_pic.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="thumbnail_hourglass"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\drawable-hdpi\thumbnail_hourglass.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="thumbnail_progressbar"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\drawable-hdpi\thumbnail_progressbar.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="thumbnail_save"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\drawable-hdpi\thumbnail_save.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="thumbnail_saveas"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\drawable-hdpi\thumbnail_saveas.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="thumbnail_saveas_gray"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\drawable-hdpi\thumbnail_saveas_gray.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="thumbnail_save_gray"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\drawable-hdpi\thumbnail_save_gray.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="thumbnail_single_pic"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\drawable-hdpi\thumbnail_single_pic.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="thumbnail_start"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\drawable-hdpi\thumbnail_start.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="thumbnail_start_gray"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\drawable-hdpi\thumbnail_start_gray.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="thumbnail_timetimer"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\drawable-hdpi\thumbnail_timetimer.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="wombat_icon"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\drawable-hdpi\wombat_icon.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="customize"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\layout\customize.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="details"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\layout\details.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="main"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\layout\main.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="profile_list"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\layout\profile_list.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="profile_list_dialog"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\layout\profile_list_dialog.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="profile_list_item"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\layout\profile_list_item.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="subprofile_list"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\layout\subprofile_list.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="subprofile_list_item"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\layout\subprofile_list_item.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="wdialog"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\layout\wdialog.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\exploded-bundles\TrainTimerLibUnspecified.aar\res\values\values.xml"
+                qualifiers="" >
+                <string name="delete_description" >Er du sikker på du vil slette
+                </string>
+                <string name="profile_list_time" >Tid
+                </string>
+                <string name="cannot_delete_subprofile_toast" >Kan ikke slette denne tilpasning
+                </string>
+                <string name="delete_subprofile_message" >Vil du slette denne tilpasning?
+                </string>
+                <string name="customize_timetimer_description" >Ur
+                </string>
+                <string name="customize_header" >Tilpas
+                </string>
+                <string name="formfactor_singleimg" >Enkelt pictogram
+                </string>
+                <string name="minut" >minut
+                </string>
+                <string name="attachment_dialog_pick_a_picture" >Vælg et pictogram
+                </string>
+                <string name="customize_hourglass_description" >Timeglas
+                </string>
+                <string name="start_activity_default" >Tilpas
+                </string>
+                <string name="cant_start" >Timeren kan ikke startes endnu!
+                </string>
+                <string name="cant_save" >Timeren kan ikke gemmes endnu!
+                </string>
+                <string name="customize_digital_description" >Digital Ur
+                </string>
+
+                <string-array name="profiles" >
+                    <item>
+Last Used
+                    </item>
+                    <item>
+Predefined
+                    </item>
+                    <item>
+Bjørn
+                    </item>
+                    <item>
+Kim
+                    </item>
+                </string-array>
+
+                <string name="choose_profile" >Vælg en Profil
+                </string>
+                <string name="customize_style_description" >Stil
+                </string>
+
+                <style
+                    name="WombatStyle"
+                    parent="@android:style/Theme.Holo.NoActionBar.Fullscreen" >
+                    <item name="android:textColor">
+@color/textcolor
+                    </item>
+                    <item name="android:buttonStyle">
+@style/ButtonStyle
+                    </item>
+                </style>
+
+                <string name="min_sec_devider" >:
+                </string>
+                <string name="and_divider" >og
+                </string>
+                <string name="attachment_dialog_split_left" >Vælg venstre pictogram
+                </string>
+                <string name="new_template_button_text" >Ny tilpasning
+                </string>
+                <string name="attachment_dialog_split_right" >Vælg højre pictogram
+                </string>
+                <string name="background" >Baggrund
+                </string>
+                <string name="last_used" >Sidst Brugt
+                </string>
+                <string name="attachment_dialog_description" >Vælg den profil du vil kopierer og vedhæfte
+                </string>
+                <string name="formfactor_splitimg" >Dobbelt pictogram
+                </string>
+
+                <style
+                    name="WombatStyle_Dialog"
+                    parent="@android:style/Theme.Dialog" >
+                    <item name="android:windowBackground">
+@drawable/wdialog_background
+                    </item>
+                </style>
+
+                <string name="profile_list_header" >Profiler
+                </string>
+                <string name="donescreen_dialog_title" >Vælg type af slutbillede
+                </string>
+                <string name="delete_subprofile_toast" >Tilpasning slettet
+                </string>
+                <string name="donescreen_dialog_left" >Vælg venstre slutbilled
+                </string>
+                <string name="gradient" >Overgang
+                </string>
+                <string name="delete_no" >Nej
+                </string>
+                <string name="delete_yes" >Ja
+                </string>
+                <string name="customize_progressbar_description" >Bar
+                </string>
+                <string name="attached" >Vedhæftet
+                </string>
+                <string name="predefined" >Predefineret
+                </string>
+                <string name="attachment_button_description" >Vedhæft
+                </string>
+                <string name="cancel" >Afbryd
+                </string>
+                <string name="start_button" >Start
+                </string>
+                <string name="second" >sekund
+                </string>
+                <string name="ok" >Ok
+                </string>
+                <string name="customize_single_img_description" >Et billed
+                </string>
+                <string name="color_picker_button" >Vælg Farve
+                </string>
+                <string name="toast_text" >blev gemt på
+                </string>
+                <string name="template_list_header" >Gemte Tilpasninger
+                </string>
+                <string name="attachment_dialog_pick_a_profile" >Vælg den liste du vil kopierer og vedhæfte en profile fra
+                </string>
+                <string name="seconds" >sekunder
+                </string>
+                <string name="donescreen_dialog_single" >Vælg et slutbilled
+                </string>
+
+                <style
+                    name="ButtonStyle"
+                    parent="@android:style/Widget.Button" >
+                    <item name="android:background">
+@drawable/btn
+                    </item>
+                </style>
+
+                <string name="donescreen_button_description" >Slutbillede
+                </string>
+                <string name="minutes" >minutter
+                </string>
+
+                <integer-array name="ids" >
+                    <item>
+100001
+                    </item>
+                    <item>
+100002
+                    </item>
+                    <item>
+100003
+                    </item>
+                    <item>
+100004
+                    </item>
+                </integer-array>
+
+                <string name="select_attachment_dialog" >Vælg Vedhæft
+                </string>
+                <string name="donescreen_dialog_right" >Vælg højre slutbilled
+                </string>
+                <string name="frame" >Ramme
+                </string>
+                <string name="color_time_left" >Tid Tilbage
+                </string>
+
+                <color name="textcolor" >#000000
+                </color>
+
+                <string name="save_button" >Gem
+                </string>
+                <string name="save_as_button" >Gem Som …
+                </string>
+                <string name="go_back" >Gå tilbage
+                </string>
+                <string name="app_name" >Timer
+                </string>
+                <string name="profile_pic_description" >Profil Billede
+                </string>
+                <string name="customize_split_img_description" >To billeder
+                </string>
+                <string name="formfactor_timer" >Timer
+                </string>
+                <string name="colors" >Farver
+                </string>
+            </file>
+        </source>
+    </dataSet>
+    <dataSet config="main" >
+        <source path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res" >
+            <file
+                name="background"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\background.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="background_with_shape"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\background_with_shape.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="custom_button"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\custom_button.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="endgame_button"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\endgame_button.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="game_list_item"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\game_list_item.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="list_item"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\list_item.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="list_item_selected"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\list_item_selected.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="paper_prototype"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\paper_prototype.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="shape"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\shape.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="shape_droptarget"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\shape_droptarget.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="shape_white"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\shape_white.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="station_list_background"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\station_list_background.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="texture_blue_train_station"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\texture_blue_train_station.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="texture_cloud_large"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\texture_cloud_large.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="texture_cloud_medium"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\texture_cloud_medium.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="texture_cloud_small"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\texture_cloud_small.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="texture_cow"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\texture_cow.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="texture_ground"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\texture_ground.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="texture_ground_mini"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\texture_ground_mini.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="texture_hills"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\texture_hills.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="texture_hills1"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\texture_hills1.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="texture_hills2"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\texture_hills2.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="texture_hills3"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\texture_hills3.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="texture_hills4"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\texture_hills4.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="texture_hill_large"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\texture_hill_large.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="texture_hill_larger"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\texture_hill_larger.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="texture_hill_medium"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\texture_hill_medium.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="texture_hill_small"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\texture_hill_small.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="texture_mountain"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\texture_mountain.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="texture_plane"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\texture_plane.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="texture_platform"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\texture_platform.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="texture_red_train_station"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\texture_red_train_station.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="texture_shaft"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\texture_shaft.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="texture_station_whistle"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\texture_station_whistle.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="texture_sun"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\texture_sun.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="texture_train"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\texture_train.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="texture_train_buffer_stop"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\texture_train_buffer_stop.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="texture_train_depot"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\texture_train_depot.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="texture_train_depot_background"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\texture_train_depot_background.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="texture_train_smoke"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\texture_train_smoke.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="texture_tree"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\texture_tree.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="texture_wagon"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\texture_wagon.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="texture_wheel_large"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\texture_wheel_large.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="texture_wheel_medium"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\texture_wheel_medium.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="texture_wheel_shaft"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\texture_wheel_shaft.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="texture_wheel_small"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\texture_wheel_small.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="texture_yellow_train_station"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\texture_yellow_train_station.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="transparent_button"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable\transparent_button.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="default_profile"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable-hdpi\default_profile.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="ic_launcher"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable-hdpi\ic_launcher.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="ic_train_icon"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable-hdpi\ic_train_icon.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="ic_launcher"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable-mdpi\ic_launcher.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="ic_train_icon"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable-mdpi\ic_train_icon.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="ic_launcher"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable-xhdpi\ic_launcher.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="ic_train_icon"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable-xhdpi\ic_train_icon.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="ic_launcher"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable-xxhdpi\ic_launcher.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="ic_train_icon"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\drawable-xxhdpi\ic_train_icon.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="activity_main"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\layout\activity_main.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="activity_save_dialog"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\layout\activity_save_dialog.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="game_list_item"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\layout\game_list_item.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="pictogram_layout"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\layout\pictogram_layout.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="profile_list_item"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\layout\profile_list_item.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="station_list_item"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\layout\station_list_item.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="activity_game"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\layout-large\activity_game.xml"
+                qualifiers="large"
+                type="layout" />
+            <file
+                name="activity_game"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\layout-xlarge\activity_game.xml"
+                qualifiers="xlarge"
+                type="layout" />
+            <file
+                name="game"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\menu\game.xml"
+                qualifiers=""
+                type="menu" />
+            <file
+                name="main"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\menu\main.xml"
+                qualifiers=""
+                type="menu" />
+            <file
+                name="profile"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\menu\profile.xml"
+                qualifiers=""
+                type="menu" />
+            <file
+                name="save_dialog"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\menu\save_dialog.xml"
+                qualifiers=""
+                type="menu" />
+            <file
+                name="train_whistle"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\raw\train_whistle.mp3"
+                qualifiers=""
+                type="raw" />
+            <file
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\values\colors.xml"
+                qualifiers="" >
+                <color name="lime" >#00FF00
+                </color>
+                <color name="silver" >#C0C0C0
+                </color>
+                <color name="blue" >#0000FF
+                </color>
+                <color name="green" >#008000
+                </color>
+                <color name="navy" >#000080
+                </color>
+                <color name="red" >#FF0000
+                </color>
+                <color name="aqua" >#00FFFF
+                </color>
+                <color name="gray" >#808080
+                </color>
+                <color name="purple" >#800080
+                </color>
+                <color name="yellow" >#FFFF00
+                </color>
+                <color name="fuchsia" >#FF00FF
+                </color>
+                <color name="olive" >#808000
+                </color>
+                <color name="maroon" >#800000
+                </color>
+                <color name="white" >#FFFFFF
+                </color>
+                <color name="black" >#000000
+                </color>
+                <color name="teal" >#008080
+                </color>
+            </file>
+            <file
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\values\dialog_theme.xml"
+                qualifiers="" >
+
+                <style
+                    name="dialog_theme"
+                    parent="@android:style/Theme.Holo.Dialog.NoActionBar" >
+                    <item name="android:textColor">
+#000000
+                    </item>
+                    <item name="android:textSize">
+16sp
+                    </item>
+                </style>
+            </file>
+            <file
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\values\dimens.xml"
+                qualifiers="" >
+                <dimen name="activity_horizontal_margin" >16dp
+                </dimen>
+                <dimen name="activity_vertical_margin" >16dp
+                </dimen>
+            </file>
+            <file
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\values\strings.xml"
+                qualifiers="" >
+                <string name="start_game" >Start spil
+                </string>
+                <string name="action_settings" >Settings
+                </string>
+                <string name="title_activity_save_dialog" >SaveDialog
+                </string>
+                <string name="add_station" >Tilføj station
+                </string>
+                <string name="delete_dialog" >Er du sikker på du vil slette dette spil?
+                </string>
+                <string name="invalid_symbols" >De følgende symboler må ikke bruges:\n, ;
+                </string>
+                <string name="close_dialog" >Er du sikker på at du vil afslutte?
+                </string>
+                <string name="predefined" >Predefineret
+                </string>
+                <string name="loading" >Vent venligst
+                </string>
+                <string name="textHint" >Indtast navn her
+                </string>
+                <string name="cancel" >Annuller
+                </string>
+                <string name="delete_row" >Slet rækken
+                </string>
+                <string name="type_name" >Indtast Navn
+                </string>
+                <string name="station_error" >Der skal være mindst en station.
+                </string>
+                <string name="yes" >Ja
+                </string>
+                <string name="save_game" >Gem nyt spil
+                </string>
+                <string name="category_error" >Du mangler at vælge en kategori.
+                </string>
+                <string name="save_description" >Spillet vil blive gemt under:
+                </string>
+                <string name="remove_pictogram" >Fjern pictogram
+                </string>
+                <string name="customisation_header" >Tilpas Stationer
+                </string>
+                <string name="title_activity_game" >Game
+                </string>
+                <string name="picto_error" >Fejl: CAT er ikke installeret på denne enhed.
+                </string>
+                <string name="category" >Kategori
+                </string>
+                <string name="name_exists" >Det indtastede navn findes allerede.
+                </string>
+                <string name="pictogram_error" >Der skal være mindst et pictogram per station.
+                </string>
+                <string name="associated_pictograms" >Pictogrammer
+                </string>
+                <string name="okay" >Okay
+                </string>
+                <string name="game_list_header" >Gemte Spil
+                </string>
+                <string name="app_name" >Train
+                </string>
+                <string name="profile_pic_description" >Profil Billede
+                </string>
+                <string name="last_used" >Sidst Brugt
+                </string>
+                <string name="profile_list_header" >Profiler
+                </string>
+                <string name="add_pictogram" >Tilføj pictogram
+                </string>
+            </file>
+            <file
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\values\theme.xml"
+                qualifiers="" >
+
+                <style
+                    name="theme"
+                    parent="@android:style/Theme.Holo.NoActionBar" >
+                    <item name="android:textColor">
+#000000
+                    </item>
+                    <item name="android:textSize">
+16sp
+                    </item>
+                </style>
+            </file>
+            <file
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\res\values-sw720dp-land\dimens.xml"
+                qualifiers="sw720dp-land" >
+                <dimen name="activity_horizontal_margin" >16dp
+                </dimen>
+            </file>
+        </source>
+        <source path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build\res\rs\debug" />
+    </dataSet>
+    <dataSet config="debug" >
+        <source path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Git\Train\build-types\debug\res" />
+    </dataSet>
+
+</merger>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/profile_list_dialog"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <TextView android:id="@+id/profile_list_dialog_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:paddingTop="20dp"
+        android:paddingRight="20dp"
+        android:paddingLeft="20dp" />
+    
+    <ListView android:id="@+id/profile_list_dialog_listview"
+        android:layout_width="fill_parent"
+        android:layout_height="500dp"
+        android:padding="20dp"/>
+
+</LinearLayout><!-- From: file:/D:/Windows%207/Dokumenter/SVN/P6%20-%20SW615F14/Temp%20Git/Train/TimerLib/res/layout/profile_list_dialog.xml --><!-- From: file:/D:/Windows%207/Dokumenter/SVN/P6%20-%20SW615F14/Temp%20Git/Train/build/exploded-bundles/TrainTimerLibUnspecified.aar/res/layout/profile_list_dialog.xml -->

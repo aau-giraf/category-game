@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- From: file:/D:/Windows%207/Dokumenter/SVN/P6%20-%20SW615F14/Temp%20Workspace/GirafStart2014/TimerLib/res/values/profiles.xml -->
+    <eat-comment />
+
+    <integer-array name="ids">
+        <item>100001</item>
+        <item>100002</item>
+        <item>100003</item>
+        <item>100004</item>
+    </integer-array>
+
+    <string-array name="profiles">
+        <item>Last Used</item>
+        <item>Predefined</item>
+        <item>Bjørn</item>
+        <item>Kim</item>
+    </string-array>
+    <!-- From: file:/D:/Windows%207/Dokumenter/SVN/P6%20-%20SW615F14/Temp%20Workspace/GirafStart2014/TimerLib/res/values/wombat_style.xml -->
+    <eat-comment />
+
+    <color name="textcolor">#000000</color>
+    <!-- From: file:/D:/Windows%207/Dokumenter/SVN/P6%20-%20SW615F14/Temp%20Workspace/GirafStart2014/TimerLib/res/values/strings.xml -->
+    <eat-comment />
+
+    <string name="and_divider">og</string>
+    <string name="app_name">Timer</string>
+    <string name="attached">Vedhæftet</string>
+    <string name="attachment_button_description">Vedhæft</string>
+    <string name="attachment_dialog_description">Vælg den profil du vil kopierer og vedhæfte</string>
+    <string name="attachment_dialog_pick_a_picture">Vælg et pictogram</string>
+    <string name="attachment_dialog_pick_a_profile">Vælg den liste du vil kopierer og vedhæfte en profile fra</string>
+    <string name="attachment_dialog_split_left">Vælg venstre pictogram</string>
+    <string name="attachment_dialog_split_right">Vælg højre pictogram</string>
+    <string name="background">Baggrund</string>
+    <string name="cancel">Afbryd</string>
+    <string name="cannot_delete_subprofile_toast">Kan ikke slette denne tilpasning</string>
+    <string name="cant_save">Timeren kan ikke gemmes endnu!</string>
+    <string name="cant_start">Timeren kan ikke startes endnu!</string>
+    <string name="choose_profile">Vælg en Profil</string>
+    <string name="color_picker_button">Vælg Farve</string>
+    <string name="color_time_left">Tid Tilbage</string>
+    <string name="colors">Farver</string>
+    <string name="customize_digital_description">Digital Ur</string>
+    <string name="customize_header">Tilpas</string>
+    <string name="customize_hourglass_description">Timeglas</string>
+    <string name="customize_progressbar_description">Bar</string>
+    <string name="customize_single_img_description">Et billed</string>
+    <string name="customize_split_img_description">To billeder</string>
+    <string name="customize_style_description">Stil</string>
+    <string name="customize_timetimer_description">Ur</string>
+    <string name="delete_description">Er du sikker på du vil slette</string>
+    <string name="delete_no">Nej</string>
+    <string name="delete_subprofile_message">Vil du slette denne tilpasning?</string>
+    <string name="delete_subprofile_toast">Tilpasning slettet</string>
+    <string name="delete_yes">Ja</string>
+    <string name="donescreen_button_description">Slutbillede</string>
+    <string name="donescreen_dialog_left">Vælg venstre slutbilled</string>
+    <string name="donescreen_dialog_right">Vælg højre slutbilled</string>
+    <string name="donescreen_dialog_single">Vælg et slutbilled</string>
+    <string name="donescreen_dialog_title">Vælg type af slutbillede</string>
+    <string name="formfactor_singleimg">Enkelt pictogram</string>
+    <string name="formfactor_splitimg">Dobbelt pictogram</string>
+    <string name="formfactor_timer">Timer</string>
+    <string name="frame">Ramme</string>
+    <string name="go_back">Gå tilbage</string>
+    <string name="gradient">Overgang</string>
+    <string name="last_used">Sidst Brugt</string>
+    <string name="min_sec_devider">:</string>
+    <string name="minut">minut</string>
+    <string name="minutes">minutter</string>
+    <string name="new_template_button_text">Ny tilpasning</string>
+    <string name="ok">Ok</string>
+    <string name="predefined">Predefineret</string>
+    <string name="profile_list_header">Profiler</string>
+    <string name="profile_list_time">Tid</string>
+    <string name="profile_pic_description">Profil Billede</string>
+    <string name="save_as_button">Gem Som …</string>
+    <string name="save_button">Gem</string>
+    <string name="second">sekund</string>
+    <string name="seconds">sekunder</string>
+    <string name="select_attachment_dialog">Vælg Vedhæft</string>
+    <string name="start_activity_default">Tilpas</string>
+    <string name="start_button">Start</string>
+    <string name="template_list_header">Gemte Tilpasninger</string>
+    <string name="toast_text">blev gemt på</string>
+    <!-- From: file:/D:/Windows%207/Dokumenter/SVN/P6%20-%20SW615F14/Temp%20Workspace/GirafStart2014/TimerLib/res/values/wombat_style.xml -->
+    <eat-comment />
+
+    <style name="ButtonStyle" parent="@android:style/Widget.Button">
+        <item name="android:background">@drawable/btn</item>
+    </style>
+
+    <style name="WombatStyle" parent="@android:style/Theme.Holo.NoActionBar.Fullscreen">
+        <item name="android:textColor">@color/textcolor</item>
+        <item name="android:buttonStyle">@style/ButtonStyle</item>
+    </style>
+
+    <style name="WombatStyle_Dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@drawable/wdialog_background</item>
+    </style>
+
+</resources>
