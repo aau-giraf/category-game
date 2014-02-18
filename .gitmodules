@@ -1,0 +1,9 @@
+[submodule "OasisLib"]
+	path = OasisLib
+	url = http://cs-cust06-int.cs.aau.dk/git/oasis-lib
+[submodule "pictogram-lib"]
+	path = pictogram-lib
+	url = http://cs-cust06-int.cs.aau.dk/git/pictogram-lib.git
+[submodule "TimerLib"]
+	path = TimerLib
+	url = http://cs-cust06-int.cs.aau.dk/git/timer-lib.git
