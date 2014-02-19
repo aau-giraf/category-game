@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item android:state_pressed="true" android:drawable="@drawable/btn_pressed"/>
-    <item android:state_selected="true" android:drawable="@drawable/btn_pressed"/>
-    <item android:drawable="@drawable/color_btn_normal"/>
-
-</selector><!-- From: file:/D:/Windows%207/Dokumenter/SVN/P6%20-%20SW615F14/Temp%20Git/Train/TimerLib/res/drawable/color_btn.xml -->
