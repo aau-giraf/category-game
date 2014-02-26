@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="17"
+        android:minSdkVersion="15"
         android:targetSdkVersion="19" />
 
     <!-- For tablet use only -->
@@ -35,14 +35,18 @@
             android:name="dk.aau.cs.giraf.train.SaveDialogActivity"
             android:label="@string/title_activity_save_dialog"
             android:screenOrientation="landscape"
-            android:parentActivityName="dk.aau.cs.giraf.train.MainActivity"
             android:theme="@style/dialog_theme" >
+            <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="dk.aau.cs.giraf.train.MainActivity" />
         </activity>
         <activity
             android:name="dk.aau.cs.giraf.train.opengl.GameActivity"
             android:label="@string/title_activity_game"
-            android:parentActivityName="dk.aau.cs.giraf.train.MainActivity"
             android:screenOrientation="landscape" >
+			<meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="dk.aau.cs.giraf.train.MainActivity" />
         </activity>
     </application>
 </manifest>
