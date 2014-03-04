@@ -4,7 +4,8 @@ for /r %%F in (*.xml) do (
   move /y "%%F.new" "%%F" >nul
 )
 
-for /r %%F in (project.properties) do (
+@echo off
+for /r %%F in (*roject.properties) do (
   type "%%F"|repl "target=android-17" "target=android-15" LX >"%%F.new"
   move /y "%%F.new" "%%F" >nul
 )
