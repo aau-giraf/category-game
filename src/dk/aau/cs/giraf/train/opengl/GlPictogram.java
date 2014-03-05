@@ -47,45 +47,51 @@ public class GlPictogram extends Texture {
         Canvas canvas = null;
         
         if(pictogram.getImagePath() != null) {
-            this.containsImage = true;
             
             //Create bitmap from pictogram image path
             Bitmap originalBitmap = BitmapFactory.decodeFile(pictogram.getImagePath());
-            Bitmap pictogramBitmap;
-            
-            //Scale the bitmap where the biggest side equal to #pictogramSize. Maintian aspect ratio
-            if(originalBitmap.getWidth() <= originalBitmap.getHeight()) {
-                pictogramBitmap = Bitmap.createScaledBitmap(originalBitmap, this.pictogramSize * originalBitmap.getWidth() / originalBitmap.getHeight(), this.pictogramSize, true);
-            } else {
-                pictogramBitmap = Bitmap.createScaledBitmap(originalBitmap, this.pictogramSize, this.pictogramSize * originalBitmap.getHeight() / originalBitmap.getWidth(), true);
+            if (originalBitmap != null)
+            {
+                Bitmap pictogramBitmap;
+
+                this.containsImage = true;
+                //Scale the bitmap where the biggest side equal to #pictogramSize. Maintian aspect ratio
+                if(originalBitmap.getWidth() <= originalBitmap.getHeight()) {
+                    pictogramBitmap = Bitmap.createScaledBitmap(originalBitmap, this.pictogramSize * originalBitmap.getWidth() / originalBitmap.getHeight(), this.pictogramSize, true);
+                } else {
+                    pictogramBitmap = Bitmap.createScaledBitmap(originalBitmap, this.pictogramSize, this.pictogramSize * originalBitmap.getHeight() / originalBitmap.getWidth(), true);
+                }
+                originalBitmap.recycle();
+
+                canvasBitmap = Bitmap.createBitmap(this.pictogramSize, this.pictogramSize, Bitmap.Config.ARGB_8888);
+                canvas = new Canvas(canvasBitmap);
+
+                //Offset image to center in the available space
+                float xOffset = (this.pictogramSize - pictogramBitmap.getWidth())  / 2f;
+                float yOffset = (this.pictogramSize - pictogramBitmap.getHeight()) / 2f;
+
+                //Then draw the pictogram image
+                canvas.drawBitmap(pictogramBitmap, xOffset, yOffset, null);
+                pictogramBitmap.recycle();
             }
-            originalBitmap.recycle();
-            
-            canvasBitmap = Bitmap.createBitmap(this.pictogramSize, this.pictogramSize, Bitmap.Config.ARGB_8888);
-            canvas = new Canvas(canvasBitmap);
-            
-            //Offset image to center in the available space
-            float xOffset = (this.pictogramSize - pictogramBitmap.getWidth())  / 2f;
-            float yOffset = (this.pictogramSize - pictogramBitmap.getHeight()) / 2f;
-            
-            //Then draw the pictogram image
-            canvas.drawBitmap(pictogramBitmap, xOffset, yOffset, null);
-            pictogramBitmap.recycle();
         }
-        
+
         if (pictogram.getTextLabel() != null) {
             //If the pictogram contains text
             this.pictogramText = new Text(1f, 1f, new TextView(context).getTextSize(), Align.CENTER); //A new TextView can give us the default text size
             this.pictogramText.loadText(gl, context, pictogram.getTextLabel());
-        } 
-        
-        if (pictogram.getImagePath() == null && pictogram.getTextLabel() == null) {
-            //If image and text wasn't present then create empty bitmap
-            canvasBitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
         }
-        
-        super.loadTexture(gl, context, canvasBitmap);
-        canvasBitmap.recycle();
+
+        if (this.containsImage)
+        {
+            if (pictogram.getImagePath() == null && pictogram.getTextLabel() == null) {
+                //If image and text wasn't present then create empty bitmap
+                canvasBitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
+            }
+
+            super.loadTexture(gl, context, canvasBitmap);
+            canvasBitmap.recycle();
+        }
     }
     
     /** 

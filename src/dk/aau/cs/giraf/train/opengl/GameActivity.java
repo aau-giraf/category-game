@@ -29,6 +29,7 @@ import dk.aau.cs.giraf.train.R;
 import dk.aau.cs.giraf.train.R.id;
 import dk.aau.cs.giraf.train.StationConfiguration;
 import dk.aau.cs.giraf.train.opengl.game.GameData;
+import android.util.Log;
 
 public class GameActivity extends Activity {
 
@@ -216,9 +217,23 @@ public class GameActivity extends Activity {
 	 */
 	private void initLayouts() {
 		// StationLeft and Right
+        Log.d("initLayouts", "initLayouts");
 		stationLinear = new ArrayList<StationLinearLayout>();
-		stationLinear.add((StationLinearLayout) findViewById(R.id.StationLeftLinearLayout));
-		stationLinear.add((StationLinearLayout) findViewById(R.id.StationRightLinearLayout));
+        View Input = findViewById(R.id.StationLeftLinearLayout);
+        if (Input == null)
+        {
+            Log.d("initLayouts", "StationLeftLinearLayout cannot be null");
+            throw new NullPointerException("StationLeftLinearLayout cannot be null");
+        }
+		stationLinear.add((StationLinearLayout) Input);
+
+        Input = findViewById(R.id.StationRightLinearLayout);
+        if (Input == null)
+        {
+            Log.d("initLayouts", "StationRightLinearLayout cannot be null");
+            throw new NullPointerException("StationRightLinearLayout cannot be null");
+        }
+		stationLinear.add((StationLinearLayout) Input);
 		
 		// FluteButton
 		fluteButton = (ImageButton) findViewById(R.id.FluteImageButton);
