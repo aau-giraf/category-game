@@ -50,8 +50,8 @@ public class MainActivity extends Activity {
 	private ProgressDialog progressDialog;
 	private AlertDialog errorDialog;
 	
-	public static final int ALLOWED_PICTOGRAMS = 6;
-	public static final int ALLOWED_STATIONS   = 6;
+	public static final int ALLOWED_PICTOGRAMS = 12;
+	public static final int ALLOWED_STATIONS   = ALLOWED_PICTOGRAMS;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -113,10 +113,19 @@ public class MainActivity extends Activity {
         gameConfiguration.addStation(new StationConfiguration(2L));
         gameConfiguration.addStation(new StationConfiguration(4L));
         gameConfiguration.addStation(new StationConfiguration(3L));
-        gameConfiguration.getStation(0).addAcceptPictogram(2L);
+        gameConfiguration.getStation(2).addAcceptPictogram(2L);
         gameConfiguration.getStation(1).addAcceptPictogram(4L);
-        gameConfiguration.getStation(2).addAcceptPictogram(3L);
-        
+        gameConfiguration.getStation(0).addAcceptPictogram(3L);
+        gameConfiguration.getStation(0).addAcceptPictogram(3L);
+        gameConfiguration.getStation(0).addAcceptPictogram(3L);
+        gameConfiguration.getStation(0).addAcceptPictogram(3L);
+        gameConfiguration.getStation(0).addAcceptPictogram(3L);
+        gameConfiguration.getStation(0).addAcceptPictogram(3L);
+        gameConfiguration.getStation(0).addAcceptPictogram(3L);
+        gameConfiguration.getStation(0).addAcceptPictogram(3L);
+        gameConfiguration.getStation(0).addAcceptPictogram(3L);
+        gameConfiguration.getStation(0).addAcceptPictogram(3L);
+
         this.setGameConfiguration(gameConfiguration);
         
         

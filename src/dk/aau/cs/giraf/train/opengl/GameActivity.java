@@ -186,7 +186,7 @@ public class GameActivity extends Activity {
 	 */
 	private void addFrameLayoutsAndPictograms(int numberOfPictoFrames) {
 		initLayouts();
-		numberOfPictoFrames = (numberOfPictoFrames <= 4) ? 4:6;
+		//numberOfPictoFrames = (numberOfPictoFrames <= 4) ? 4:6;
 		
 		for (StationLinearLayout station : stationLinear) {
 			station.addPictoFrames(numberOfPictoFrames);

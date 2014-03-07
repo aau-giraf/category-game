@@ -123,7 +123,9 @@ public final class Station extends GameDrawable implements RuntimeLoader {
         int width = 310; //LinearLayout width
         
         //Set pictogramWidth to the size we have available relative to how many pictograms we need to fit on the provided space.
-        float pictogramWidthSpace = (pictograms.length <= 4) ? width / 2 : width / 3;
+        //float pictogramWidthSpace = (pictograms.length <= 4) ? width / 2 : width / 3;
+        //float pictogramHeightSpace = pictogramWidthSpace; //Same height as width;
+        float pictogramWidthSpace = width / ((int)(pictograms.length/2));
         float pictogramHeightSpace = pictogramWidthSpace; //Same height as width;
         
         float xPosition = (stationIndex == 0) ? 0f : super.gameData.nextStoppingPosition[stationIndex - 1];

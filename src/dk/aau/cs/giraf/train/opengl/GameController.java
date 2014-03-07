@@ -71,7 +71,9 @@ public class GameController {
 	public void trainDrive(ArrayList<StationLinearLayout> stationLinear){
 		if(this.gameData.currentTrainVelocity == 0f && this.gameData.numberOfStops < this.gameData.numberOfStations) {//pga. remise
 			boolean readyToGo = true;
-			if(this.gameData.numberOfStops + 1 == 1){
+			if(this.gameData.numberOfStops + 1 == 1)
+			{
+				// if this is the first station
 				for (LinearLayout lin : stationLinear) {
 					for (int i = 0; i< lin.getChildCount();i++) {
 						FrameLayout frame = (FrameLayout)lin.getChildAt(i);
@@ -90,7 +92,10 @@ public class GameController {
 			
 			if(readyToGo){
 				
-				numberOfPictoFrames = (gameConfiguration.getNumberOfPictogramsOfStations() <= 4) ? 4:6;
+				//numberOfPictoFrames = (gameConfiguration.getNumberOfPictogramsOfStations() <= 4) ? 4:6;
+				//numberOfPictoFrames = (gameConfiguration.getNumberOfPictogramsOfStations()/2)*2;
+				numberOfPictoFrames = gameConfiguration.getNumberOfPictogramsOfStations();
+				if (numberOfPictoFrames < 4) numberOfPictoFrames = 4;
 				Pictogram[] PictogramsOnStation = new Pictogram[numberOfPictoFrames];
 				int index = 0;
 				
