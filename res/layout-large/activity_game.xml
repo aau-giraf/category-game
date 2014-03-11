@@ -14,15 +14,26 @@
             android:layout_height="match_parent" />
     </FrameLayout>
 
+    <TextView
+        android:id="@+id/instructions"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:textSize="30dp"
+        android:text="Træk billederne ned på toget, og tryk på fløjten for at begynde at køre.\nTræk herefter billederne af ved de forskellige stationer, hvor de passer under kategorien for stationen.\nNår alle billeder er blevet sat af ved deres station vindes spillet."
+        android:layout_margin="150dp"
+        android:background="@color/gray"
+        android:clickable="true"
+        android:onClick="InstructionOnClick"/>
+
     <!-- Cart1 -->
 
     <dk.aau.cs.giraf.train.opengl.WagonLinearLayout
         android:id="@+id/Cart1LinearLayout"
-        android:layout_width="200dp"
-        android:layout_height="100dp"
+        android:layout_width="231dp"
+        android:layout_height="120dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="70dp"
-        android:layout_marginLeft="70dp"
+        android:layout_marginBottom="50dp"
+        android:layout_marginLeft="139dp"
         android:orientation="horizontal" >
     </dk.aau.cs.giraf.train.opengl.WagonLinearLayout>
 
@@ -30,10 +41,10 @@
 
     <dk.aau.cs.giraf.train.opengl.WagonLinearLayout
         android:id="@+id/Cart2LinearLayout"
-        android:layout_width="200dp"
-        android:layout_height="100dp"
+        android:layout_width="231dp"
+        android:layout_height="120dp"
         android:layout_alignBottom="@id/Cart1LinearLayout"
-        android:layout_marginLeft="70dp"
+        android:layout_marginLeft="30dp"
         android:layout_toRightOf="@id/Cart1LinearLayout"
         android:orientation="horizontal" >
     </dk.aau.cs.giraf.train.opengl.WagonLinearLayout>
@@ -42,10 +53,11 @@
 
     <dk.aau.cs.giraf.train.opengl.StationLinearLayout
         android:id="@+id/StationLeftLinearLayout"
-        android:layout_width="200dp"
-        android:layout_height="100dp"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="25dp"
+        android:layout_width="231dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="270dp"
+        android:layout_marginBottom="22.75dp"
+        android:layout_marginLeft="90dp"
         android:orientation="horizontal" >
     </dk.aau.cs.giraf.train.opengl.StationLinearLayout>
 
@@ -53,26 +65,28 @@
 
     <dk.aau.cs.giraf.train.opengl.StationLinearLayout
         android:id="@+id/StationRightLinearLayout"
-        android:layout_width="200dp"
-        android:layout_height="100dp"
+        android:layout_width="231dp"
+        android:layout_height="120dp"
         android:layout_alignBottom="@id/StationLeftLinearLayout"
-        android:layout_marginLeft="25dp"
+        android:layout_marginLeft="100dp"
         android:layout_toRightOf="@id/StationLeftLinearLayout"
         android:orientation="horizontal" >
     </dk.aau.cs.giraf.train.opengl.StationLinearLayout>
 
     <LinearLayout
         android:id="@+id/FluteLinearLayout"
-        android:layout_width="120dp"
-        android:layout_height="250dp"
+        android:layout_width="96dp"
+        android:layout_height="218.75dp"
         android:layout_alignTop="@id/StationRightLinearLayout"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="20dp"
-        android:orientation="horizontal">
+        android:layout_marginRight="35dp"
+        android:layout_marginTop="-22dp"
+        android:orientation="horizontal"
+        android:layout_gravity="right">
 
         <ImageButton
             android:id="@+id/FluteImageButton"
-            android:layout_width="120dp"
+            android:layout_width="96dp"
             android:layout_height="fill_parent"
             android:scaleType="fitCenter"
             android:src="@drawable/texture_station_whistle"
@@ -83,11 +97,11 @@
 
     <dk.aau.cs.giraf.train.opengl.StationLinearLayout
         android:id="@+id/TrainDriverLinearLayout"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="74dp"
+        android:layout_height="74dp"
         android:layout_alignBottom="@id/Cart2LinearLayout"
-        android:layout_marginBottom="75dp"
-        android:layout_marginLeft="70dp"
+        android:layout_marginBottom="89dp"
+        android:layout_marginLeft="47dp"
         android:layout_toRightOf="@id/Cart2LinearLayout"
         android:orientation="horizontal" >
     </dk.aau.cs.giraf.train.opengl.StationLinearLayout>
@@ -96,11 +110,11 @@
 
     <dk.aau.cs.giraf.train.opengl.StationLinearLayout
         android:id="@+id/StationCategoryLinearLayout"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="87.5dp"
+        android:layout_height="80dp"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="25dp"
-        android:layout_marginLeft="270dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginLeft="323.75dp"
         android:orientation="horizontal" >
     </dk.aau.cs.giraf.train.opengl.StationLinearLayout>
 
