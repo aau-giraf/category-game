@@ -250,6 +250,8 @@ public class GameActivity extends Activity {
 
 		// TrainDriver
 		trainDriverLinear = (LinearLayout) findViewById(R.id.TrainDriverLinearLayout);
+
+        findViewById(id.instructions).bringToFront();
 	}
 
 	@Override
@@ -348,5 +350,9 @@ public class GameActivity extends Activity {
 		});
 		RelativeLayout root =  (RelativeLayout)findViewById(id.RootLayout);
 		root.addView(endButton);
-	}	
+	}
+
+    public void InstructionOnClick(View view) {
+        view.setVisibility(View.GONE);
+    }
 }

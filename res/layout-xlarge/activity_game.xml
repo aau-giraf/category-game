@@ -16,7 +16,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </FrameLayout>
-    
+
+    <TextView
+        android:id="@+id/instructions"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:textSize="40dp"
+        android:text="Træk billederne ned på toget, og tryk på fløjten for at begynde at køre.\nTræk herefter billederne af ved de forskellige stationer, hvor de passer under kategorien for stationen.\nNår alle billeder er blevet sat af ved deres station vindes spillet."
+        android:layout_margin="200dp"
+        android:background="@color/gray"
+        android:clickable="true"
+        android:onClick="InstructionOnClick"/>
+
     <!-- Cart1 -->
 
     <dk.aau.cs.giraf.train.opengl.WagonLinearLayout
