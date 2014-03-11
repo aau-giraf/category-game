@@ -25,6 +25,7 @@ public abstract class GameActivityLinearLayout extends LinearLayout {
 		if (height >= 100) height = 100;
 		
 		int pictocount = (numberOfPictoFrames / 2);
+		if (numberOfPictoFrames % 2 == 1) pictocount += 1;
 		if (pictocount < 2) pictocount = 2;
 		
 		for (int j = 0; j < pictocount; j++) {

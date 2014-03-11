@@ -111,20 +111,14 @@ public class MainActivity extends Activity {
         /* TEST */
         GameConfiguration gameConfiguration = new GameConfiguration("THE game", 2, -3);
         gameConfiguration.addStation(new StationConfiguration(2L));
+        gameConfiguration.addStation(new StationConfiguration(5L)); // loading station
         gameConfiguration.addStation(new StationConfiguration(4L));
-        gameConfiguration.addStation(new StationConfiguration(3L));
-        gameConfiguration.getStation(2).addAcceptPictogram(2L);
-        gameConfiguration.getStation(1).addAcceptPictogram(4L);
-        gameConfiguration.getStation(0).addAcceptPictogram(3L);
-        gameConfiguration.getStation(0).addAcceptPictogram(3L);
-        gameConfiguration.getStation(0).addAcceptPictogram(3L);
-        gameConfiguration.getStation(0).addAcceptPictogram(3L);
-        gameConfiguration.getStation(0).addAcceptPictogram(3L);
-        gameConfiguration.getStation(0).addAcceptPictogram(3L);
-        gameConfiguration.getStation(0).addAcceptPictogram(3L);
-        gameConfiguration.getStation(0).addAcceptPictogram(3L);
-        gameConfiguration.getStation(0).addAcceptPictogram(3L);
-        gameConfiguration.getStation(0).addAcceptPictogram(3L);
+        gameConfiguration.getStation(2).addAcceptPictogram(4L);
+        gameConfiguration.getStation(1).setLoadingStation(true);
+        gameConfiguration.getStation(1).addAcceptPictogram(5L);
+        gameConfiguration.getStation(0).addAcceptPictogram(2L);
+        gameConfiguration.getStation(0).addAcceptPictogram(2L);
+        gameConfiguration.getStation(0).addAcceptPictogram(2L);
 
         this.setGameConfiguration(gameConfiguration);
         
@@ -170,12 +164,18 @@ public class MainActivity extends Activity {
             return false;
         }
 	    
-	    for (int i = 0; i < currentStation.size(); i++) {
-	        if(currentStation.get(i).getCategory() == -1L) {
+	    for (int i = 0; i < currentStation.size(); i++)
+		{
+			if (currentStation.get(i).isLoadingStation())
+				continue;
+				
+	        if(currentStation.get(i).getCategory() == -1L)
+			{
                 this.showAlertMessage(super.getResources().getString(R.string.category_error));
                 currentStation = null; //Free memory
                 return false;
-            } else if (currentStation.get(i).getAcceptPictograms().size() < 1) {
+            }
+			else if (currentStation.get(i).getAcceptPictograms().size() < 1) {
 	            this.showAlertMessage(super.getResources().getString(R.string.pictogram_error));
 	            currentStation = null; //Free memory
 	            return false;
