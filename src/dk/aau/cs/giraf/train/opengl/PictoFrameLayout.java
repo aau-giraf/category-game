@@ -57,6 +57,7 @@ public class PictoFrameLayout extends FrameLayout {
 				view.startDrag(data, shadowBuilder, view, 0);
 				view.setVisibility(View.INVISIBLE);
 				return true;
+                return true;
 			}
 			else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {// prevents that a picto disapears if only pressed and no drag
 				if(view != null && view.getVisibility() == View.INVISIBLE){
