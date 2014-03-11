@@ -24,6 +24,11 @@ public class GameController {
 		this.gameData = gameData;
 	}
 	
+	// Checks if this station is for onloading
+	private boolean IsLoadingStation(StationConfiguration station, ArrayList<StationLinearLayout> stationLinear)
+	{
+		return station.isLoadingStation();
+	}
 	private boolean checkPictogramsIsOnStation(StationConfiguration station, ArrayList<StationLinearLayout> stationLinear){
 		boolean answer = false;
 		int acceptedPics = 0;
@@ -71,7 +76,14 @@ public class GameController {
 	public void trainDrive(ArrayList<StationLinearLayout> stationLinear){
 		if(this.gameData.currentTrainVelocity == 0f && this.gameData.numberOfStops < this.gameData.numberOfStations) {//pga. remise
 			boolean readyToGo = true;
-			if(this.gameData.numberOfStops + 1 == 1)
+			
+
+			//if(IsLoadingStation(this.gameConfiguration.getStation(this.gameData.numberOfStops - 1), stationLinear))
+			//if(this.gameData.numberOfStops == 0)
+			if(
+				this.gameData.numberOfStops == 0 ||
+				IsLoadingStation(this.gameConfiguration.getStation(this.gameData.numberOfStops - 1), stationLinear)
+			)
 			{
 				// if this is the first station
 				for (LinearLayout lin : stationLinear) {
@@ -93,8 +105,9 @@ public class GameController {
 			if(readyToGo){
 				
 				//numberOfPictoFrames = (gameConfiguration.getNumberOfPictogramsOfStations() <= 4) ? 4:6;
-				//numberOfPictoFrames = (gameConfiguration.getNumberOfPictogramsOfStations()/2)*2;
-				numberOfPictoFrames = gameConfiguration.getNumberOfPictogramsOfStations();
+				//numberOfPictoFrames = gameConfiguration.getNumberOfPictogramsOfStations();
+				numberOfPictoFrames = (gameConfiguration.getNumberOfPictogramsOfStations()/2)*2;
+				if (gameConfiguration.getNumberOfPictogramsOfStations() % 2 == 1) numberOfPictoFrames += 2;
 				if (numberOfPictoFrames < 4) numberOfPictoFrames = 4;
 				Pictogram[] PictogramsOnStation = new Pictogram[numberOfPictoFrames];
 				int index = 0;

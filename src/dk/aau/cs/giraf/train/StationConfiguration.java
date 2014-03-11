@@ -14,6 +14,7 @@ import android.os.Parcelable;
  *
  */
 public class StationConfiguration implements Parcelable {
+    private boolean is_loading = false;
     private long category = -1L;
     private ArrayList<Long> acceptPictograms = new ArrayList<Long>(); 
     
@@ -28,6 +29,7 @@ public class StationConfiguration implements Parcelable {
     public StationConfiguration(StationConfiguration stationConfiguration) {
         this.category = stationConfiguration.getCategory();
         this.acceptPictograms = new ArrayList<Long>(stationConfiguration.getAcceptPictograms());
+		this.setLoadingStation(stationConfiguration.isLoadingStation());
     }
     
     public void addAcceptPictogram(long id) {
@@ -52,6 +54,13 @@ public class StationConfiguration implements Parcelable {
     
     public long getCategory() {
         return this.category;
+    }
+	
+	public boolean isLoadingStation() {
+        return this.is_loading;
+    }
+	public void setLoadingStation(boolean b) {
+        this.is_loading = b;
     }
 
     @Override
