@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 /**
  * A layout containing the pictograms associated to the station.
  * @author Jesper Riemer Andersen
- *
+ * hej
  */
 public class AssociatedPictogramsLayout extends LinearLayout implements PictogramReceiver {
     
