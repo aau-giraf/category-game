@@ -18,7 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import dk.aau.cs.giraf.TimerLib.Child;
+import dk.aau.cs.giraf.oasis.lib.models.Profile;
 import dk.aau.cs.giraf.pictogram.PictoFactory;
 
 public class GameLinearLayout extends LinearLayout {
@@ -27,7 +27,7 @@ public class GameLinearLayout extends LinearLayout {
     private ArrayList<GameConfiguration> visibleGameConfigurations = new ArrayList<GameConfiguration>();
     private AlertDialog deleteDialog;
     private int deleteIndex;
-    private Child selectedChild;
+    private Profile selectedChild;
     
     public GameLinearLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -35,7 +35,7 @@ public class GameLinearLayout extends LinearLayout {
         this.deleteDialog = this.createAlertDialog();
     }
     
-    public void setSelectedChild(Child selectedChild) {
+    public void setSelectedChild(Profile selectedChild) {
         this.selectedChild = selectedChild;
         this.makeAllViews();
     }
@@ -71,7 +71,7 @@ public class GameLinearLayout extends LinearLayout {
         //Add to list of all configurations
         this.gameConfigurations.add(gameConfiguration);
         
-        if(this.selectedChild != null && gameConfiguration.getChildId() == this.selectedChild.getProfileId()) {
+        if(this.selectedChild != null && gameConfiguration.getChildId() == this.selectedChild.getId()) {
             //If it belongs to current Child, make the view.
             this.makeView(gameConfiguration);
         }
@@ -86,7 +86,7 @@ public class GameLinearLayout extends LinearLayout {
         }
         
         for (GameConfiguration gameConfiguration : this.gameConfigurations) {
-            if(gameConfiguration.getChildId() != this.selectedChild.getProfileId()) {
+            if(gameConfiguration.getChildId() != this.selectedChild.getId()) {
                 continue;
             }
             
@@ -105,7 +105,7 @@ public class GameLinearLayout extends LinearLayout {
         profilePictureImageView.setImageResource(R.drawable.default_profile);
         
         @SuppressWarnings("static-access")
-        Bitmap bitmap = BitmapFactory.decodeFile(PictoFactory.INSTANCE.getPictogram(super.getContext(),gameConfiguration.getStation(0).getCategory()).getImagePath());
+        Bitmap bitmap = PictoFactory.INSTANCE.getPictogram(super.getContext(),gameConfiguration.getStation(0).getCategory()).getImageData();
         profilePictureImageView.setImageBitmap(bitmap);
         
         gameListItem.setOnClickListener(new OnItemClickListener(gameConfiguration));
@@ -162,9 +162,9 @@ public class GameLinearLayout extends LinearLayout {
             String[] parts = configurations[i].split(";");
             String[] game = parts[0].split(",");
             
-            long gameID = Long.valueOf(game[0]).longValue();
-            long guardianID = Long.valueOf(game[1]).longValue();
-            long childID = Long.valueOf(game[2]).longValue();
+            int gameID = Integer.parseInt(game[0]);
+            int guardianID = Integer.parseInt(game[1]);
+            int childID = Integer.parseInt(game[2]);
             String gameName = game[3];
             ArrayList<StationConfiguration> stations = new ArrayList<StationConfiguration>(); 
             
@@ -173,11 +173,11 @@ public class GameLinearLayout extends LinearLayout {
                 StationConfiguration station = new StationConfiguration();
                 String[] stationParts = parts[k].split(",");
                 
-                station.setCategory(Long.valueOf(stationParts[0]).longValue());
+                station.setCategory((Integer.parseInt(stationParts[0])));
                 
                 // For each accept pictogram of station
                 for (int n = 1; n < stationParts.length; n++) {
-                    station.addAcceptPictogram(Long.valueOf(stationParts[n]).longValue());
+                    station.addAcceptPictogram(Integer.parseInt(stationParts[n]));
                 }
                 stations.add(station);
             }

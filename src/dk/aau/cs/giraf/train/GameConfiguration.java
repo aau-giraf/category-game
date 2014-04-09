@@ -16,20 +16,20 @@ import android.os.Parcelable;
  */
 public class GameConfiguration implements Parcelable {
 
-    private long   guardianID;
+    private int   guardianID;
 	private String gameName;
-	private long   childID;
+	private int   childID;
 	private long   gameID;
 	private ArrayList<StationConfiguration> stations = new ArrayList<StationConfiguration>();
 	
-	public GameConfiguration(String gameName, long gameID, long childID) {
+	/*public GameConfiguration(String gameName, int gameID, int childID) {
 		this.gameName = gameName;
 		this.childID = childID;
 		this.gameID = gameID;
-		this.guardianID = Data.currentGuardianID;
-	}
+		this.guardianID = Data.;
+	}*/
 	
-	public GameConfiguration(String gameName, long gameID, long childID, long guardianID) {
+	public GameConfiguration(String gameName, int gameID, int childID, int guardianID) {
 		this.gameName = gameName;
 		this.childID = childID;
 		this.gameID = gameID;
@@ -68,8 +68,8 @@ public class GameConfiguration implements Parcelable {
 		return numberOfPictograms;
 	}
 	
-	public ArrayList<Long> getIdOfAllPictograms(){
-		ArrayList<Long> pictogramIds =new ArrayList<Long>();
+	public ArrayList<Integer> getIdOfAllPictograms(){
+		ArrayList<Integer> pictogramIds =new ArrayList<Integer>();
 		
 		for (StationConfiguration station : this.stations) {
 			pictogramIds.addAll(station.getAcceptPictograms());
@@ -104,9 +104,9 @@ public class GameConfiguration implements Parcelable {
     };
     
     private GameConfiguration(Parcel in) {
-        this.guardianID = in.readLong();
+        this.guardianID = in.readInt();
         this.gameName = in.readString();
-        this.childID = in.readLong();
+        this.childID = in.readInt();
         this.gameID = in.readLong();
         in.readList(this.stations, StationConfiguration.class.getClassLoader());
     }

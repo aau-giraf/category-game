@@ -9,21 +9,22 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import dk.aau.cs.giraf.TimerLib.Child;
+import dk.aau.cs.giraf.oasis.lib.models.Profile;
 
 /**
  * The ChildAdapter class is an adapter for {@link ChildrenListView} that extends {@link ArrayAdapter}.
- * @see {@link Child}
+ * see {link Child}
  * @see {@link ChildrenListView}
  * @author Nicklas Andersen
  */
-public class ChildAdapter extends ArrayAdapter<Child> {
-	
+public class ChildAdapter extends ArrayAdapter<Profile> {
+	/*
 	private int selectedPosition = 0;
 	private Child selectedChild;
+	*/
 	private GameLinearLayout gameLinearLayout;
-	
-	public ChildAdapter(Context context, int textViewResourceId, ArrayList<Child> items) {
+
+	public ChildAdapter(Context context, int textViewResourceId, ArrayList<Profile> items) {
 		super(context, textViewResourceId, items);
 		
 		this.gameLinearLayout = (GameLinearLayout) ((MainActivity) context).findViewById(R.id.gamelist);
@@ -32,7 +33,7 @@ public class ChildAdapter extends ArrayAdapter<Child> {
 	/**
 	 * @return The selected child.
 	 * @see {@link Child}
-	 */
+
 	public Child getSelectedChild() {
 	    return this.selectedChild;
 	}
@@ -40,20 +41,20 @@ public class ChildAdapter extends ArrayAdapter<Child> {
 	/**
 	 * This method sets the position of the selected item.
 	 * @param position The position of the selected item
-	 */
+
 	public void setSelectedPosition(int position) {
 	    this.selectedPosition = position;
 	    super.notifyDataSetChanged();
 	    this.gameLinearLayout.setSelectedChild(super.getItem(position));
 	}
 	
-	/**
+	/*
 	 * The getView method is used to inflate an listitem.
 	 * @param position The index of the current list item.
 	 * @param convertView The view of the current list item.
 	 * @param parent The view of the list that is to be inflated.
 	 * @see LayoutInflater
-	 */
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if (convertView == null) {
@@ -64,7 +65,7 @@ public class ChildAdapter extends ArrayAdapter<Child> {
 		//Child child = this.children.get(position);
 		Child child = super.getItem(position);
 		
-        /* Find all the views */
+        /* Find all the views
         ImageView profilePictureImageView = (ImageView) convertView.findViewById(R.id.profilePic);
         TextView profileNameTextView = (TextView) convertView.findViewById(R.id.profileName);
 
@@ -82,5 +83,5 @@ public class ChildAdapter extends ArrayAdapter<Child> {
             convertView.setBackgroundResource(R.drawable.list_item);
         }
 		return convertView;
-	}
+	}*/
 }

@@ -46,10 +46,10 @@ public class GlPictogram extends Texture {
         Bitmap canvasBitmap = null;
         Canvas canvas = null;
         
-        if(pictogram.getImagePath() != null) {
+        if(pictogram.getImageData() != null) {
             
             //Create bitmap from pictogram image path
-            Bitmap originalBitmap = BitmapFactory.decodeFile(pictogram.getImagePath());
+            Bitmap originalBitmap = pictogram.getImageData();
             if (originalBitmap != null)
             {
                 Bitmap pictogramBitmap;
@@ -84,7 +84,7 @@ public class GlPictogram extends Texture {
 
         if (this.containsImage)
         {
-            if (pictogram.getImagePath() == null && pictogram.getTextLabel() == null) {
+            if (pictogram.getImageData() == null && pictogram.getTextLabel() == null) {
                 //If image and text wasn't present then create empty bitmap
                 canvasBitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
             }

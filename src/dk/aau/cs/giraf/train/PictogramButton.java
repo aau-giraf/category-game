@@ -19,7 +19,7 @@ import dk.aau.cs.giraf.pictogram.Pictogram;
 public class PictogramButton extends LinearLayout implements PictogramReceiver {
     
     private FrameLayout pictogramContainer;
-    private long pictogramId = -1L;
+    private int pictogramId = -1;
     private ImageButton removeButton;
     private StationConfiguration station = null;
     
@@ -56,7 +56,7 @@ public class PictogramButton extends LinearLayout implements PictogramReceiver {
 	    this.setPictogram(station.getCategory());
 	}
 	
-	public long getPictogramId() {
+	public int getPictogramId() {
         return this.pictogramId;
     }
 	
@@ -72,11 +72,11 @@ public class PictogramButton extends LinearLayout implements PictogramReceiver {
 	    }
 	}
 	
-	public void setPictogram(long pictogramId) {
+	public void setPictogram(int pictogramId) {
 	    this.pictogramId = pictogramId;
 	    this.pictogramContainer.removeAllViews();
 	    
-	    if(pictogramId == -1L) { return; }
+	    if(pictogramId == -1) { return; }
 	    
 	    if(this.station != null) { this.station.setCategory(pictogramId); } //If this is a category, save it
 	    
@@ -103,9 +103,8 @@ public class PictogramButton extends LinearLayout implements PictogramReceiver {
 	        }
 	    }
 	}
-
     @Override
     public void receivePictograms(long[] pictogramIds, int requestCode) {
-        this.setPictogram(pictogramIds[0]); //Only receive one pictogram
+        this.setPictogram((int)pictogramIds[0]); //Only receive one pictogram
     }
 }

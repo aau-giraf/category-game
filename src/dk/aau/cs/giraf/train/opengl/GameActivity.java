@@ -91,15 +91,15 @@ public class GameActivity extends Activity {
 		if(configurationBundle != null) {
 		    this.gameConfiguration = configurationBundle.getParcelable(MainActivity.GAME_CONFIGURATION);
 		} else {
-            gameConfiguration = new GameConfiguration("Game 3", 2, -3);
-            gameConfiguration.addStation(new StationConfiguration(2L));
-            gameConfiguration.addStation(new StationConfiguration(4L));
-            gameConfiguration.addStation(new StationConfiguration(3L));
-            gameConfiguration.getStation(0).addAcceptPictogram(2L);
-            gameConfiguration.getStation(1).addAcceptPictogram(4L);
-            gameConfiguration.getStation(1).addAcceptPictogram(4L);
-            gameConfiguration.getStation(2).addAcceptPictogram(3L);
-            gameConfiguration.getStation(2).addAcceptPictogram(2L);
+            gameConfiguration = new GameConfiguration("Game 3", 2, -3, 0);
+            gameConfiguration.addStation(new StationConfiguration(2));
+            gameConfiguration.addStation(new StationConfiguration(4));
+            gameConfiguration.addStation(new StationConfiguration(3));
+            gameConfiguration.getStation(0).addAcceptPictogram(2);
+            gameConfiguration.getStation(1).addAcceptPictogram(4);
+            gameConfiguration.getStation(1).addAcceptPictogram(4);
+            gameConfiguration.getStation(2).addAcceptPictogram(3);
+            gameConfiguration.getStation(2).addAcceptPictogram(2);
 		}
 		
 		this.gameData = new GameData(this, gameConfiguration);
@@ -182,7 +182,7 @@ public class GameActivity extends Activity {
 	 * Dynamically adds FrameLayout defined by numbersOfPictograms, The
 	 * Framelayout is then later filled with pictograms.
 	 * 
-	 * @param numbersOfFrameLayouts
+	 * param numbersOfFrameLayouts
 	 */
 	private void addFrameLayoutsAndPictograms(int numberOfPictoFrames) {
 		initLayouts();
@@ -198,7 +198,7 @@ public class GameActivity extends Activity {
 		
 		trainDriverLinear = addSingleFrameToLinearLayout(trainDriverLinear);
 		
-		ArrayList<Long> pictogramIdsToAdd = gameConfiguration.getIdOfAllPictograms();
+		ArrayList<Integer> pictogramIdsToAdd = gameConfiguration.getIdOfAllPictograms();
 		int nextPicId = 0;
 		
 		for (StationLinearLayout station : stationLinear){

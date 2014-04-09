@@ -24,7 +24,7 @@ public class PictoFrameLayout extends FrameLayout {
 		super(context, attrs);
 	}
 	
-	public void addPictogramsToFrames(Long pictoId){
+	public void addPictogramsToFrames(int pictoId){
 		Pictogram pic = PictoFactory.getPictogram(super.getContext(), pictoId);
 		pic.setOnTouchListener(new TouchListener());
 		pic.renderAll();
@@ -46,7 +46,7 @@ public class PictoFrameLayout extends FrameLayout {
 	 * A touch listener that starts a drag event. There should also be a
 	 * receiver implementing {@link OnDragListener}.
 	 * 
-	 * @see DragListener
+	 * see DragListener
 	 */
 	private final class TouchListener implements OnTouchListener {
 		@Override

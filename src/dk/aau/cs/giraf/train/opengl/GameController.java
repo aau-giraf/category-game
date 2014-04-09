@@ -37,7 +37,7 @@ public class GameController {
 			totalPictogramsOnStaion += stationLin.getPictograms().size();
 		}
 		
-		for (Long pictoId : station.getAcceptPictograms()){
+		for (int pictoId : station.getAcceptPictograms()){
 			boolean foundPic = false;
 			for(StationLinearLayout stationLin : stationLinear){
 				for (PictoFrameLayout pictoFrame : stationLin.getPictoframes()) {	

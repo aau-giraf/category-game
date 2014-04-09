@@ -31,7 +31,7 @@ public class AssociatedPictogramsLayout extends LinearLayout implements Pictogra
     public void bindStation(StationConfiguration station) {
         this.station = station;
         
-        ArrayList<Long> acceptPictograms = new ArrayList<Long>(station.getAcceptPictograms());
+        ArrayList<Integer> acceptPictograms = new ArrayList<Integer>(station.getAcceptPictograms());
         
         for (int i = 0; i < acceptPictograms.size(); i++) {
             this.addPictogram(acceptPictograms.get(i));
@@ -42,7 +42,7 @@ public class AssociatedPictogramsLayout extends LinearLayout implements Pictogra
         }
     }
     
-    public synchronized void addPictogram(long pictogramId) {
+    public synchronized void addPictogram(int pictogramId) {
         PictogramButton pictogramButton = new PictogramButton(this.getContext());
         pictogramButton.setPictogram(pictogramId);
         pictogramButton.setRemovable(true);
@@ -74,11 +74,10 @@ public class AssociatedPictogramsLayout extends LinearLayout implements Pictogra
             this.customiseLinearLayout.setVisibilityPictogramButtons(true);
         }
     }
-    
     @Override
     public void receivePictograms(long[] pictogramIds, int requestCode) {
         for (long id : pictogramIds) {
-            this.addPictogram(id);
+            this.addPictogram((int)id);
             if(this.customiseLinearLayout.getTotalPictogramSize() >= MainActivity.ALLOWED_PICTOGRAMS) {
                 this.customiseLinearLayout.setVisibilityPictogramButtons(false);
                 break;
