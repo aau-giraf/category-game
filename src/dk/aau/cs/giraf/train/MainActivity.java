@@ -24,7 +24,6 @@ import android.widget.Toast;
 import dk.aau.cs.giraf.train.opengl.GameActivity;
 
 public class MainActivity extends Activity {
-	
     public static final String SAVEFILE_PATH = "game_configurations.txt";
     public static final String GAME_CONFIGURATION = "GameConfiguration";
     public static final String GAME_CONFIGURATIONS = "GameConfigurations";
@@ -38,10 +37,7 @@ public class MainActivity extends Activity {
     private Intent gameIntent;
     private Intent saveIntent;
     private Intent pictoAdminIntent = new Intent();
-    
-    //private Guardian guardian = null;
-    //private Profile profile = null;
-	//private ChildrenListView childrenListView;
+
 	private GameLinearLayout gameLinearLayout;
 	private CustomiseLinearLayout customiseLinearLayout;
 	
@@ -57,22 +53,22 @@ public class MainActivity extends Activity {
 		super.setContentView(R.layout.activity_main);
 		
 		/* Get data from launcher */
-        //Bundle extras = getIntent().getExtras();
+        Bundle extras = getIntent().getExtras();
 
-        /*if (extras != null) {
+        if (extras != null) {
             currentProfileData = new Data(
                     extras.getInt("currentGuardianID"),
                     extras.getInt("currentChildID"),
                     extras.getInt("appBackgroundColor"),
                     this.getApplicationContext());
-        } else {*/
+        } else {
             //TODO: Overvej en exception istedet
             currentProfileData = new Data(
                     0,
                     -3,
                     0xFFFFBB55,
                     this.getApplicationContext());
-        //}
+        }
         
         Drawable backgroundDrawable = getResources().getDrawable(R.drawable.background);
         backgroundDrawable.setColorFilter(Data.appBackgroundColor, PorterDuff.Mode.OVERLAY);
@@ -88,19 +84,6 @@ public class MainActivity extends Activity {
         
         this.gameLinearLayout = ((GameLinearLayout) findViewById(R.id.gamelist));
         this.gameLinearLayout.loadAllConfigurations();
-        
-		/* Initialize the guardian object. */
-    	//this.guardian = Guardian.getInstance(Data.currentChildID, Data.currentGuardianID, getApplicationContext(), new ArrayList<Art>());
-    	//this.guardian.backgroundColor = Data.appBackgroundColor;
-    	
-    	//this.childrenListView = (ChildrenListView) super.findViewById(R.id.profilelist);
-
-		//this.childrenListView.loadChildren(Data.listOfChildren);
-		
-		/*if(this.childrenListView.getCount() == 0) {
-		    //Don't allow saving if the current guardian has no associated children
-		    ((Button) super.findViewById(R.id.saveGameButton)).setEnabled(false);
-		}*/
 		
 		this.customiseLinearLayout = (CustomiseLinearLayout) super.findViewById(R.id.customiseLinearLayout);
 		
@@ -111,22 +94,6 @@ public class MainActivity extends Activity {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setNegativeButton(super.getResources().getString(R.string.okay), null);
         this.errorDialog = alertDialogBuilder.create();
-        
-        
-        /* TEST */
-        GameConfiguration gameConfiguration = new GameConfiguration("THE game", 2, -3,0);
-        gameConfiguration.addStation(new StationConfiguration(2));
-        gameConfiguration.addStation(new StationConfiguration(5)); // loading station
-        gameConfiguration.addStation(new StationConfiguration(4));
-        gameConfiguration.getStation(2).addAcceptPictogram(4);
-        gameConfiguration.getStation(1).setLoadingStation(true);
-        gameConfiguration.getStation(1).addAcceptPictogram(5);
-        gameConfiguration.getStation(0).addAcceptPictogram(2);
-        gameConfiguration.getStation(0).addAcceptPictogram(2);
-        gameConfiguration.getStation(0).addAcceptPictogram(2);
-
-        this.setGameConfiguration(gameConfiguration);
-        
         
         this.progressDialog.dismiss(); //Hide progressDialog after creation is done
 	}
