@@ -192,7 +192,7 @@ public class MainActivity extends Activity {
 	}
 	
 	private GameConfiguration getGameConfiguration(String gameName, int gameID, int childID) {
-	    GameConfiguration gameConfiguration = new GameConfiguration(gameName, gameID, childID, currentProfileData.guardianProfile.getId()); //TODO Set appropriate IDs
+	    GameConfiguration gameConfiguration = new GameConfiguration(gameName, gameID, childID, (int)currentProfileData.guardianProfile.getId()); //TODO Set appropriate IDs
 	    gameConfiguration.setStations(this.customiseLinearLayout.getStations());
 	    return gameConfiguration;
 	}
@@ -234,7 +234,7 @@ public class MainActivity extends Activity {
         	break;
         case MainActivity.RECEIVE_GAME_NAME:
         	String gameName = data.getExtras().getString(SaveDialogActivity.GAME_NAME);
-        	GameConfiguration gameConfiguration = getGameConfiguration(gameName, 1337, Data.guardianProfile.getId());
+        	GameConfiguration gameConfiguration = getGameConfiguration(gameName, 1337, (int)Data.guardianProfile.getId());
         	this.gameLinearLayout.addGameConfiguration(gameConfiguration);
 			try {
 				this.saveAllConfigurations(this.gameLinearLayout.getGameConfigurations());
