@@ -58,20 +58,20 @@ public class MainActivity extends Activity {
         if (extras != null) {
             currentProfileData = new Data(
                     extras.getInt("currentGuardianID"),
-                    extras.getInt("currentChildID"),
+                    extras.getLong("currentChildID"),
                     extras.getInt("appBackgroundColor"),
                     this.getApplicationContext());
         } else {
             //TODO: Overvej en exception istedet
             currentProfileData = new Data(
-                    0,
-                    -3,
+                    1,
+                    1L,
                     0xFFFFBB55,
                     this.getApplicationContext());
         }
         
         Drawable backgroundDrawable = getResources().getDrawable(R.drawable.background);
-        backgroundDrawable.setColorFilter(Data.appBackgroundColor, PorterDuff.Mode.OVERLAY);
+        backgroundDrawable.setColorFilter(this.currentProfileData.appBackgroundColor, PorterDuff.Mode.OVERLAY);
         super.findViewById(R.id.mainLayout).setBackgroundDrawable(backgroundDrawable);
 		
 		this.progressDialog = new ProgressDialog(this);
@@ -106,8 +106,8 @@ public class MainActivity extends Activity {
 	    if (this.isValidConfiguration()) {
 	    	this.saveIntent.putExtra(MainActivity.GAME_CONFIGURATIONS, this.gameLinearLayout.getGameConfigurations());
 	    	
-	    	this.saveIntent.putExtra(MainActivity.SELECTED_CHILD_NAME, Data.childProfile.getName());
-	    	this.saveIntent.putExtra(MainActivity.SELECTED_CHILD_ID, Data.childProfile.getId());
+	    	this.saveIntent.putExtra(MainActivity.SELECTED_CHILD_NAME, this.currentProfileData.childProfile.getName());
+	    	this.saveIntent.putExtra(MainActivity.SELECTED_CHILD_ID, this.currentProfileData.childProfile.getId());
 	    	
             super.startActivityForResult(this.saveIntent, MainActivity.RECEIVE_GAME_NAME);
         }
@@ -115,7 +115,7 @@ public class MainActivity extends Activity {
 	
 	public void onClickStartGame(View view) {
 	    if(this.isValidConfiguration()) {
-            this.gameIntent.putExtra(MainActivity.GAME_CONFIGURATION, this.getGameConfiguration("the new game", 1337, 1337));
+            this.gameIntent.putExtra(MainActivity.GAME_CONFIGURATION, this.getGameConfiguration("the new game", 1337, this.currentProfileData.childProfile.getId()));
             this.startActivity(this.gameIntent);
         }
 	}
@@ -141,7 +141,7 @@ public class MainActivity extends Activity {
 			if (currentStation.get(i).isLoadingStation())
 				continue;
 				
-	        if(currentStation.get(i).getCategory() == -1L)
+	        if(currentStation.get(i).getCategory() == -1)
 			{
                 this.showAlertMessage(super.getResources().getString(R.string.category_error));
                 currentStation = null; //Free memory
@@ -158,8 +158,8 @@ public class MainActivity extends Activity {
 	    return true;
 	}
 	
-	private GameConfiguration getGameConfiguration(String gameName, int gameID, int childID) {
-	    GameConfiguration gameConfiguration = new GameConfiguration(gameName, gameID, childID, (int)currentProfileData.guardianProfile.getId()); //TODO Set appropriate IDs
+	private GameConfiguration getGameConfiguration(String gameName, int gameID, long childID) {
+	    GameConfiguration gameConfiguration = new GameConfiguration(gameName, gameID, childID, currentProfileData.guardianProfile.getId()); //TODO Set appropriate IDs
 	    gameConfiguration.setStations(this.customiseLinearLayout.getStations());
 	    return gameConfiguration;
 	}
@@ -201,7 +201,7 @@ public class MainActivity extends Activity {
         	break;
         case MainActivity.RECEIVE_GAME_NAME:
         	String gameName = data.getExtras().getString(SaveDialogActivity.GAME_NAME);
-        	GameConfiguration gameConfiguration = getGameConfiguration(gameName, 1337, (int)Data.guardianProfile.getId());
+        	GameConfiguration gameConfiguration = getGameConfiguration(gameName, 1337, this.currentProfileData.guardianProfile.getId());
         	this.gameLinearLayout.addGameConfiguration(gameConfiguration);
 			try {
 				this.saveAllConfigurations(this.gameLinearLayout.getGameConfigurations());
@@ -234,8 +234,8 @@ public class MainActivity extends Activity {
 	        break;
 	    }
         
-        this.pictoAdminIntent.putExtra("currentChildID", Data.childProfile.getId());
-        this.pictoAdminIntent.putExtra("currentGuardianID", Data.guardianProfile.getId());
+        this.pictoAdminIntent.putExtra("currentChildID", this.currentProfileData.childProfile.getId());
+        this.pictoAdminIntent.putExtra("currentGuardianID", this.currentProfileData.guardianProfile.getId());
 
         super.startActivityForResult(this.pictoAdminIntent, requestCode);
 	}

@@ -29,7 +29,7 @@ public class SaveDialogActivity extends Activity {
         super.setContentView(R.layout.activity_save_dialog);
         
         Drawable backgroundDrawable = getResources().getDrawable(R.drawable.background_with_shape);
-        backgroundDrawable.setColorFilter(Data.appBackgroundColor, PorterDuff.Mode.OVERLAY);
+        backgroundDrawable.setColorFilter(this.getIntent().getExtras().getInt("appBackgroundColor"), PorterDuff.Mode.OVERLAY);
         super.findViewById(R.id.profileSaveDialog).setBackgroundDrawable(backgroundDrawable);
         
         this.editText = (EditText) super.findViewById(R.id.editText);

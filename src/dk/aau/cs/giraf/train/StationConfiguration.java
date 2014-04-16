@@ -70,7 +70,7 @@ public class StationConfiguration implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel out, int flags) {
-        out.writeLong(this.category);
+        out.writeInt(this.category);
         out.writeList(this.acceptPictograms);
     }
     

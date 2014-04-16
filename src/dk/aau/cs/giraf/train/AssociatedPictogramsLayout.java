@@ -60,7 +60,7 @@ public class AssociatedPictogramsLayout extends LinearLayout implements Pictogra
         this.station.clearAcceptPictograms();
         
         for (PictogramButton pictogramButton : this.pictogramButtons) {
-            this.station.addAcceptPictogram((int)pictogramButton.getPictogram().getPictogramID());
+            this.station.addAcceptPictogram(pictogramButton.getPictogram().getPictogramID());
         }
     }
     

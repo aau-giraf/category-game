@@ -90,7 +90,7 @@ public class GameActivity extends Activity {
 		Bundle configurationBundle = super.getIntent().getExtras();
 		if(configurationBundle != null) {
 		    this.gameConfiguration = configurationBundle.getParcelable(MainActivity.GAME_CONFIGURATION);
-		} else {
+		}/* else {
             gameConfiguration = new GameConfiguration("Game 3", 2, -3, 0);
             gameConfiguration.addStation(new StationConfiguration(2));
             gameConfiguration.addStation(new StationConfiguration(4));
@@ -100,7 +100,7 @@ public class GameActivity extends Activity {
             gameConfiguration.getStation(1).addAcceptPictogram(4);
             gameConfiguration.getStation(2).addAcceptPictogram(3);
             gameConfiguration.getStation(2).addAcceptPictogram(2);
-		}
+		}*/
 		
 		this.gameData = new GameData(this, gameConfiguration);
         

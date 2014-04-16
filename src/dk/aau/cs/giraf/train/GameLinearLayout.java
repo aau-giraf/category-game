@@ -164,7 +164,7 @@ public class GameLinearLayout extends LinearLayout {
             
             int gameID = Integer.parseInt(game[0]);
             int guardianID = Integer.parseInt(game[1]);
-            int childID = Integer.parseInt(game[2]);
+            long childID = Long.valueOf(game[2]);
             String gameName = game[3];
             ArrayList<StationConfiguration> stations = new ArrayList<StationConfiguration>(); 
             

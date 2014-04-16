@@ -75,7 +75,6 @@ public class PictogramButton extends LinearLayout implements PictogramReceiver {
 	public void setPictogram(int pictogramId) {
 	    this.pictogramId = pictogramId;
 	    this.pictogramContainer.removeAllViews();
-	    
 	    if(pictogramId == -1) { return; }
 	    
 	    if(this.station != null) { this.station.setCategory(pictogramId); } //If this is a category, save it
