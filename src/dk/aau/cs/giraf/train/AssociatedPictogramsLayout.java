@@ -75,9 +75,9 @@ public class AssociatedPictogramsLayout extends LinearLayout implements Pictogra
         }
     }
     @Override
-    public void receivePictograms(long[] pictogramIds, int requestCode) {
-        for (long id : pictogramIds) {
-            this.addPictogram((int)id);
+    public void receivePictograms(int[] pictogramIds, int requestCode) {
+        for (int id : pictogramIds) {
+            this.addPictogram(id);
             if(this.customiseLinearLayout.getTotalPictogramSize() >= MainActivity.ALLOWED_PICTOGRAMS) {
                 this.customiseLinearLayout.setVisibilityPictogramButtons(false);
                 break;

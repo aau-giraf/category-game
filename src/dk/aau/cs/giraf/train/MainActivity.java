@@ -182,18 +182,18 @@ public class MainActivity extends Activity {
             return;
         }
         
-        long[] checkout;
+        int[] checkout;
         
         switch(requestCode) {
         case MainActivity.RECEIVE_SINGLE:
-        	checkout = data.getExtras().getLongArray("checkoutIds"); //Pictogram IDs
+        	checkout = data.getExtras().getIntArray("checkoutIds"); //Pictogram IDs
             
             if(checkout.length > 0) {
                 this.pictogramReceiver.receivePictograms(checkout, requestCode);
             }
         	break;
         case MainActivity.RECEIVE_MULTIPLE:
-        	checkout = data.getExtras().getLongArray("checkoutIds"); //Pictogram IDs
+        	checkout = data.getExtras().getIntArray("checkoutIds"); //Pictogram IDs
             
             if(checkout.length > 0) {
                 this.pictogramReceiver.receivePictograms(checkout, requestCode);

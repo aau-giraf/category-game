@@ -103,7 +103,7 @@ public class PictogramButton extends LinearLayout implements PictogramReceiver {
 	    }
 	}
     @Override
-    public void receivePictograms(long[] pictogramIds, int requestCode) {
-        this.setPictogram((int)pictogramIds[0]); //Only receive one pictogram
+    public void receivePictograms(int[] pictogramIds, int requestCode) {
+        this.setPictogram(pictogramIds[0]); //Only receive one pictogram
     }
 }
