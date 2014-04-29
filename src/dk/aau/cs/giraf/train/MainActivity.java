@@ -33,6 +33,7 @@ public class MainActivity extends Activity {
 	public static final int RECEIVE_SINGLE = 0;
     public static final int RECEIVE_MULTIPLE = 1;
     public static final int RECEIVE_GAME_NAME = 2;
+    public static final int APPLICATIONBACKGROUND = 0xFFFFBB55;
     
     private Intent gameIntent;
     private Intent saveIntent;
@@ -46,34 +47,32 @@ public class MainActivity extends Activity {
 	private Data currentProfileData = null;
 	public static final int ALLOWED_PICTOGRAMS = 12;
 	public static final int ALLOWED_STATIONS   = ALLOWED_PICTOGRAMS;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		super.setContentView(R.layout.activity_main);
-		
-		/* Get data from launcher */
+
+        /* Get data from launcher */
         Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
             currentProfileData = new Data(
                     extras.getInt("currentGuardianID"),
                     extras.getLong("currentChildID"),
-                    extras.getInt("appBackgroundColor"),
                     this.getApplicationContext());
         } else {
             //TODO: Overvej en exception istedet
             currentProfileData = new Data(
                     1,
                     11L,
-                    0xFFFFBB55,
                     this.getApplicationContext());
         }
-        
+
         Drawable backgroundDrawable = getResources().getDrawable(R.drawable.background);
-        backgroundDrawable.setColorFilter(this.currentProfileData.appBackgroundColor, PorterDuff.Mode.OVERLAY);
+        backgroundDrawable.setColorFilter(APPLICATIONBACKGROUND, PorterDuff.Mode.OVERLAY);
         super.findViewById(R.id.mainLayout).setBackgroundDrawable(backgroundDrawable);
-		
+
 		this.progressDialog = new ProgressDialog(this);
         this.progressDialog.setMessage(super.getResources().getString(R.string.loading));
         this.progressDialog.setCancelable(true);
@@ -83,11 +82,12 @@ public class MainActivity extends Activity {
         ((TextView) this.progressDialog.findViewById(android.R.id.message)).setTextColor(android.graphics.Color.WHITE);
         
         this.gameLinearLayout = ((GameLinearLayout) findViewById(R.id.gamelist));
-        this.gameLinearLayout.setSelectedChild(this.currentProfileData.childProfile);
-        this.gameLinearLayout.loadAllConfigurations();
 		
 		this.customiseLinearLayout = (CustomiseLinearLayout) super.findViewById(R.id.customiseLinearLayout);
-		
+
+        this.gameLinearLayout.setSelectedChild(this.currentProfileData.childProfile);
+        this.gameLinearLayout.loadAllConfigurations();
+
 		this.gameIntent = new Intent(this, GameActivity.class);
 		this.saveIntent = new Intent(this, SaveDialogActivity.class);
 		this.pictoAdminIntent.setComponent(new ComponentName("dk.aau.cs.giraf.pictosearch", "dk.aau.cs.giraf.pictosearch.PictoAdminMain"));
@@ -264,24 +264,5 @@ public class MainActivity extends Activity {
 				fos.close();
 			}
 		}
-	}
-	
-	public boolean saveConfiguration() throws IOException {
-		FileOutputStream fos = null; 
-		GameConfiguration game = getGameConfiguration("the new game", 1337, 1337);
-		
-		try {
-			fos = this.openFileOutput(SAVEFILE_PATH, Context.MODE_PRIVATE);
-			fos.write(game.writeConfiguration().getBytes());
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (fos != null) {
-				fos.flush();
-				fos.close();
-			}
-		}
-		
-		return true;
 	}
 }

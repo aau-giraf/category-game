@@ -69,11 +69,13 @@ public class GameLinearLayout extends LinearLayout {
     
     public void addGameConfiguration(GameConfiguration gameConfiguration) {
         //Add to list of all configurations
-        this.gameConfigurations.add(gameConfiguration);
-        
-        if(this.selectedChild != null && gameConfiguration.getChildId() == this.selectedChild.getId()) {
-            //If it belongs to current Child, make the view.
-            this.makeView(gameConfiguration);
+        if (!this.gameConfigurations.contains(gameConfiguration)){
+            this.gameConfigurations.add(gameConfiguration);
+
+            if(this.selectedChild != null && gameConfiguration.getChildId() == this.selectedChild.getId()) {
+                //If it belongs to current Child, make the view.
+                this.makeView(gameConfiguration);
+            }
         }
     }
     
@@ -110,7 +112,7 @@ public class GameLinearLayout extends LinearLayout {
         
         gameListItem.setOnClickListener(new OnItemClickListener(gameConfiguration));
         gameListItem.setOnLongClickListener(new OnItemLongClickListener(gameConfiguration));
-        
+
         this.visibleGameConfigurations.add(gameConfiguration); //Add to list of visible configurations
         super.addView(gameListItem);
     }
