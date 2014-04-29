@@ -65,7 +65,7 @@ public class MainActivity extends Activity {
             //TODO: Overvej en exception istedet
             currentProfileData = new Data(
                     1,
-                    1L,
+                    11L,
                     0xFFFFBB55,
                     this.getApplicationContext());
         }
@@ -83,6 +83,7 @@ public class MainActivity extends Activity {
         ((TextView) this.progressDialog.findViewById(android.R.id.message)).setTextColor(android.graphics.Color.WHITE);
         
         this.gameLinearLayout = ((GameLinearLayout) findViewById(R.id.gamelist));
+        this.gameLinearLayout.setSelectedChild(this.currentProfileData.childProfile);
         this.gameLinearLayout.loadAllConfigurations();
 		
 		this.customiseLinearLayout = (CustomiseLinearLayout) super.findViewById(R.id.customiseLinearLayout);
@@ -201,7 +202,7 @@ public class MainActivity extends Activity {
         	break;
         case MainActivity.RECEIVE_GAME_NAME:
         	String gameName = data.getExtras().getString(SaveDialogActivity.GAME_NAME);
-        	GameConfiguration gameConfiguration = getGameConfiguration(gameName, 1337, this.currentProfileData.guardianProfile.getId());
+        	GameConfiguration gameConfiguration = getGameConfiguration(gameName, 1337, this.currentProfileData.childProfile.getId());
         	this.gameLinearLayout.addGameConfiguration(gameConfiguration);
 			try {
 				this.saveAllConfigurations(this.gameLinearLayout.getGameConfigurations());
