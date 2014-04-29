@@ -121,10 +121,9 @@ public class MainActivity extends Activity {
 	}
 	
 	public void onClickStartGame(View view) {
+        EditText text = (EditText)findViewById(R.id.distanceForStations);
+        distanceBetweenStations = Integer.parseInt(text.getText().toString());
 	    if(this.isValidConfiguration()) {
-            EditText text = (EditText)findViewById(R.id.distanceForStations);
-            distanceBetweenStations = Integer.parseInt(text.getText().toString());
-
             this.gameIntent.putExtra(MainActivity.GAME_CONFIGURATION, this.getGameConfiguration("the new game", 1337, this.currentProfileData.childProfile.getId(), distanceBetweenStations));
             this.startActivity(this.gameIntent);
         }
@@ -146,6 +145,7 @@ public class MainActivity extends Activity {
             return false;
         }
         if (distanceBetweenStations < 2000 ){
+            distanceBetweenStations = 2000;
             this.showAlertMessage("Skal være eller over 2000");
             return false;
         }
