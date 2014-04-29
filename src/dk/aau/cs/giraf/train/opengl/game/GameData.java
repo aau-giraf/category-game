@@ -29,7 +29,7 @@ public class GameData {
     public volatile float totalDistanceTraveled = 0f;
     
     public volatile int numberOfStations;
-    public static final float DISTANCE_BETWEEN_STATIONS = 12000f; // pixel
+    public static float DISTANCE_BETWEEN_STATIONS = 12000; // pixel
     public static final float DISTANCE_TO_DEPOT = 5000f; // pixel 
     public volatile int numberOfStops = 0;
     
@@ -56,6 +56,11 @@ public class GameData {
         this.gameActivity = gameActivity;
         this.gameConfiguration = gameConfiguration;
         this.numberOfStations = gameConfiguration.getStations().size() + 1;
+        DISTANCE_BETWEEN_STATIONS = (float) gameConfiguration.getDistanceBetweenStations();
+
+        if (DISTANCE_BETWEEN_STATIONS < 5){
+            DISTANCE_BETWEEN_STATIONS =2000;
+        }
     }
     
     /** Get this game's configuration.

@@ -19,6 +19,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import dk.aau.cs.giraf.train.opengl.GameActivity;
@@ -34,6 +35,10 @@ public class MainActivity extends Activity {
     public static final int RECEIVE_MULTIPLE = 1;
     public static final int RECEIVE_GAME_NAME = 2;
     public static final int APPLICATIONBACKGROUND = 0xFFFFBB55;
+
+
+    private int distanceBetweenStations;
+
     
     private Intent gameIntent;
     private Intent saveIntent;
@@ -95,6 +100,7 @@ public class MainActivity extends Activity {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setNegativeButton(super.getResources().getString(R.string.okay), null);
         this.errorDialog = alertDialogBuilder.create();
+
         
         this.progressDialog.dismiss(); //Hide progressDialog after creation is done
 	}
@@ -116,7 +122,10 @@ public class MainActivity extends Activity {
 	
 	public void onClickStartGame(View view) {
 	    if(this.isValidConfiguration()) {
-            this.gameIntent.putExtra(MainActivity.GAME_CONFIGURATION, this.getGameConfiguration("the new game", 1337, this.currentProfileData.childProfile.getId()));
+            EditText text = (EditText)findViewById(R.id.distanceForStations);
+            distanceBetweenStations = Integer.parseInt(text.getText().toString());
+
+            this.gameIntent.putExtra(MainActivity.GAME_CONFIGURATION, this.getGameConfiguration("the new game", 1337, this.currentProfileData.childProfile.getId(), distanceBetweenStations));
             this.startActivity(this.gameIntent);
         }
 	}
@@ -136,7 +145,10 @@ public class MainActivity extends Activity {
 	        currentStation = null; //Free memory
             return false;
         }
-	    
+        if (distanceBetweenStations < 2000 ){
+            this.showAlertMessage("Skal være eller over 2000");
+            return false;
+        }
 	    for (int i = 0; i < currentStation.size(); i++)
 		{
 			if (currentStation.get(i).isLoadingStation())
@@ -159,8 +171,9 @@ public class MainActivity extends Activity {
 	    return true;
 	}
 	
-	private GameConfiguration getGameConfiguration(String gameName, int gameID, long childID) {
-	    GameConfiguration gameConfiguration = new GameConfiguration(gameName, gameID, childID, currentProfileData.guardianProfile.getId()); //TODO Set appropriate IDs
+	private GameConfiguration getGameConfiguration(String gameName, int gameID, long childID, int distanceBetweenStations) {
+
+	    GameConfiguration gameConfiguration = new GameConfiguration(gameName, gameID, childID, currentProfileData.guardianProfile.getId(), distanceBetweenStations); //TODO Set appropriate IDs
 	    gameConfiguration.setStations(this.customiseLinearLayout.getStations());
 	    return gameConfiguration;
 	}
@@ -202,7 +215,16 @@ public class MainActivity extends Activity {
         	break;
         case MainActivity.RECEIVE_GAME_NAME:
         	String gameName = data.getExtras().getString(SaveDialogActivity.GAME_NAME);
-        	GameConfiguration gameConfiguration = getGameConfiguration(gameName, 1337, this.currentProfileData.childProfile.getId());
+            EditText text = (EditText)findViewById(R.id.distanceForStations);
+            int distanceBetweenStations = Integer.parseInt(text.getText().toString());
+            if (distanceBetweenStations <= 0 ){
+                distanceBetweenStations = 12000;
+            }
+            else if (distanceBetweenStations < 20)
+            {
+                distanceBetweenStations = distanceBetweenStations * 100;
+            }
+        	GameConfiguration gameConfiguration = getGameConfiguration(gameName, 1337, this.currentProfileData.guardianProfile.getId(),distanceBetweenStations); // TO DO
         	this.gameLinearLayout.addGameConfiguration(gameConfiguration);
 			try {
 				this.saveAllConfigurations(this.gameLinearLayout.getGameConfigurations());
