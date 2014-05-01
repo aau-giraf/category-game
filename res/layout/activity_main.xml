@@ -115,6 +115,26 @@
             android:gravity="bottom|right"
             android:orientation="horizontal" >
 
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:background="@drawable/background"
+                android:textColor="@color/white"
+                android:ems="10"
+                android:text= "@string/InfoForDistanceForStations"
+                android:gravity="bottom" />
+
+            <EditText
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:background="@color/white"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:textColor="@color/black"
+                android:id="@+id/distanceForStations"
+                android:clickable="true"
+                android:layout_gravity="bottom"/>
+
             <dk.aau.cs.giraf.gui.GButton
                 android:id="@+id/addStationButton"
                 android:layout_width="wrap_content"

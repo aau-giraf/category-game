@@ -103,7 +103,7 @@ public class GameActivity extends Activity {
 		}*/
 		
 		this.gameData = new GameData(this, gameConfiguration);
-        
+
 		this.openGLView = (GlView) findViewById(R.id.openglview);
         this.openGLView.bindGameData(this.gameData); //The GlView is instantiated by the system, bind here instead of through constructor.
 		
