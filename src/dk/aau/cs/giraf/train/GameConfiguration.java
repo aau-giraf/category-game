@@ -134,18 +134,19 @@ public class GameConfiguration implements Parcelable {
     	sWriter.write(String.valueOf(this.childID));
     	sWriter.append(",");
     	sWriter.write(this.gameName);
+        sWriter.append(",");
+        sWriter.write(this.distanceBetweenStations);
     	
     	for(StationConfiguration station : stations) {
     		sWriter.append(";");
     		sWriter.write(station.writeStation());
     	}
-        sWriter.append(",");
-        sWriter.write(this.distanceBetweenStations);
+
     	sWriter.append("\n");
     	
     	String result = sWriter.toString();
     	sWriter.close();
-    	
+
     	return result;
     }
     
