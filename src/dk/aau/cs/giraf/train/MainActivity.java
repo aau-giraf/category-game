@@ -15,12 +15,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import dk.aau.cs.giraf.gui.GComponent;
 import dk.aau.cs.giraf.train.opengl.GameActivity;
 
 public class MainActivity extends Activity {
@@ -51,7 +52,14 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		super.setContentView(R.layout.activity_main);
+
+        GComponent.SetBaseColor(APPLICATIONBACKGROUND);
+        LayoutInflater li = LayoutInflater.from(this);
+        View mainView = li.inflate(R.layout.activity_main,null);
+
+        //Set the background
+        mainView.setBackgroundColor(APPLICATIONBACKGROUND);
+        setContentView(mainView);
 
         /* Get data from launcher */
         Bundle extras = getIntent().getExtras();
@@ -68,10 +76,6 @@ public class MainActivity extends Activity {
                     11L,
                     this.getApplicationContext());
         }
-
-        Drawable backgroundDrawable = getResources().getDrawable(R.drawable.background);
-        backgroundDrawable.setColorFilter(APPLICATIONBACKGROUND, PorterDuff.Mode.OVERLAY);
-        super.findViewById(R.id.mainLayout).setBackgroundDrawable(backgroundDrawable);
 
 		this.progressDialog = new ProgressDialog(this);
         this.progressDialog.setMessage(super.getResources().getString(R.string.loading));
@@ -101,6 +105,7 @@ public class MainActivity extends Activity {
 	
 	public void onClickAddStation(View view) {
 	    this.customiseLinearLayout.addStation(new StationConfiguration());
+        System.out.println("hej hej hej");
 	}
 	
 	public void onClickSaveGame(View view) throws IOException {
