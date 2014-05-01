@@ -168,7 +168,8 @@ public class GameLinearLayout extends LinearLayout {
             int guardianID = Integer.parseInt(game[1]);
             long childID = Long.valueOf(game[2]);
             String gameName = game[3];
-            ArrayList<StationConfiguration> stations = new ArrayList<StationConfiguration>(); 
+            int TempdistanceBetweenStations = Integer.parseInt(game[4]);
+            ArrayList<StationConfiguration> stations = new ArrayList<StationConfiguration>();
             
             // For each station
             for (int k = 1; k < parts.length; k++) {
@@ -184,7 +185,7 @@ public class GameLinearLayout extends LinearLayout {
                 stations.add(station);
             }
             
-            GameConfiguration gameConf = new GameConfiguration(gameName, gameID, childID, guardianID, 0); // todo ret distance mellem stationer er (sidste parameter)
+            GameConfiguration gameConf = new GameConfiguration(gameName, gameID, childID, guardianID, TempdistanceBetweenStations);
             gameConf.setStations(stations);
             
             this.addGameConfiguration(gameConf);

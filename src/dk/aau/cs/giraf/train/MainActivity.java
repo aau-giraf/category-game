@@ -137,7 +137,8 @@ public class MainActivity extends Activity {
 	
 	private boolean isValidConfiguration() {
 	    ArrayList<StationConfiguration> currentStation = this.customiseLinearLayout.getStations();
-	    
+        EditText text = (EditText)findViewById(R.id.distanceForStations);
+        distanceBetweenStations = Integer.parseInt(text.getText().toString());
 	    //There needs to be at least one station
 	    if(currentStation.size() < 1) {
 	        this.showAlertMessage(super.getResources().getString(R.string.station_error));
@@ -145,7 +146,6 @@ public class MainActivity extends Activity {
             return false;
         }
         if (distanceBetweenStations < 2000 ){
-            distanceBetweenStations = 2000;
             this.showAlertMessage("Skal være eller over 2000");
             return false;
         }
