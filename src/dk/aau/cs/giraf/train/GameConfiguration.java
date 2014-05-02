@@ -93,8 +93,8 @@ public class GameConfiguration implements Parcelable {
         out.writeString(this.gameName);
         out.writeLong(this.childID);
         out.writeInt(this.gameID);
-        out.writeList(this.stations);
         out.writeInt(this.distanceBetweenStations);
+        out.writeList(this.stations);
     }
     
     public static final Parcelable.Creator<GameConfiguration> CREATOR = new Parcelable.Creator<GameConfiguration>() {
@@ -114,8 +114,8 @@ public class GameConfiguration implements Parcelable {
         this.gameName = in.readString();
         this.childID = in.readLong();
         this.gameID = in.readInt();
-        in.readList(this.stations, StationConfiguration.class.getClassLoader());
         this.distanceBetweenStations = in.readInt();
+        in.readList(this.stations, StationConfiguration.class.getClassLoader());
     }
     
     /**
