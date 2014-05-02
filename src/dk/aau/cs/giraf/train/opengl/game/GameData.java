@@ -57,10 +57,6 @@ public class GameData {
         this.gameConfiguration = gameConfiguration;
         this.numberOfStations = gameConfiguration.getStations().size() + 1;
         DISTANCE_BETWEEN_STATIONS = (float) gameConfiguration.getDistanceBetweenStations();
-
-        if (DISTANCE_BETWEEN_STATIONS < 5){
-            DISTANCE_BETWEEN_STATIONS =2000;
-        }
     }
     
     /** Get this game's configuration.
