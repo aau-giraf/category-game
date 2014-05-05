@@ -217,6 +217,7 @@ public class MainActivity extends Activity {
             }
         	break;
         case MainActivity.RECEIVE_GAME_NAME:
+
         	String gameName = data.getExtras().getString(SaveDialogActivity.GAME_NAME);
             EditText text = (EditText)findViewById(R.id.distanceForStations);
             int distanceBetweenStations = Integer.parseInt(text.getText().toString());

@@ -22,9 +22,11 @@
         android:label="@string/app_name"
         android:theme="@style/theme" >
         <activity
+            android:windowSoftInputMode="stateHidden"
             android:name="dk.aau.cs.giraf.train.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="landscape" >
+            
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 
@@ -38,7 +40,8 @@
             android:theme="@style/dialog_theme" >
             <meta-data
             android:name="android.support.PARENT_ACTIVITY"
-            android:value="dk.aau.cs.giraf.train.MainActivity" />
+            android:value="dk.aau.cs.giraf.train.MainActivity"/>
+
         </activity>
         <activity
             android:name="dk.aau.cs.giraf.train.opengl.GameActivity"

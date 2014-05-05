@@ -29,7 +29,7 @@ public class GameData {
     public volatile float totalDistanceTraveled = 0f;
     
     public volatile int numberOfStations;
-    public static float DISTANCE_BETWEEN_STATIONS = 12000; // pixel
+    public static float DISTANCE_BETWEEN_STATIONS = 12000; // pixel, it is important make this value even though it will be overwritten but the constructor. For making the depot
     public static final float DISTANCE_TO_DEPOT = 5000f; // pixel 
     public volatile int numberOfStops = 0;
     
