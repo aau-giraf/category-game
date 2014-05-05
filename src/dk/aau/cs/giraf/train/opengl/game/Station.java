@@ -7,6 +7,8 @@ import java.util.LinkedList;
 import javax.microedition.khronos.opengles.GL10;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+
 import dk.aau.cs.giraf.pictogram.PictoFactory;
 import dk.aau.cs.giraf.pictogram.Pictogram;
 import dk.aau.cs.giraf.train.R;
@@ -39,39 +41,35 @@ public final class Station extends GameDrawable implements RuntimeLoader {
         }
     }
 
-    private final Texture templateTrainStation = new Texture (1.0f, 1.0f);
-    private final Texture redTrainStation = new Texture(1.0f, 1.0f);
-    private final Texture yellowTrainStation = new Texture(1.0f, 1.0f);
-    private final Texture blueTrainStation = new Texture(1.0f, 1.0f);
     private final Texture platform = new Texture(1280f, 100f);
     
     private final RenderableMatrix stationPlatformMatrix = new RenderableMatrix();
     private final RenderableMatrix stationPictogramMatrix = new RenderableMatrix();
     private final RenderableMatrix categoryMatrix = new RenderableMatrix();
-    
+
+    private StationContainer LoadStation(int station){
+        Texture tempStation = new Texture(1.0f, 1.0f);
+        tempStation.loadTexture(super.gl,super.context, station, Texture.AspectRatio.BitmapOneToOne);
+        return new StationContainer(tempStation, 399.36f , 583f);
+    }
+
     @Override
     public final void load() {
         //Add coordinates to the renderables
-        //this.redTrainStation.addCoordinate(-588.64f, 376f, GameData.FOREGROUND);
         this.stationPlatformMatrix.addCoordinate(-640f, -207f, GameData.FOREGROUND);
         this.stationPictogramMatrix.addCoordinate(-600f, 9f, GameData.FOREGROUND);
         this.categoryMatrix.addCoordinate(-270f, 341f, GameData.FOREGROUND);
-        
-        //Load the textures
-        this.templateTrainStation.loadTexture(super.gl, super.context, R.drawable.texture_template_train_station, Texture.AspectRatio.BitmapOneToOne);
-        //this.redTrainStation.loadTexture(super.gl, super.context, R.drawable.texture_red_train_station, Texture.AspectRatio.BitmapOneToOne);
-        //this.yellowTrainStation.loadTexture(super.gl, super.context, R.drawable.texture_yellow_train_station, Texture.AspectRatio.BitmapOneToOne);
-        //this.blueTrainStation.loadTexture(super.gl, super.context, R.drawable.texture_blue_train_station, Texture.AspectRatio.BitmapOneToOne);
+
+        //Load the textures and add them to a list
+        ArrayList<StationContainer> stations = new ArrayList<StationContainer>();
+        stations.add(LoadStation(R.drawable.texture_template_train_station_first));
+        stations.add(LoadStation(R.drawable.texture_template_train_station_second));
+        stations.add(LoadStation(R.drawable.texture_template_train_station_third));
         this.platform.loadTexture(super.gl, super.context, R.drawable.texture_platform, Texture.AspectRatio.BitmapOneToOne);
         
-        //Add stations to list and randomise
-        ArrayList<StationContainer> stations = new ArrayList<StationContainer>();
-        stations.add(new StationContainer(templateTrainStation, 364f + (640f - 588.64f) - 16f, 583f));
-        //stations.add(new StationContainer(redTrainStation, 364f + (640f - 588.64f) - 16f, 583f));
-        //stations.add(new StationContainer(blueTrainStation, 364f + (640f - 588.64f) - 16f, 583f));
-        //stations.add(new StationContainer(yellowTrainStation, 364f + (640f - 588.64f) - 16f, 583f));
-        
-        //Collections.shuffle(stations);
+        //Randomise list
+
+        Collections.shuffle(stations);
         LinkedList<StationContainer> stationsQueue = this.getQueue(stations);
         
         //Add stations to the matrix in the randomised order
@@ -80,16 +78,18 @@ public final class Station extends GameDrawable implements RuntimeLoader {
         for (int i = 0; i < super.gameData.numberOfStations; i++) {
             StationContainer nextStation = stationsQueue.pop();
             stationsQueue.add(nextStation);
+            //Places the current station color and template along with the platform
+            this.stationPlatformMatrix.addRenderableMatrixItem(new Square(nextStation.station.getWidth(), nextStation.station.getHeight()-132f),
+                    new Coordinate(xPosition + nextStation.xOffset, nextStation.yOffset-132f, 0f), Color.White);
             this.stationPlatformMatrix.addRenderableMatrixItem(nextStation.station, new Coordinate(xPosition + nextStation.xOffset, nextStation.yOffset, 0f));
-            this.categoryMatrix.addRenderableMatrixItem(new Square(0.5f, 0.5f), new Coordinate(xPosition + nextStation.xOffset, nextStation.yOffset, 0f), Color.White);
             this.stationPlatformMatrix.addRenderableMatrixItem(this.platform, new Coordinate(xPosition, 0f, 0f));
-            
+
             //The first station does not have a category, skip
             if(i == 0) {
                 xPosition += GameData.DISTANCE_BETWEEN_STATIONS;
                 continue;
             }
-            
+
             @SuppressWarnings("static-access")
             Pictogram category = PictoFactory.INSTANCE.getPictogram(super.context, super.gameData.getGameConfiguration().getStation(i - 1).getCategory());
             GlPictogram categoryTexture = new GlPictogram(100f, 100f);
