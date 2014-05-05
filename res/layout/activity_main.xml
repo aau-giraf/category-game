@@ -116,7 +116,7 @@
             android:orientation="horizontal" >
 
             <dk.aau.cs.giraf.gui.GTextView
-                android:layout_width="150dp"
+                android:layout_width="200dp"
                 android:layout_height="50dp"
                 android:textColor="@color/black"
                 android:text= "@string/InfoForDistanceForStations"

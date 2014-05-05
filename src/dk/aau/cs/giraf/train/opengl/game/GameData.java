@@ -21,7 +21,7 @@ public class GameData {
     public static final float BACKGROUND   = -3000f              - GameData.FUNNY_NUMBER;
     
     public volatile boolean isPaused = false;
-    
+
     public static final float MAX_TRAIN_SPEED = 0.35f; // pixels per ms // 0.35 is nice
     public volatile float currentTrainVelocity = 0f; // pixels per ms
     
@@ -29,7 +29,7 @@ public class GameData {
     public volatile float totalDistanceTraveled = 0f;
     
     public volatile int numberOfStations;
-    public static float DISTANCE_BETWEEN_STATIONS = 12000; // pixel, it is important make this value even though it will be overwritten but the constructor. For making the depot
+    public static float DISTANCE_BETWEEN_STATIONS = 12000f; // pixel
     public static final float DISTANCE_TO_DEPOT = 5000f; // pixel 
     public volatile int numberOfStops = 0;
     

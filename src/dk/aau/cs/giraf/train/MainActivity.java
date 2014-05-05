@@ -141,15 +141,15 @@ public class MainActivity extends Activity {
 	private boolean isValidConfiguration() {
 	    ArrayList<StationConfiguration> currentStation = this.customiseLinearLayout.getStations();
         EditText text = (EditText)findViewById(R.id.distanceForStations);
-        distanceBetweenStations = Integer.parseInt(text.getText().toString()) * 2000;
+        distanceBetweenStations =(int)Math.ceil((Integer.parseInt(text.getText().toString()) * 349.86) - 1860.4);
 	    //There needs to be at least one station
 	    if(currentStation.size() < 1) {
 	        this.showAlertMessage(super.getResources().getString(R.string.station_error));
 	        currentStation = null; //Free memory
             return false;
         }
-        if (distanceBetweenStations < 2000 ){
-            this.showAlertMessage("Værdien skal være 1 eller derover");
+        if (distanceBetweenStations < 1638 ){
+            this.showAlertMessage("Værdien skal være 10 eller derover");
             return false;
         }
 	    for (int i = 0; i < currentStation.size(); i++)
