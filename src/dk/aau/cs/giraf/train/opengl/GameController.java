@@ -2,6 +2,7 @@ package dk.aau.cs.giraf.train.opengl;
 
 import java.util.ArrayList;
 
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import dk.aau.cs.giraf.pictogram.Pictogram;
@@ -106,9 +107,9 @@ public class GameController {
 				
 				//numberOfPictoFrames = (gameConfiguration.getNumberOfPictogramsOfStations() <= 4) ? 4:6;
 				//numberOfPictoFrames = gameConfiguration.getNumberOfPictogramsOfStations();
-				numberOfPictoFrames = (gameConfiguration.getNumberOfPictogramsOfStations()/2)*2;
-				if (gameConfiguration.getNumberOfPictogramsOfStations() % 2 == 1) numberOfPictoFrames += 2;
-				if (numberOfPictoFrames < 4) numberOfPictoFrames = 4;
+				numberOfPictoFrames = (gameConfiguration.getNumberOfPictogramsOfStations());
+                if (numberOfPictoFrames < 4) numberOfPictoFrames = 4;
+                else if (numberOfPictoFrames % 2 == 1) numberOfPictoFrames += 1;
 				Pictogram[] PictogramsOnStation = new Pictogram[numberOfPictoFrames];
 				int index = 0;
 				
