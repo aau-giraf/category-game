@@ -54,7 +54,7 @@ public class GameActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+		/*
 		this.progressDialog = new ProgressDialog(this);
         this.progressDialog.setMessage(super.getResources().getString(R.string.loading));
         this.progressDialog.setCancelable(true);
@@ -82,7 +82,7 @@ public class GameActivity extends Activity {
         
         this.progressDialog.show();
         ((TextView) progressDialog.findViewById(android.R.id.message)).setTextColor(android.graphics.Color.WHITE);
-		
+		*/
 		this.setContentView(R.layout.activity_game);
 		
 		this.sound = soundPool.load(this, R.raw.train_whistle, 1);
@@ -142,7 +142,7 @@ public class GameActivity extends Activity {
         });
         return alertDialogBuilder.create();
 	}
-	
+	/*
 	public void showProgressDialog(){
 		this.progressDialog.show();
 	}
@@ -150,7 +150,7 @@ public class GameActivity extends Activity {
 	public void dismissProgressDialog(){
 		this.progressDialog.dismiss();
 	}
-	
+	*/
 	public void onTrainStopEvent() {
 	    //This is an event/interface from gameData
 	    this.gameController.TrainIsStopping();
@@ -306,9 +306,9 @@ public class GameActivity extends Activity {
 	
 	public void hideStationLinearLayouts(){
 		for (StationLinearLayout lin : stationLinear) {
-			lin.setVisibility(View.INVISIBLE);
+			//lin.setVisibility(View.INVISIBLE);
 		}
-		fluteButton.setVisibility(View.INVISIBLE);
+		//fluteButton.setVisibility(View.INVISIBLE);
 	}
 	
 	public void hideAllLinearLayouts(){

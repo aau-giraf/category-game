@@ -161,7 +161,7 @@
                 android:drawableRight="@android:drawable/ic_menu_save"
                 android:text="@string/save_game"
                 android:textColor="@color/black"
-                android:enabled="false"/>
+                />
 
             <dk.aau.cs.giraf.gui.GButtonPlay
                 android:id="@+id/startGameFromProfileButton"
