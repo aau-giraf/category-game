@@ -153,8 +153,6 @@ public class MainActivity extends Activity {
 	}
 	
 	public void onClickStartGame(View view) {
-        EditText text = (EditText)findViewById(R.id.distanceForStations);
-        distanceBetweenStations = Integer.parseInt(text.getText().toString());
 	    if(this.isValidConfiguration()) {
             this.gameIntent.putExtra(MainActivity.GAME_CONFIGURATION, this.getGameConfiguration("the new game", 1337, this.currentProfileData.childProfile.getId(), distanceBetweenStations));
             this.startActivity(this.gameIntent);
@@ -170,15 +168,15 @@ public class MainActivity extends Activity {
 	private boolean isValidConfiguration() {
 	    ArrayList<StationConfiguration> currentStation = this.customiseLinearLayout.getStations();
         EditText text = (EditText)findViewById(R.id.distanceForStations);
-        distanceBetweenStations = Integer.parseInt(text.getText().toString());
+        distanceBetweenStations =(int)Math.ceil((Integer.parseInt(text.getText().toString()) * 349.86) - 1860.4);
 	    //There needs to be at least one station
 	    if(currentStation.size() < 1) {
 	        this.showAlertMessage(super.getResources().getString(R.string.station_error));
 	        currentStation = null; //Free memory
             return false;
         }
-        if (distanceBetweenStations < 2000 ){
-            this.showAlertMessage("Skal være eller over 2000");
+        if (distanceBetweenStations < 1638 ){
+            this.showAlertMessage("Værdien skal være 10 eller derover");
             return false;
         }
 	    for (int i = 0; i < currentStation.size(); i++)
@@ -246,6 +244,7 @@ public class MainActivity extends Activity {
             }
         	break;
         case MainActivity.RECEIVE_GAME_NAME:
+
         	String gameName = data.getExtras().getString(SaveDialogActivity.GAME_NAME);
             EditText text = (EditText)findViewById(R.id.distanceForStations);
             int distanceBetweenStations = Integer.parseInt(text.getText().toString());
