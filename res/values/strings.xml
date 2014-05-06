@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Train</string>
+    <string name="app_name">Kategori Spillet</string>
     <string name="action_settings">Settings</string>
     <string name="loading">Vent venligst</string>
     <string name="cancel">Annuller</string>
@@ -32,7 +32,7 @@
     <string name="category_error">Du mangler at vælge en kategori.</string>
     <string name="pictogram_error">Der skal være mindst et pictogram per station.</string>
     <string name="delete_dialog">Er du sikker på du vil slette dette spil?</string>
-    
+    <string name="InfoForDistanceForStations">Skriv afstanden mellem stationer her i sekunder</string>
     <!-- SAVE DIALOG ACTIVITY -->
     <string name="title_activity_save_dialog">SaveDialog</string>
     <string name="type_name">Indtast Navn</string>

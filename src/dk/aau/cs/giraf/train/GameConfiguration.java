@@ -20,6 +20,7 @@ public class GameConfiguration implements Parcelable {
 	private String gameName;
 	private long   childID;
 	private int   gameID;
+    private int  distanceBetweenStations;
 	private ArrayList<StationConfiguration> stations = new ArrayList<StationConfiguration>();
 	
 	/*public GameConfiguration(String gameName, int gameID, int childID) {
@@ -29,13 +30,17 @@ public class GameConfiguration implements Parcelable {
 		this.guardianID = Data.;
 	}*/
 	
-	public GameConfiguration(String gameName, int gameID, long childID, int guardianID) {
+	public GameConfiguration(String gameName, int gameID, long childID, int guardianID, int distanceBetweenStations) {
 		this.gameName = gameName;
 		this.childID = childID;
 		this.gameID = gameID;
 		this.guardianID = guardianID;
+        this.distanceBetweenStations = distanceBetweenStations;
 	}
-	
+
+    public int getDistanceBetweenStations(){
+        return this.distanceBetweenStations;
+    };
 	public long getChildId() {
 	    return this.childID;
 	}
@@ -88,6 +93,7 @@ public class GameConfiguration implements Parcelable {
         out.writeString(this.gameName);
         out.writeLong(this.childID);
         out.writeInt(this.gameID);
+        out.writeInt(this.distanceBetweenStations);
         out.writeList(this.stations);
     }
     
@@ -108,6 +114,7 @@ public class GameConfiguration implements Parcelable {
         this.gameName = in.readString();
         this.childID = in.readLong();
         this.gameID = in.readInt();
+        this.distanceBetweenStations = in.readInt();
         in.readList(this.stations, StationConfiguration.class.getClassLoader());
     }
     
@@ -127,17 +134,19 @@ public class GameConfiguration implements Parcelable {
     	sWriter.write(String.valueOf(this.childID));
     	sWriter.append(",");
     	sWriter.write(this.gameName);
+        sWriter.append(",");
+        sWriter.write(String.valueOf(this.distanceBetweenStations));
     	
     	for(StationConfiguration station : stations) {
     		sWriter.append(";");
     		sWriter.write(station.writeStation());
     	}
-    	
+
     	sWriter.append("\n");
     	
     	String result = sWriter.toString();
     	sWriter.close();
-    	
+
     	return result;
     }
     

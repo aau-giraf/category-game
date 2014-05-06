@@ -48,13 +48,13 @@ public class GameLinearLayout extends LinearLayout {
             @Override
             public void onClick(DialogInterface arg0, int arg1) {
                 //'Ja' button is clicked
-                GameLinearLayout.this.removeVisibleGameConfiguration(GameLinearLayout.this.deleteIndex);
+                /*GameLinearLayout.this.removeVisibleGameConfiguration(GameLinearLayout.this.deleteIndex);
                 try {
                     ((MainActivity) GameLinearLayout.this.getContext()).saveAllConfigurations(GameLinearLayout.this.getGameConfigurations());
                 } catch (IOException e) {
                     e.printStackTrace();
                     Toast.makeText(GameLinearLayout.this.getContext(), "Kan ikke gemme", Toast.LENGTH_SHORT).show();
-                }
+                }*/
             }
         });
         alertDialogBuilder.setNegativeButton(super.getResources().getString(R.string.cancel), null);
@@ -69,11 +69,13 @@ public class GameLinearLayout extends LinearLayout {
     
     public void addGameConfiguration(GameConfiguration gameConfiguration) {
         //Add to list of all configurations
-        this.gameConfigurations.add(gameConfiguration);
-        
-        if(this.selectedChild != null && gameConfiguration.getChildId() == this.selectedChild.getId()) {
-            //If it belongs to current Child, make the view.
-            this.makeView(gameConfiguration);
+        if (!this.gameConfigurations.contains(gameConfiguration)){
+            this.gameConfigurations.add(gameConfiguration);
+
+            if(this.selectedChild != null && gameConfiguration.getChildId() == this.selectedChild.getId()) {
+                //If it belongs to current Child, make the view.
+                this.makeView(gameConfiguration);
+            }
         }
     }
     
@@ -110,7 +112,7 @@ public class GameLinearLayout extends LinearLayout {
         
         gameListItem.setOnClickListener(new OnItemClickListener(gameConfiguration));
         gameListItem.setOnLongClickListener(new OnItemLongClickListener(gameConfiguration));
-        
+
         this.visibleGameConfigurations.add(gameConfiguration); //Add to list of visible configurations
         super.addView(gameListItem);
     }
@@ -166,7 +168,8 @@ public class GameLinearLayout extends LinearLayout {
             int guardianID = Integer.parseInt(game[1]);
             long childID = Long.valueOf(game[2]);
             String gameName = game[3];
-            ArrayList<StationConfiguration> stations = new ArrayList<StationConfiguration>(); 
+            int TempdistanceBetweenStations = Integer.parseInt(game[4]);
+            ArrayList<StationConfiguration> stations = new ArrayList<StationConfiguration>();
             
             // For each station
             for (int k = 1; k < parts.length; k++) {
@@ -182,7 +185,7 @@ public class GameLinearLayout extends LinearLayout {
                 stations.add(station);
             }
             
-            GameConfiguration gameConf = new GameConfiguration(gameName, gameID, childID, guardianID);
+            GameConfiguration gameConf = new GameConfiguration(gameName, gameID, childID, guardianID, TempdistanceBetweenStations);
             gameConf.setStations(stations);
             
             this.addGameConfiguration(gameConf);

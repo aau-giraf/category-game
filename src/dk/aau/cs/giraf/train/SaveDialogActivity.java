@@ -20,7 +20,7 @@ public class SaveDialogActivity extends Activity {
     private AlertDialog errorDialog;
     
     private ArrayList<GameConfiguration> currentGameConfigurations;
-    private long selectedChildId;
+    private int selectedChildId;
     private String selectedChildName;
     
     @Override
@@ -41,7 +41,7 @@ public class SaveDialogActivity extends Activity {
         Bundle extras = super.getIntent().getExtras();
         if(extras != null) {
             this.currentGameConfigurations = extras.getParcelableArrayList(MainActivity.GAME_CONFIGURATIONS);
-            this.selectedChildId = extras.getLong(MainActivity.SELECTED_CHILD_ID);
+            this.selectedChildId = extras.getInt(MainActivity.SELECTED_CHILD_ID);
             this.selectedChildName = extras.getString(MainActivity.SELECTED_CHILD_NAME);
             
             ((TextView) super.findViewById(R.id.saveDescription)).append(" " + this.selectedChildName);
