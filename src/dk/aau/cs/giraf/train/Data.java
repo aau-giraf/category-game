@@ -12,7 +12,7 @@ public final class Data {
     public Profile guardianProfile;
     public Profile childProfile;
 
-    public Data(int guardianID, long childID, Context context){
+    public Data(int guardianID, int childID, Context context){
         Helper localDataFetcher = null;
         try {
             localDataFetcher = new Helper(context);
@@ -21,6 +21,6 @@ public final class Data {
         }
 
         guardianProfile = localDataFetcher.profilesHelper.getProfileById(guardianID);
-        childProfile = localDataFetcher.profilesHelper.getProfileById((int)childID);
+        childProfile = localDataFetcher.profilesHelper.getProfileById(childID);
     }
 }

@@ -135,7 +135,7 @@ public class GameConfiguration implements Parcelable {
     	sWriter.append(",");
     	sWriter.write(this.gameName);
         sWriter.append(",");
-        sWriter.write(this.distanceBetweenStations);
+        sWriter.write(String.valueOf(this.distanceBetweenStations));
     	
     	for(StationConfiguration station : stations) {
     		sWriter.append(";");

@@ -48,13 +48,13 @@ public class GameLinearLayout extends LinearLayout {
             @Override
             public void onClick(DialogInterface arg0, int arg1) {
                 //'Ja' button is clicked
-                GameLinearLayout.this.removeVisibleGameConfiguration(GameLinearLayout.this.deleteIndex);
+                /*GameLinearLayout.this.removeVisibleGameConfiguration(GameLinearLayout.this.deleteIndex);
                 try {
                     ((MainActivity) GameLinearLayout.this.getContext()).saveAllConfigurations(GameLinearLayout.this.getGameConfigurations());
                 } catch (IOException e) {
                     e.printStackTrace();
                     Toast.makeText(GameLinearLayout.this.getContext(), "Kan ikke gemme", Toast.LENGTH_SHORT).show();
-                }
+                }*/
             }
         });
         alertDialogBuilder.setNegativeButton(super.getResources().getString(R.string.cancel), null);

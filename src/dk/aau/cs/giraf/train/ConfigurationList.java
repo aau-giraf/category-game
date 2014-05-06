@@ -1,9 +1,11 @@
 package dk.aau.cs.giraf.train;
 
 import android.app.Activity;
+import android.content.Context;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -19,12 +21,23 @@ public class ConfigurationList {
     private Profile childProfile = null;
     private Activity caller;
 
-    public ArrayList<GameConfiguration> listOfConfiguration = new ArrayList<GameConfiguration>();
+    private ArrayList<GameConfiguration> listOfConfiguration = new ArrayList<GameConfiguration>();
+    /*Internal storage for all configurations*/
+    private ArrayList<GameConfiguration> listOfAllConfiguration = new ArrayList<GameConfiguration>();
 
     public ConfigurationList(Activity a, Profile c){
         childProfile = c;
         caller = a;
         loadAllConfigurations();
+    }
+
+    public void addConfiguration(GameConfiguration g){
+        listOfConfiguration.add(g);
+        listOfAllConfiguration.add(g);
+    }
+
+    public ArrayList<GameConfiguration> getGameconfiguration(){
+        return listOfConfiguration;
     }
 
     private void loadAllConfigurations() {
@@ -91,6 +104,27 @@ public class ConfigurationList {
 
             if(this.childProfile.getId() != gameConf.getChildId()){
                 this.listOfConfiguration.add(gameConf);
+            }
+            this.listOfAllConfiguration.add(gameConf);
+        }
+    }
+
+    public void saveAllConfigurations(String saveFilePath) throws IOException {
+        FileOutputStream fos = null;
+
+        try {
+            fos = caller.openFileOutput(saveFilePath, Context.MODE_PRIVATE);
+            for (GameConfiguration game : this.listOfAllConfiguration) {
+                fos.write(game.writeConfiguration().getBytes());
+            }
+        } catch(FileNotFoundException e) {
+            return;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fos != null) {
+                fos.flush();
+                fos.close();
             }
         }
     }

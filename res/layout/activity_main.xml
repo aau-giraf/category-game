@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:GComponent="http://schemas.android.com/apk/res-auto"
     android:id="@+id/mainLayout"
+    android:focusableInTouchMode="true"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:baselineAligned="false"
@@ -120,7 +121,8 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:gravity="bottom|right"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:focusable="true">
 
             <dk.aau.cs.giraf.gui.GTextView
                 android:layout_width="200dp"
@@ -136,7 +138,6 @@
                 android:inputType="numberSigned"
                 android:textColor="@color/black"
                 android:id="@+id/distanceForStations"
-                android:clickable="true"
                 android:layout_gravity="bottom"/>
 
             <dk.aau.cs.giraf.gui.GButton
@@ -156,10 +157,11 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/custom_button"
                 android:contentDescription="@string/save_game"
-                android:drawableRight="@android:drawable/ic_menu_save"
                 android:onClick="onClickSaveGame"
+                android:drawableRight="@android:drawable/ic_menu_save"
                 android:text="@string/save_game"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:enabled="false"/>
 
             <dk.aau.cs.giraf.gui.GButtonPlay
                 android:id="@+id/startGameFromProfileButton"

@@ -1,8 +1,6 @@
 package dk.aau.cs.giraf.train;
 
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +9,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -52,7 +49,7 @@ public class MainActivity extends Activity {
 	private AlertDialog errorDialog;
 	private Data currentProfileData = null;
     private GGameListAdapter gameListAdapter;
-    private ConfigurationList configurationFetcher;
+    private ConfigurationList configurationHandler;
 
 	public static final int ALLOWED_PICTOGRAMS = 12;
 	public static final int ALLOWED_STATIONS   = ALLOWED_PICTOGRAMS;
@@ -75,13 +72,13 @@ public class MainActivity extends Activity {
         if (extras != null) {
             currentProfileData = new Data(
                     extras.getInt("currentGuardianID"),
-                    extras.getLong("currentChildID"),
+                    extras.getInt("currentChildID"),
                     this.getApplicationContext());
         } else {
             //TODO: Overvej en exception istedet
             currentProfileData = new Data(
                     1,
-                    11L,
+                    11,
                     this.getApplicationContext());
         }
 
@@ -94,16 +91,16 @@ public class MainActivity extends Activity {
         ((TextView) this.progressDialog.findViewById(android.R.id.message)).setTextColor(android.graphics.Color.WHITE);
 
         GList testList = (GList)this.findViewById(R.id.TestList);
-        this.configurationFetcher = new ConfigurationList(this, this.currentProfileData.childProfile);
-        gameListAdapter = new GGameListAdapter(this,this.configurationFetcher.listOfConfiguration);
+        this.configurationHandler = new ConfigurationList(this, this.currentProfileData.childProfile);
+        gameListAdapter = new GGameListAdapter(this,this.configurationHandler.getGameconfiguration());
         testList.setAdapter(gameListAdapter);
-        testList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        testList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-                MainActivity.this.setGameConfiguration((GameConfiguration)parent.getAdapter().getItem(position));
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                MainActivity.this.setGameConfiguration((GameConfiguration) parent.getAdapter().getItem(position));
             }
         });
-
+        gameListAdapter.notifyDataSetChanged();
 
         //this.gameLinearLayout = ((GameLinearLayout) findViewById(R.id.gamelist));
 		
@@ -120,7 +117,6 @@ public class MainActivity extends Activity {
         alertDialogBuilder.setNegativeButton(super.getResources().getString(R.string.okay), null);
         this.errorDialog = alertDialogBuilder.create();
 
-        
         this.progressDialog.dismiss(); //Hide progressDialog after creation is done
 	}
 
@@ -143,7 +139,7 @@ public class MainActivity extends Activity {
 	
 	public void onClickSaveGame(View view) throws IOException {
 	    if (this.isValidConfiguration()) {
-	    	this.saveIntent.putExtra(MainActivity.GAME_CONFIGURATIONS, this.configurationFetcher.listOfConfiguration);
+	    	this.saveIntent.putExtra(MainActivity.GAME_CONFIGURATIONS, this.configurationHandler.getGameconfiguration());
 	    	
 	    	this.saveIntent.putExtra(MainActivity.SELECTED_CHILD_NAME, this.currentProfileData.childProfile.getName());
 	    	this.saveIntent.putExtra(MainActivity.SELECTED_CHILD_ID, this.currentProfileData.childProfile.getId());
@@ -256,10 +252,10 @@ public class MainActivity extends Activity {
                 distanceBetweenStations = distanceBetweenStations * 100;
             }
         	GameConfiguration gameConfiguration = getGameConfiguration(gameName, 1337, this.currentProfileData.guardianProfile.getId(),distanceBetweenStations); // TO DO
-        	this.configurationFetcher.listOfConfiguration.add(gameConfiguration);
+        	this.configurationHandler.addConfiguration(gameConfiguration);
             this.gameListAdapter.notifyDataSetChanged();
 			try {
-				this.saveAllConfigurations(this.configurationFetcher.listOfConfiguration);
+				this.configurationHandler.saveAllConfigurations(SAVEFILE_PATH);
 			} catch (IOException e) {
 				e.printStackTrace();
 				Toast.makeText(this, "Kan ikke gemme", Toast.LENGTH_SHORT).show();
@@ -298,25 +294,5 @@ public class MainActivity extends Activity {
 	private boolean isCallable(Intent intent) {
         List<ResolveInfo> list = getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
         return list.size() > 0;
-	}
-	
-	public void saveAllConfigurations(ArrayList<GameConfiguration> gameConfigurations) throws IOException {
-		FileOutputStream fos = null;
-		
-		try {
-			fos = this.openFileOutput(SAVEFILE_PATH, Context.MODE_PRIVATE);
-			for (GameConfiguration game : gameConfigurations) {
-				fos.write(game.writeConfiguration().getBytes());
-			}
-		} catch(FileNotFoundException e) {
-		    return;
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (fos != null) {
-				fos.flush();
-				fos.close();
-			}
-		}
 	}
 }
