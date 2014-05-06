@@ -18,11 +18,13 @@ import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import dk.aau.cs.giraf.gui.GComponent;
+import dk.aau.cs.giraf.gui.GList;
 import dk.aau.cs.giraf.train.opengl.GameActivity;
 
 public class MainActivity extends Activity {
@@ -37,20 +39,21 @@ public class MainActivity extends Activity {
     public static final int RECEIVE_GAME_NAME = 2;
     public static final int APPLICATIONBACKGROUND = 0xFFFFBB55;
 
-
     private int distanceBetweenStations;
-
     
     private Intent gameIntent;
     private Intent saveIntent;
     private Intent pictoAdminIntent = new Intent();
 
-	private GameLinearLayout gameLinearLayout;
+	//private GameLinearLayout gameLinearLayout;
 	private CustomiseLinearLayout customiseLinearLayout;
 	
 	private ProgressDialog progressDialog;
 	private AlertDialog errorDialog;
 	private Data currentProfileData = null;
+    private GGameListAdapter gameListAdapter;
+    private ConfigurationList configurationFetcher;
+
 	public static final int ALLOWED_PICTOGRAMS = 12;
 	public static final int ALLOWED_STATIONS   = ALLOWED_PICTOGRAMS;
 
@@ -89,13 +92,25 @@ public class MainActivity extends Activity {
         //Show progressDialog while loading activity. Set the color to white only one time
         this.progressDialog.show();
         ((TextView) this.progressDialog.findViewById(android.R.id.message)).setTextColor(android.graphics.Color.WHITE);
-        
-        this.gameLinearLayout = ((GameLinearLayout) findViewById(R.id.gamelist));
+
+        GList testList = (GList)this.findViewById(R.id.TestList);
+        this.configurationFetcher = new ConfigurationList(this, this.currentProfileData.childProfile);
+        gameListAdapter = new GGameListAdapter(this,this.configurationFetcher.listOfConfiguration);
+        testList.setAdapter(gameListAdapter);
+        testList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+                MainActivity.this.setGameConfiguration((GameConfiguration)parent.getAdapter().getItem(position));
+            }
+        });
+
+
+        //this.gameLinearLayout = ((GameLinearLayout) findViewById(R.id.gamelist));
 		
 		this.customiseLinearLayout = (CustomiseLinearLayout) super.findViewById(R.id.customiseLinearLayout);
 
-        this.gameLinearLayout.setSelectedChild(this.currentProfileData.childProfile);
-        this.gameLinearLayout.loadAllConfigurations();
+        //this.gameLinearLayout.setSelectedChild(this.currentProfileData.childProfile);
+        //this.gameLinearLayout.loadAllConfigurations();
 
 		this.gameIntent = new Intent(this, GameActivity.class);
 		this.saveIntent = new Intent(this, SaveDialogActivity.class);
@@ -108,15 +123,27 @@ public class MainActivity extends Activity {
         
         this.progressDialog.dismiss(); //Hide progressDialog after creation is done
 	}
+
+    private class OnItemClickListener implements AdapterView.OnItemClickListener {
+        private GameConfiguration gameConfiguration;
+
+        public OnItemClickListener(GameConfiguration gameConfiguration) {
+            this.gameConfiguration = gameConfiguration;
+        }
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+            MainActivity.this.setGameConfiguration(gameConfiguration);
+
+        }
+    }
 	
 	public void onClickAddStation(View view) {
 	    this.customiseLinearLayout.addStation(new StationConfiguration());
-        System.out.println("hej hej hej");
 	}
 	
 	public void onClickSaveGame(View view) throws IOException {
 	    if (this.isValidConfiguration()) {
-	    	this.saveIntent.putExtra(MainActivity.GAME_CONFIGURATIONS, this.gameLinearLayout.getGameConfigurations());
+	    	this.saveIntent.putExtra(MainActivity.GAME_CONFIGURATIONS, this.configurationFetcher.listOfConfiguration);
 	    	
 	    	this.saveIntent.putExtra(MainActivity.SELECTED_CHILD_NAME, this.currentProfileData.childProfile.getName());
 	    	this.saveIntent.putExtra(MainActivity.SELECTED_CHILD_ID, this.currentProfileData.childProfile.getId());
@@ -230,9 +257,10 @@ public class MainActivity extends Activity {
                 distanceBetweenStations = distanceBetweenStations * 100;
             }
         	GameConfiguration gameConfiguration = getGameConfiguration(gameName, 1337, this.currentProfileData.guardianProfile.getId(),distanceBetweenStations); // TO DO
-        	this.gameLinearLayout.addGameConfiguration(gameConfiguration);
+        	this.configurationFetcher.listOfConfiguration.add(gameConfiguration);
+            this.gameListAdapter.notifyDataSetChanged();
 			try {
-				this.saveAllConfigurations(this.gameLinearLayout.getGameConfigurations());
+				this.saveAllConfigurations(this.configurationFetcher.listOfConfiguration);
 			} catch (IOException e) {
 				e.printStackTrace();
 				Toast.makeText(this, "Kan ikke gemme", Toast.LENGTH_SHORT).show();
