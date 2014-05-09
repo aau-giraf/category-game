@@ -33,20 +33,9 @@
        <dk.aau.cs.giraf.gui.GList
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/TestList">
+            android:id="@+id/savedConfig">
 
             </dk.aau.cs.giraf.gui.GList>
-
-       <!-- <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-
-            <dk.aau.cs.giraf.train.GameLinearLayout
-                android:id="@+id/gamelist"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" />
-        </ScrollView> -->
     </LinearLayout>
 
     <dk.aau.cs.giraf.gui.GDividerHorizontal
@@ -69,7 +58,7 @@
             android:text="@string/customisation_header"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="30sp"
-            android:textColor="@color/black"/>
+            />
 
         <dk.aau.cs.giraf.gui.GDividerHorizontal
             android:layout_width="match_parent"
@@ -90,7 +79,7 @@
                 android:text="@string/category"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="15sp"
-                android:textColor="@color/black"/>
+                />
 
             <dk.aau.cs.giraf.gui.GDividerVertical
                 android:layout_width="3dp"
@@ -107,7 +96,7 @@
                 android:text="@string/associated_pictograms"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="15sp"
-                android:textColor="@color/black"/>
+                />
         </LinearLayout>
 
         <dk.aau.cs.giraf.train.CustomiseLinearLayout
@@ -127,7 +116,6 @@
             <dk.aau.cs.giraf.gui.GTextView
                 android:layout_width="200dp"
                 android:layout_height="50dp"
-                android:textColor="@color/black"
                 android:text= "@string/InfoForDistanceForStations"
                 android:gravity="bottom" />
 
@@ -136,15 +124,14 @@
                 android:layout_height="50dp"
                 android:background="@color/white"
                 android:inputType="numberSigned"
-                android:textColor="@color/black"
                 android:id="@+id/distanceForStations"
-                android:layout_gravity="bottom"/>
+                android:layout_gravity="bottom"
+                android:textColor="@color/black"/>
 
             <dk.aau.cs.giraf.gui.GButton
                 android:id="@+id/addStationButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/custom_button"
                 android:contentDescription="@string/add_station"
                 android:drawableRight="@android:drawable/ic_menu_add"
                 android:onClick="onClickAddStation"
@@ -155,7 +142,6 @@
                 android:id="@+id/saveGameButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/custom_button"
                 android:contentDescription="@string/save_game"
                 android:onClick="onClickSaveGame"
                 android:drawableRight="@android:drawable/ic_menu_save"
@@ -167,7 +153,6 @@
                 android:id="@+id/startGameFromProfileButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/custom_button"
                 android:contentDescription="@string/start_game"
                 android:onClick="onClickStartGame"
                 android:text="@string/start_game"

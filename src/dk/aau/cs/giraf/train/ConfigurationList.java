@@ -13,9 +13,6 @@ import java.util.List;
 
 import dk.aau.cs.giraf.oasis.lib.models.Profile;
 
-/**
- * Created by Aleksander on 05-05-14.
- */
 public class ConfigurationList {
 
     private Profile childProfile = null;

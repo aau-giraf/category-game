@@ -90,24 +90,20 @@ public class MainActivity extends Activity {
         this.progressDialog.show();
         ((TextView) this.progressDialog.findViewById(android.R.id.message)).setTextColor(android.graphics.Color.WHITE);
 
-        GList testList = (GList)this.findViewById(R.id.TestList);
+        GList saveConfigurationList = (GList)this.findViewById(R.id.savedConfig);
+
         this.configurationHandler = new ConfigurationList(this, this.currentProfileData.childProfile);
         gameListAdapter = new GGameListAdapter(this,this.configurationHandler.getGameconfiguration());
-        testList.setAdapter(gameListAdapter);
-        testList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        saveConfigurationList.setAdapter(gameListAdapter);
+        saveConfigurationList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 MainActivity.this.setGameConfiguration((GameConfiguration) parent.getAdapter().getItem(position));
             }
         });
         gameListAdapter.notifyDataSetChanged();
-
-        //this.gameLinearLayout = ((GameLinearLayout) findViewById(R.id.gamelist));
 		
 		this.customiseLinearLayout = (CustomiseLinearLayout) super.findViewById(R.id.customiseLinearLayout);
-
-        //this.gameLinearLayout.setSelectedChild(this.currentProfileData.childProfile);
-        //this.gameLinearLayout.loadAllConfigurations();
 
 		this.gameIntent = new Intent(this, GameActivity.class);
 		this.saveIntent = new Intent(this, SaveDialogActivity.class);
@@ -119,19 +115,6 @@ public class MainActivity extends Activity {
 
         this.progressDialog.dismiss(); //Hide progressDialog after creation is done
 	}
-
-    private class OnItemClickListener implements AdapterView.OnItemClickListener {
-        private GameConfiguration gameConfiguration;
-
-        public OnItemClickListener(GameConfiguration gameConfiguration) {
-            this.gameConfiguration = gameConfiguration;
-        }
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-            MainActivity.this.setGameConfiguration(gameConfiguration);
-
-        }
-    }
 	
 	public void onClickAddStation(View view) {
 	    this.customiseLinearLayout.addStation(new StationConfiguration());
@@ -197,7 +180,7 @@ public class MainActivity extends Activity {
 	    return true;
 	}
 	
-	private GameConfiguration getGameConfiguration(String gameName, int gameID, long childID, int distanceBetweenStations) {
+	private GameConfiguration getGameConfiguration(String gameName, int gameID, int childID, int distanceBetweenStations) {
 
 	    GameConfiguration gameConfiguration = new GameConfiguration(gameName, gameID, childID, currentProfileData.guardianProfile.getId(), distanceBetweenStations); //TODO Set appropriate IDs
 	    gameConfiguration.setStations(this.customiseLinearLayout.getStations());
@@ -210,6 +193,8 @@ public class MainActivity extends Activity {
 	        newReference.add(new StationConfiguration(gameConfiguration.getStation(i)));
 	    }
 	    this.customiseLinearLayout.setStationConfigurations(newReference);
+        EditText e = (EditText)this.findViewById(R.id.distanceForStations);
+        e.setText(String.valueOf(gameConfiguration.getDistanceBetweenStations()));
 	}
 	
 	@Override
