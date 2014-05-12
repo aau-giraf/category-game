@@ -155,7 +155,7 @@ public class MainActivity extends Activity {
             return false;
         }
         if (distanceBetweenStations < 1638 ){
-            this.showAlertMessage("Værdien skal være 10 eller derover");
+            this.showAlertMessage("Værdien skal være 10 eller derover.");
             return false;
         }
 	    for (int i = 0; i < currentStation.size(); i++)

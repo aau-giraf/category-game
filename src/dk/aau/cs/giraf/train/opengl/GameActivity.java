@@ -306,9 +306,9 @@ public class GameActivity extends Activity {
 	
 	public void hideStationLinearLayouts(){
 		for (StationLinearLayout lin : stationLinear) {
-			//lin.setVisibility(View.INVISIBLE);
+			lin.setVisibility(View.INVISIBLE);
 		}
-		//fluteButton.setVisibility(View.INVISIBLE);
+		fluteButton.setVisibility(View.INVISIBLE);
 	}
 	
 	public void hideAllLinearLayouts(){

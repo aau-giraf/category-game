@@ -2,9 +2,12 @@ package dk.aau.cs.giraf.train.opengl;
 
 import java.util.ArrayList;
 
+import android.sax.RootElement;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+
+import dk.aau.cs.giraf.gui.R;
 import dk.aau.cs.giraf.pictogram.Pictogram;
 import dk.aau.cs.giraf.train.GameConfiguration;
 import dk.aau.cs.giraf.train.StationConfiguration;
