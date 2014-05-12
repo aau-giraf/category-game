@@ -53,6 +53,7 @@ public class MainActivity extends Activity {
 
 	public static final int ALLOWED_PICTOGRAMS = 12;
 	public static final int ALLOWED_STATIONS   = ALLOWED_PICTOGRAMS;
+     private static int minimumPixelDistance = 15*350 - 1750; // 15 seconds is so stations do not overlap, 11 can work but 15 people like round numbers
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -147,15 +148,21 @@ public class MainActivity extends Activity {
 	private boolean isValidConfiguration() {
 	    ArrayList<StationConfiguration> currentStation = this.customiseLinearLayout.getStations();
         EditText text = (EditText)findViewById(R.id.distanceForStations);
-        distanceBetweenStations =(int)Math.ceil((Integer.parseInt(text.getText().toString()) * 349.86) - 1860.4);
+        if (text == null || text.getText().toString().equals(""))
+        {
+            this.showAlertMessage("Du skal skrive køretiden mellem stationer for at kunne starte og gemme spillet");
+            return false;
+        }
+
+        distanceBetweenStations =(int)Math.ceil((Integer.parseInt(text.getText().toString()) * 350) - 1750);
 	    //There needs to be at least one station
 	    if(currentStation.size() < 1) {
 	        this.showAlertMessage(super.getResources().getString(R.string.station_error));
 	        currentStation = null; //Free memory
             return false;
         }
-        if (distanceBetweenStations < 1638 ){
-            this.showAlertMessage("Værdien skal være 10 eller derover.");
+        if (distanceBetweenStations < minimumPixelDistance){
+            this.showAlertMessage("Værdien skal være 15 eller derover");
             return false;
         }
 	    for (int i = 0; i < currentStation.size(); i++)
@@ -193,8 +200,8 @@ public class MainActivity extends Activity {
 	        newReference.add(new StationConfiguration(gameConfiguration.getStation(i)));
 	    }
 	    this.customiseLinearLayout.setStationConfigurations(newReference);
-        EditText e = (EditText)this.findViewById(R.id.distanceForStations);
-        e.setText(String.valueOf(gameConfiguration.getDistanceBetweenStations()));
+        EditText text = (EditText)findViewById(R.id.distanceForStations);
+        text.setText(Integer.toString(gameConfiguration.getDistanceBetweenStations()));
 	}
 	
 	@Override
