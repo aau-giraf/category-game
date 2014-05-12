@@ -20,9 +20,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import dk.aau.cs.giraf.oasis.lib.models.Profile;
 import dk.aau.cs.giraf.pictogram.PictoFactory;
-
+//Bliver ikke brugt længere!
 public class GameLinearLayout extends LinearLayout {
-    
+
     private ArrayList<GameConfiguration> gameConfigurations = new ArrayList<GameConfiguration>();
     private ArrayList<GameConfiguration> visibleGameConfigurations = new ArrayList<GameConfiguration>();
     private AlertDialog deleteDialog;

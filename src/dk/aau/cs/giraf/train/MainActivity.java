@@ -42,7 +42,6 @@ public class MainActivity extends Activity {
     private Intent saveIntent;
     private Intent pictoAdminIntent = new Intent();
 
-	//private GameLinearLayout gameLinearLayout;
 	private CustomiseLinearLayout customiseLinearLayout;
 	
 	private ProgressDialog progressDialog;
@@ -53,7 +52,9 @@ public class MainActivity extends Activity {
 
 	public static final int ALLOWED_PICTOGRAMS = 12;
 	public static final int ALLOWED_STATIONS   = ALLOWED_PICTOGRAMS;
-     private static int minimumPixelDistance = 15*350 - 1750; // 15 seconds is so stations do not overlap, 11 can work but 15 people like round numbers
+
+    private final int MINIMUM_TIME = 15;
+    private final int MAXIMUM_TIME = 60;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -154,6 +155,13 @@ public class MainActivity extends Activity {
             return false;
         }
 
+        distanceBetweenStations = Integer.parseInt(text.getText().toString());
+
+        if (distanceBetweenStations <= MINIMUM_TIME || distanceBetweenStations >= MAXIMUM_TIME){
+            this.showAlertMessage("Værdien skal mellem 15 og 60 sekunder.");
+            return false;
+        }
+
         distanceBetweenStations =(int)Math.ceil((Integer.parseInt(text.getText().toString()) * 350) - 1750);
 	    //There needs to be at least one station
 	    if(currentStation.size() < 1) {
@@ -161,10 +169,7 @@ public class MainActivity extends Activity {
 	        currentStation = null; //Free memory
             return false;
         }
-        if (distanceBetweenStations < minimumPixelDistance){
-            this.showAlertMessage("Værdien skal være 15 eller derover");
-            return false;
-        }
+
 	    for (int i = 0; i < currentStation.size(); i++)
 		{
 			if (currentStation.get(i).isLoadingStation())
@@ -201,7 +206,7 @@ public class MainActivity extends Activity {
 	    }
 	    this.customiseLinearLayout.setStationConfigurations(newReference);
         EditText text = (EditText)findViewById(R.id.distanceForStations);
-        text.setText(Integer.toString(gameConfiguration.getDistanceBetweenStations()));
+        text.setText(Integer.toString((gameConfiguration.getDistanceBetweenStations() + 1750)/350));
 	}
 	
 	@Override
@@ -234,16 +239,7 @@ public class MainActivity extends Activity {
         case MainActivity.RECEIVE_GAME_NAME:
 
         	String gameName = data.getExtras().getString(SaveDialogActivity.GAME_NAME);
-            EditText text = (EditText)findViewById(R.id.distanceForStations);
-            int distanceBetweenStations = Integer.parseInt(text.getText().toString());
-            if (distanceBetweenStations <= 0 ){
-                distanceBetweenStations = 12000;
-            }
-            else if (distanceBetweenStations < 20)
-            {
-                distanceBetweenStations = distanceBetweenStations * 100;
-            }
-        	GameConfiguration gameConfiguration = getGameConfiguration(gameName, 1337, this.currentProfileData.guardianProfile.getId(),distanceBetweenStations); // TO DO
+        	GameConfiguration gameConfiguration = getGameConfiguration(gameName, 1337, this.currentProfileData.guardianProfile.getId(),distanceBetweenStations);
         	this.configurationHandler.addConfiguration(gameConfiguration);
             this.gameListAdapter.notifyDataSetChanged();
 			try {
