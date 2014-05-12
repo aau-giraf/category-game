@@ -98,8 +98,6 @@ public class MainActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 MainActivity.this.setGameConfiguration((GameConfiguration) parent.getAdapter().getItem(position));
-                EditText text = (EditText)findViewById(R.id.distanceForStations);
-                text.setText(Integer.toString(((GameConfiguration) parent.getAdapter().getItem(position)).getDistanceBetweenStations()));
             }
         });
         gameListAdapter.notifyDataSetChanged();
@@ -217,6 +215,8 @@ public class MainActivity extends Activity {
 	        newReference.add(new StationConfiguration(gameConfiguration.getStation(i)));
 	    }
 	    this.customiseLinearLayout.setStationConfigurations(newReference);
+        EditText text = (EditText)findViewById(R.id.distanceForStations);
+        text.setText(Integer.toString(gameConfiguration.getDistanceBetweenStations()));
 	}
 	
 	@Override
