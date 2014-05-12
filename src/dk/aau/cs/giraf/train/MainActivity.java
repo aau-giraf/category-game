@@ -98,6 +98,8 @@ public class MainActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 MainActivity.this.setGameConfiguration((GameConfiguration) parent.getAdapter().getItem(position));
+                EditText text = (EditText)findViewById(R.id.distanceForStations);
+                text.setText(Integer.toString(((GameConfiguration) parent.getAdapter().getItem(position)).getDistanceBetweenStations()));
             }
         });
         gameListAdapter.notifyDataSetChanged();
@@ -164,6 +166,11 @@ public class MainActivity extends Activity {
 	private boolean isValidConfiguration() {
 	    ArrayList<StationConfiguration> currentStation = this.customiseLinearLayout.getStations();
         EditText text = (EditText)findViewById(R.id.distanceForStations);
+        if (text == null || text.getText().toString().equals(""))
+        {
+            this.showAlertMessage("du skal skrive en afstand for at kunne starte eller gemme spillet");
+            return false;
+        }
         distanceBetweenStations =(int)Math.ceil((Integer.parseInt(text.getText().toString()) * 349.86) - 1860.4);
 	    //There needs to be at least one station
 	    if(currentStation.size() < 1) {
