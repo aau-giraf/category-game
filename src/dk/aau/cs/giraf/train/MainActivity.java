@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import dk.aau.cs.giraf.gui.GComponent;
+import dk.aau.cs.giraf.gui.GDialogAlert;
 import dk.aau.cs.giraf.gui.GList;
 import dk.aau.cs.giraf.train.opengl.GameActivity;
 
@@ -139,7 +140,7 @@ public class MainActivity extends Activity {
 	}
 	
 	public void onClickSaveGame(View view) throws IOException {
-	    if (this.isValidConfiguration()) {
+	    if (this.isValidConfiguration(view)) {
 	    	this.saveIntent.putExtra(MainActivity.GAME_CONFIGURATIONS, this.configurationHandler.getGameconfiguration());
 	    	
 	    	this.saveIntent.putExtra(MainActivity.SELECTED_CHILD_NAME, this.currentProfileData.childProfile.getName());
@@ -150,36 +151,36 @@ public class MainActivity extends Activity {
 	}
 	
 	public void onClickStartGame(View view) {
-	    if(this.isValidConfiguration()) {
+	    if(this.isValidConfiguration(view)) {
             this.gameIntent.putExtra(MainActivity.GAME_CONFIGURATION, this.getGameConfiguration("the new game", 1337, this.currentProfileData.childProfile.getId(), distanceBetweenStations));
             this.startActivity(this.gameIntent);
         }
 	}
 	
-	private void showAlertMessage(String message) {
-        this.errorDialog.setMessage(message);
-        
-        this.errorDialog.show();
+	private void showAlertMessage(String message, View view) {
+        new GDialogAlert(view.getContext(),message, null).show();
 	}
 	
-	private boolean isValidConfiguration() {
+	private boolean isValidConfiguration(View view) {
 	    ArrayList<StationConfiguration> currentStation = this.customiseLinearLayout.getStations();
         EditText text = (EditText)findViewById(R.id.distanceForStations);
         if (text == null || text.getText().toString().equals(""))
         {
-            this.showAlertMessage("Du skal skrive køretiden mellem stationer for at kunne starte og gemme spillet");
+            this.showAlertMessage("Du skal skrive køretiden mellem stationer for at kunne starte og gemme spillet",view);
+            currentStation = null; //Free memory
             return false;
         }
 
         distanceBetweenStations =(int)Math.ceil((Integer.parseInt(text.getText().toString()) * 350) - 1750);
 	    //There needs to be at least one station
 	    if(currentStation.size() < 1) {
-	        this.showAlertMessage(super.getResources().getString(R.string.station_error));
+	        this.showAlertMessage(super.getResources().getString(R.string.station_error),view);
 	        currentStation = null; //Free memory
             return false;
         }
         if (distanceBetweenStations < minimumPixelDistance){
-            this.showAlertMessage("Værdien skal være 15 eller derover");
+            this.showAlertMessage("Værdien skal være 15 eller derover", view);
+            currentStation = null; //Free memory
             return false;
         }
 	    for (int i = 0; i < currentStation.size(); i++)
@@ -189,12 +190,14 @@ public class MainActivity extends Activity {
 				
 	        if(currentStation.get(i).getCategory() == -1)
 			{
-                this.showAlertMessage(super.getResources().getString(R.string.category_error));
+                new GDialogAlert(view.getContext(),super.getResources().getString(R.string.category_error), null).show();
+                //this.showAlertMessage(super.getResources().getString(R.string.category_error));
                 currentStation = null; //Free memory
                 return false;
             }
 			else if (currentStation.get(i).getAcceptPictograms().size() < 1) {
-	            this.showAlertMessage(super.getResources().getString(R.string.pictogram_error));
+                new GDialogAlert(view.getContext(),super.getResources().getString(R.string.pictogram_error), null).show();
+	            //this.showAlertMessage(super.getResources().getString(R.string.pictogram_error));
 	            currentStation = null; //Free memory
 	            return false;
 	        }
@@ -275,9 +278,9 @@ public class MainActivity extends Activity {
 	
 	private PictogramReceiver pictogramReceiver;
 	
-	public void startPictoAdmin(int requestCode, PictogramReceiver pictogramRequester) {
+	public void startPictoAdmin(int requestCode, PictogramReceiver pictogramRequester, View view) {
 	    if(this.isCallable(this.pictoAdminIntent) == false) {
-	        this.showAlertMessage(super.getResources().getString(R.string.picto_error));
+	        this.showAlertMessage(super.getResources().getString(R.string.picto_error), view );
 	        return;
 	    }
 	    this.progressDialog.show();

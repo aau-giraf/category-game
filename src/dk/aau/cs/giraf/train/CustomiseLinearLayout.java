@@ -136,7 +136,7 @@ public class CustomiseLinearLayout extends LinearLayout {
         
         @Override
         public void onClick(View v) {
-            ((MainActivity) CustomiseLinearLayout.this.getContext()).startPictoAdmin(MainActivity.RECEIVE_MULTIPLE, this.associatedPictogramsLayout);
+            ((MainActivity) CustomiseLinearLayout.this.getContext()).startPictoAdmin(MainActivity.RECEIVE_MULTIPLE, this.associatedPictogramsLayout, v);
         }
     }
     

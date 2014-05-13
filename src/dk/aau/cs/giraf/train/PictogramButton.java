@@ -90,7 +90,7 @@ public class PictogramButton extends LinearLayout implements PictogramReceiver {
         @Override
         public void onClick(View view) {
             //TODO Create loading picture
-            ((MainActivity) PictogramButton.this.getContext()).startPictoAdmin(MainActivity.RECEIVE_SINGLE, PictogramButton.this);
+            ((MainActivity) PictogramButton.this.getContext()).startPictoAdmin(MainActivity.RECEIVE_SINGLE, PictogramButton.this,view);
         }
     }
 	
