@@ -41,8 +41,6 @@ public class MainActivity extends Activity {
     private Intent gameIntent;
     private Intent saveIntent;
     private Intent pictoAdminIntent = new Intent();
-
-	private CustomiseLinearLayout customiseLinearLayout;
 	
 	private ProgressDialog progressDialog;
 	private AlertDialog errorDialog;
@@ -55,6 +53,9 @@ public class MainActivity extends Activity {
 
     private final int MINIMUM_TIME = 15;
     private final int MAXIMUM_TIME = 60;
+
+    public StationList listOfStations = null;
+    private GStationListAdapter stationListAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -104,8 +105,12 @@ public class MainActivity extends Activity {
             }
         });
         gameListAdapter.notifyDataSetChanged();
-		
-		this.customiseLinearLayout = (CustomiseLinearLayout) super.findViewById(R.id.customiseLinearLayout);
+
+        listOfStations = new StationList();
+
+        GList stationList = (GList)this.findViewById(R.id.stationList);
+        stationListAdapter = new GStationListAdapter(this, listOfStations.stations);
+        stationList.setAdapter(stationListAdapter);
 
 		this.gameIntent = new Intent(this, GameActivity.class);
 		this.saveIntent = new Intent(this, SaveDialogActivity.class);
@@ -119,7 +124,8 @@ public class MainActivity extends Activity {
 	}
 	
 	public void onClickAddStation(View view) {
-	    this.customiseLinearLayout.addStation(new StationConfiguration());
+        this.listOfStations.stations.add(new StationConfiguration());
+        this.stationListAdapter.notifyDataSetChanged();
 	}
 	
 	public void onClickSaveGame(View view) throws IOException {
@@ -147,7 +153,7 @@ public class MainActivity extends Activity {
 	}
 	
 	private boolean isValidConfiguration() {
-	    ArrayList<StationConfiguration> currentStation = this.customiseLinearLayout.getStations();
+	    ArrayList<StationConfiguration> currentStation = this.listOfStations.getStations();
         EditText text = (EditText)findViewById(R.id.distanceForStations);
         if (text == null || text.getText().toString().equals(""))
         {
@@ -157,7 +163,7 @@ public class MainActivity extends Activity {
 
         distanceBetweenStations = Integer.parseInt(text.getText().toString());
 
-        if (distanceBetweenStations <= MINIMUM_TIME || distanceBetweenStations >= MAXIMUM_TIME){
+        if (distanceBetweenStations < MINIMUM_TIME || distanceBetweenStations > MAXIMUM_TIME){
             this.showAlertMessage("Værdien skal mellem 15 og 60 sekunder.");
             return false;
         }
@@ -195,7 +201,7 @@ public class MainActivity extends Activity {
 	private GameConfiguration getGameConfiguration(String gameName, int gameID, int childID, int distanceBetweenStations) {
 
 	    GameConfiguration gameConfiguration = new GameConfiguration(gameName, gameID, childID, currentProfileData.guardianProfile.getId(), distanceBetweenStations); //TODO Set appropriate IDs
-	    gameConfiguration.setStations(this.customiseLinearLayout.getStations());
+	    gameConfiguration.setStations(this.listOfStations.getStations());
 	    return gameConfiguration;
 	}
 	
@@ -204,7 +210,8 @@ public class MainActivity extends Activity {
 	    for (int i = 0; i < gameConfiguration.getStations().size(); i++) {
 	        newReference.add(new StationConfiguration(gameConfiguration.getStation(i)));
 	    }
-	    this.customiseLinearLayout.setStationConfigurations(newReference);
+	    this.listOfStations.setStationConfigurations(newReference);
+        this.stationListAdapter.notifyDataSetChanged();
         EditText text = (EditText)findViewById(R.id.distanceForStations);
         text.setText(Integer.toString((gameConfiguration.getDistanceBetweenStations() + 1750)/350));
 	}
@@ -242,6 +249,7 @@ public class MainActivity extends Activity {
         	GameConfiguration gameConfiguration = getGameConfiguration(gameName, 1337, this.currentProfileData.guardianProfile.getId(),distanceBetweenStations);
         	this.configurationHandler.addConfiguration(gameConfiguration);
             this.gameListAdapter.notifyDataSetChanged();
+
 			try {
 				this.configurationHandler.saveAllConfigurations(SAVEFILE_PATH);
 			} catch (IOException e) {

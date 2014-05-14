@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 /**
@@ -16,12 +17,13 @@ public class AssociatedPictogramsLayout extends LinearLayout implements Pictogra
     
     private StationConfiguration station;
     private ArrayList<PictogramButton> pictogramButtons = new ArrayList<PictogramButton>();
-    private CustomiseLinearLayout customiseLinearLayout;
-    
-    
+    private ImageButton addPB;
+    private Context parent;
+
     public AssociatedPictogramsLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.customiseLinearLayout = (CustomiseLinearLayout) ((MainActivity) super.getContext()).findViewById(R.id.customiseLinearLayout);
+        parent = context;
+        addPB = (ImageButton) ((MainActivity) context).findViewById(R.id.addPictogramButton);
     }
     
     public int getPictogramCount() {
@@ -30,20 +32,22 @@ public class AssociatedPictogramsLayout extends LinearLayout implements Pictogra
     
     public void bindStation(StationConfiguration station) {
         this.station = station;
-        
+        this.pictogramButtons.clear();
+
         ArrayList<Integer> acceptPictograms = new ArrayList<Integer>(station.getAcceptPictograms());
         
         for (int i = 0; i < acceptPictograms.size(); i++) {
             this.addPictogram(acceptPictograms.get(i));
-        }
-        
-        if(this.customiseLinearLayout.getTotalPictogramSize() >= MainActivity.ALLOWED_PICTOGRAMS) {
-            this.customiseLinearLayout.setVisibilityPictogramButtons(false);
+
+            if(this.pictogramButtons.size() >= MainActivity.ALLOWED_PICTOGRAMS) {
+                this.addPB.setVisibility(INVISIBLE);
+                break;
+            }
         }
     }
     
     public synchronized void addPictogram(int pictogramId) {
-        PictogramButton pictogramButton = new PictogramButton(this.getContext());
+        PictogramButton pictogramButton = new PictogramButton(parent);
         pictogramButton.setPictogram(pictogramId);
         pictogramButton.setRemovable(true);
         LayoutParams params = new LayoutParams(75, 75);
@@ -51,9 +55,7 @@ public class AssociatedPictogramsLayout extends LinearLayout implements Pictogra
         pictogramButton.setLayoutParams(params);
         
         this.pictogramButtons.add(pictogramButton);
-        super.addView(pictogramButton);
-        
-        this.bindPictograms(); //Update the station with the new pictogram
+        this.addView(pictogramButton);
     }
     
     private void bindPictograms() {
@@ -67,21 +69,23 @@ public class AssociatedPictogramsLayout extends LinearLayout implements Pictogra
     @Override
     public void removeView(View view) {
         super.removeView(view);
+        this.station.removeAccepPictogram(pictogramButtons.indexOf(view));
         this.pictogramButtons.remove(view);
-        this.station.removeAccepPictogram(((PictogramButton) view).getPictogramId());
-        
-        if(this.customiseLinearLayout.getTotalPictogramSize() < MainActivity.ALLOWED_PICTOGRAMS) {
-            this.customiseLinearLayout.setVisibilityPictogramButtons(true);
+
+        if(this.pictogramButtons.size() >= MainActivity.ALLOWED_PICTOGRAMS) {
+            this.addPB.setVisibility(VISIBLE);
         }
     }
     @Override
     public void receivePictograms(int[] pictogramIds, int requestCode) {
         for (int id : pictogramIds) {
             this.addPictogram(id);
-            if(this.customiseLinearLayout.getTotalPictogramSize() >= MainActivity.ALLOWED_PICTOGRAMS) {
-                this.customiseLinearLayout.setVisibilityPictogramButtons(false);
+            if(this.pictogramButtons.size() >= MainActivity.ALLOWED_PICTOGRAMS) {
+                this.addPB.setVisibility(INVISIBLE);
                 break;
             }
         }
+
+        bindPictograms();
     }
 }
