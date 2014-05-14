@@ -127,7 +127,7 @@ public class MainActivity extends Activity {
 
         //Find the GButton in your View
         gButtonProfileSelect = (GButtonProfileSelect) findViewById(R.id.ChanceProfile);
-//Call the method setup with a Profile guardian, no currentProfile (which means that the guardian is the current Profile) and the onCloseListener
+        //Call the method setup with a Profile guardian, no currentProfile (which means that the guardian is the current Profile) and the onCloseListener
         gButtonProfileSelect.setup(this.currentProfileData.guardianProfile, this.currentProfileData.childProfile, new GButtonProfileSelect.onCloseListener() {
             @Override
             public void onClose(Profile guardianProfile, Profile currentProfile) {
@@ -149,14 +149,14 @@ public class MainActivity extends Activity {
 
     public void onChangeProfile(Profile guardianProfile, Profile currentProfile) {
         if(currentProfile == null){
-            MainActivity.this.currentProfileData.guardianProfile = guardianProfile;
-            MainActivity.this.configurationHandler = new ConfigurationList(MainActivity.this, guardianProfile);
-            MainActivity.this.gameListAdapter.notifyDataSetChanged();
+            this.currentProfileData.guardianProfile = guardianProfile;
+            this.configurationHandler.update(guardianProfile);
+            this.gameListAdapter.notifyDataSetChanged();
         }
         else{
-            MainActivity.this.currentProfileData.childProfile = currentProfile;
-            MainActivity.this.configurationHandler = new ConfigurationList(MainActivity.this, currentProfile);
-            MainActivity.this.gameListAdapter.notifyDataSetChanged();
+            this.currentProfileData.childProfile = currentProfile;
+            this.configurationHandler.update(currentProfile);
+            this.gameListAdapter.notifyDataSetChanged();
         }
 
     }
@@ -246,7 +246,7 @@ public class MainActivity extends Activity {
 	    return true;
 	}
 	
-	private GameConfiguration getGameConfiguration(String gameName, int gameID, long childID, int distanceBetweenStations) {
+	private GameConfiguration getGameConfiguration(String gameName, int gameID, int childID, int distanceBetweenStations) {
 
 	    GameConfiguration gameConfiguration = new GameConfiguration(gameName, gameID, childID, currentProfileData.guardianProfile.getId(), distanceBetweenStations); //TODO Set appropriate IDs
 	    gameConfiguration.setStations(this.customiseLinearLayout.getStations());
@@ -303,7 +303,7 @@ public class MainActivity extends Activity {
             {
                 distanceBetweenStations = distanceBetweenStations * 100;
             }
-        	GameConfiguration gameConfiguration = getGameConfiguration(gameName, 1337, this.currentProfileData.guardianProfile.getId(),distanceBetweenStations); // TO DO
+        	GameConfiguration gameConfiguration = getGameConfiguration(gameName, 1337, this.currentProfileData.childProfile.getId(),distanceBetweenStations); // TO DO
         	this.configurationHandler.addConfiguration(gameConfiguration);
             this.gameListAdapter.notifyDataSetChanged();
 			try {

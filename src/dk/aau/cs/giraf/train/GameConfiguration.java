@@ -18,7 +18,7 @@ public class GameConfiguration implements Parcelable {
 
     private int   guardianID;
 	private String gameName;
-	private long   childID;
+	private int   childID;
 	private int   gameID;
     private int  distanceBetweenStations;
 	private ArrayList<StationConfiguration> stations = new ArrayList<StationConfiguration>();
@@ -30,7 +30,7 @@ public class GameConfiguration implements Parcelable {
 		this.guardianID = Data.;
 	}*/
 	
-	public GameConfiguration(String gameName, int gameID, long childID, int guardianID, int distanceBetweenStations) {
+	public GameConfiguration(String gameName, int gameID, int childID, int guardianID, int distanceBetweenStations) {
 		this.gameName = gameName;
 		this.childID = childID;
 		this.gameID = gameID;
@@ -41,9 +41,11 @@ public class GameConfiguration implements Parcelable {
     public int getDistanceBetweenStations(){
         return this.distanceBetweenStations;
     };
-	public long getChildId() {
+	public int getChildId() {
 	    return this.childID;
 	}
+    public int getGuardianID(){ return this.guardianID; }
+
 	
 	public void addStation(StationConfiguration station) {
 		this.stations.add(station);
@@ -91,7 +93,7 @@ public class GameConfiguration implements Parcelable {
     public void writeToParcel(Parcel out, int flags) {
         out.writeInt(this.guardianID);
         out.writeString(this.gameName);
-        out.writeLong(this.childID);
+        out.writeInt(this.childID);
         out.writeInt(this.gameID);
         out.writeInt(this.distanceBetweenStations);
         out.writeList(this.stations);
@@ -112,7 +114,7 @@ public class GameConfiguration implements Parcelable {
     private GameConfiguration(Parcel in) {
         this.guardianID = in.readInt();
         this.gameName = in.readString();
-        this.childID = in.readLong();
+        this.childID = in.readInt();
         this.gameID = in.readInt();
         this.distanceBetweenStations = in.readInt();
         in.readList(this.stations, StationConfiguration.class.getClassLoader());
