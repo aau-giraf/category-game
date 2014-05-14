@@ -20,9 +20,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import dk.aau.cs.giraf.gui.GButtonProfileSelect;
 import dk.aau.cs.giraf.gui.GComponent;
 import dk.aau.cs.giraf.gui.GDialogAlert;
 import dk.aau.cs.giraf.gui.GList;
+import dk.aau.cs.giraf.gui.GToast;
+import dk.aau.cs.giraf.oasis.lib.models.Profile;
 import dk.aau.cs.giraf.train.opengl.GameActivity;
 
 public class MainActivity extends Activity {
@@ -120,6 +123,27 @@ public class MainActivity extends Activity {
         this.errorDialog = alertDialogBuilder.create();
 
         this.progressDialog.dismiss(); //Hide progressDialog after creation is done
+
+        //Find the GButton in your View
+        GButtonProfileSelect gButtonProfileSelect = (GButtonProfileSelect) findViewById(R.id.ChanceProfile);
+//Call the method setup with a Profile guardian, no currentProfile (which means that the guardian is the current Profile) and the onCloseListener
+        gButtonProfileSelect.setup(this.currentProfileData.guardianProfile, null, new GButtonProfileSelect.onCloseListener() {
+            @Override
+            public void onClose(Profile guardianProfile, Profile currentProfile) {
+                //If the guardian is the selected profile create GToast displaying the name
+                if(currentProfile == null){
+                    GToast w = new GToast(getApplicationContext(), "The Guardian " + guardianProfile.getName().toString() + "is Selected", 2);
+                    w.show();
+                }
+                //If another current Profile is the selected profile create GToast displaying the name
+                else{  // skal laves
+                    GToast w = new GToast(getApplicationContext(), "The current profile " + currentProfile.getName().toString() + "is Selected", 2);
+                    w.show();
+                }
+            }
+        });
+
+
 	}
 
     private class OnItemClickListener implements AdapterView.OnItemClickListener {
@@ -223,7 +247,8 @@ public class MainActivity extends Activity {
         EditText text = (EditText)findViewById(R.id.distanceForStations);
         text.setText(Integer.toString(gameConfiguration.getDistanceBetweenStations()));
 	}
-	
+
+
 	@Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
