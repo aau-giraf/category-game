@@ -50,6 +50,7 @@ public class MainActivity extends Activity {
 	private CustomiseLinearLayout customiseLinearLayout;
 	
 	private ProgressDialog progressDialog;
+    private GButtonProfileSelect gButtonProfileSelect;
 	private AlertDialog errorDialog;
 	private Data currentProfileData = null;
     private GGameListAdapter gameListAdapter;
@@ -125,26 +126,40 @@ public class MainActivity extends Activity {
         this.progressDialog.dismiss(); //Hide progressDialog after creation is done
 
         //Find the GButton in your View
-        GButtonProfileSelect gButtonProfileSelect = (GButtonProfileSelect) findViewById(R.id.ChanceProfile);
+        gButtonProfileSelect = (GButtonProfileSelect) findViewById(R.id.ChanceProfile);
 //Call the method setup with a Profile guardian, no currentProfile (which means that the guardian is the current Profile) and the onCloseListener
-        gButtonProfileSelect.setup(this.currentProfileData.guardianProfile, null, new GButtonProfileSelect.onCloseListener() {
+        gButtonProfileSelect.setup(this.currentProfileData.guardianProfile, this.currentProfileData.childProfile, new GButtonProfileSelect.onCloseListener() {
             @Override
             public void onClose(Profile guardianProfile, Profile currentProfile) {
                 //If the guardian is the selected profile create GToast displaying the name
                 if(currentProfile == null){
-                    GToast w = new GToast(getApplicationContext(), "The Guardian " + guardianProfile.getName().toString() + "is Selected", 2);
+                    GToast w = new GToast(getApplicationContext(), "Den valgte profil er " + guardianProfile.getName().toString(), 2);
+                    onChangeProfile(guardianProfile, null);
                     w.show();
                 }
                 //If another current Profile is the selected profile create GToast displaying the name
-                else{  // skal laves
-                    GToast w = new GToast(getApplicationContext(), "The current profile " + currentProfile.getName().toString() + "is Selected", 2);
+                else{
+                    GToast w = new GToast(getApplicationContext(), "Den valgte profil er " + currentProfile.getName().toString(), 2);
+                    onChangeProfile(guardianProfile, currentProfile);
                     w.show();
                 }
             }
         });
-
-
 	}
+
+    public void onChangeProfile(Profile guardianProfile, Profile currentProfile) {
+        if(currentProfile == null){
+            MainActivity.this.currentProfileData.guardianProfile = guardianProfile;
+            MainActivity.this.configurationHandler = new ConfigurationList(MainActivity.this, guardianProfile);
+            MainActivity.this.gameListAdapter.notifyDataSetChanged();
+        }
+        else{
+            MainActivity.this.currentProfileData.childProfile = currentProfile;
+            MainActivity.this.configurationHandler = new ConfigurationList(MainActivity.this, currentProfile);
+            MainActivity.this.gameListAdapter.notifyDataSetChanged();
+        }
+
+    }
 
     private class OnItemClickListener implements AdapterView.OnItemClickListener {
         private GameConfiguration gameConfiguration;
