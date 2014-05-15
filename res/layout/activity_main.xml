@@ -11,19 +11,8 @@
     <dk.aau.cs.giraf.gui.GButtonProfileSelect
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/ChanceProfile"/>
-
-    <dk.aau.cs.giraf.gui.GButton
-        android:id="@+id/Info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/custom_button"
-        android:contentDescription="@string/add_station"
-        android:drawableRight="@android:drawable/ic_menu_add"
-        android:onClick="onClickInfo"
-        android:text="@string/mainActivity"
-        android:textColor="@color/black" />
-
+        android:id="@+id/ChanceProfile"
+        android:layout_gravity="center"/>
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -140,12 +129,6 @@
             android:orientation="horizontal"
             android:focusable="true">
 
-            <dk.aau.cs.giraf.gui.GTextView
-                android:layout_width="200dp"
-                android:layout_height="50dp"
-                android:textColor="@color/black"
-                android:text= "@string/InfoForDistanceForStations"
-                android:gravity="bottom" />
 
             <EditText
                 android:layout_width="150dp"
@@ -154,7 +137,9 @@
                 android:inputType="numberSigned"
                 android:textColor="@color/black"
                 android:id="@+id/distanceForStations"
-                android:layout_gravity="bottom"/>
+                android:layout_gravity="bottom"
+                android:hint="@string/InfoForDistanceForStations"
+                />
 
             <dk.aau.cs.giraf.gui.GButton
                 android:id="@+id/addStationButton"
@@ -179,7 +164,16 @@
                 android:textColor="@color/black"
 
                 /> <!-- android:enabled="false" -->
-
+            <dk.aau.cs.giraf.gui.GButton
+                android:id="@+id/Info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_button"
+                android:contentDescription="@string/add_station"
+                android:drawableRight="@android:drawable/ic_menu_add"
+                android:onClick="onClickInfo"
+                android:text="@string/mainActivityInfo"
+                android:textColor="@color/black" />
             <dk.aau.cs.giraf.gui.GButtonPlay
                 android:id="@+id/startGameFromProfileButton"
                 android:layout_width="wrap_content"
