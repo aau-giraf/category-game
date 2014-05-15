@@ -59,7 +59,7 @@ public class MainActivity extends Activity {
 	public static final int ALLOWED_STATIONS   = ALLOWED_PICTOGRAMS;
 
     private final int MINIMUM_TIME = 15;
-    private final int MAXIMUM_TIME = 60;
+    private final int MAXIMUM_TIME = 300;
 
     public StationList listOfStations = null;
     private GStationListAdapter stationListAdapter;
@@ -235,7 +235,7 @@ public class MainActivity extends Activity {
         distanceBetweenStations = Integer.parseInt(text.getText().toString());
 
         if (distanceBetweenStations < MINIMUM_TIME || distanceBetweenStations > MAXIMUM_TIME){
-            this.showAlertMessage("Værdien skal mellem 15 og 60 sekunder.", view);
+            this.showAlertMessage("Værdien skal mellem 15 og 300 sekunder.", view);
             return false;
         }
 

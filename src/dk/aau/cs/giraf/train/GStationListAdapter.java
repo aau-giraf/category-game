@@ -6,8 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 
@@ -48,27 +50,33 @@ public class GStationListAdapter extends BaseAdapter{
         View v = inflater.inflate(R.layout.station_list_item, null);
         StationConfiguration station = this.stations.get(position);
 
+        if(pictoButtonList.size() <= position){
+            pictoButtonList.add(new ArrayList<PictogramButton>());
+        }
+
         PictogramButton categoryPictogramButton = (PictogramButton) v.findViewById(R.id.list_category);
         categoryPictogramButton.bindStationAsCategory(station);
 
         //The order og image button and associated pictograms layout statements, are very important here
         ImageButton addPictogramsButton = (ImageButton) v.findViewById(R.id.addPictogramButton);
-        GHorizontalScrollViewSnapper gScroller = (GHorizontalScrollViewSnapper) v.findViewById(R.id.scrollview);
+        HorizontalScrollView gScroller = (HorizontalScrollView) v.findViewById(R.id.scrollview);
+        LinearLayout scrollerL = (LinearLayout) gScroller.findViewById(R.id.scrollviewlayout);
+
         for (int i : station.getAcceptPictograms()){
             PictogramButton temp = new PictogramButton(parent.getContext());
             temp.setPictogram(i);
-            if(!pictoButtonList.get(position).contains(temp)){
-                pictoButtonList.get(position).add(temp);
-                gScroller.addView(temp);
-            }
+            temp.setRemovable(true);
+
+            scrollerL.addView(temp);
         }
 
-        //AssociatedPictogramsLayout associatedPictogramsLayout = (AssociatedPictogramsLayout) v.findViewById(R.id.associatedPictograms);
-        //associatedPictogramsLayout.bindStation(station);
-
-        addPictogramsButton.setOnClickListener(new AddClickListner(position));
-
-        //addPictogramsButton.setOnClickListener(new AddPictogramsClickListener(station));
+        if (pictoButtonList.get(position).size() < 6){
+            addPictogramsButton.setVisibility(View.VISIBLE);
+            addPictogramsButton.setOnClickListener(new AddClickListner(position));
+        }
+        else{
+            addPictogramsButton.setVisibility(View.INVISIBLE);
+        }
 
         ImageView deleteButton = (ImageView) v.findViewById(R.id.deleteRowButton);
 

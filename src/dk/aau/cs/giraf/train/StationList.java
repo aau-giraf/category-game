@@ -30,8 +30,12 @@ public class StationList {
     }
 
     public void receivePictograms(int[] pictogramIds, int selectedstation) {
+        int i = this.stations.get(selectedstation).getAcceptPictograms().size();
         for (int id : pictogramIds) {
-            this.stations.get(selectedstation).addAcceptPictogram(id);
+            if(i < 6){
+                this.stations.get(selectedstation).addAcceptPictogram(id);
+                i++;
+            }
         }
     }
 }
