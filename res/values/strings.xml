@@ -36,9 +36,11 @@
     <!-- SAVE DIALOG ACTIVITY -->
     <string name="title_activity_save_dialog">SaveDialog</string>
     <string name="type_name">Indtast Navn</string>
+    <string name="categories">Kategorier</string>
     <string name="textHint">Indtast navn her</string>
     <string name="invalid_symbols">De følgende symboler må ikke bruges:\n, ;</string>
     <string name="name_exists">Det indtastede navn findes allerede.</string>
     <string name="save_description">Spillet vil blive gemt under:</string>
+    <string name="category_description">Vælg en kategori</string>
     
 </resources>

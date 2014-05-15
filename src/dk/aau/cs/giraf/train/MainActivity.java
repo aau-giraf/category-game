@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import dk.aau.cs.giraf.gui.GComponent;
 import dk.aau.cs.giraf.gui.GList;
+import dk.aau.cs.giraf.oasis.lib.models.Category;
 import dk.aau.cs.giraf.train.opengl.GameActivity;
 
 public class MainActivity extends Activity {
@@ -40,6 +41,7 @@ public class MainActivity extends Activity {
     
     private Intent gameIntent;
     private Intent saveIntent;
+    private Intent categoryIntent;
     private Intent pictoAdminIntent = new Intent();
 	
 	private ProgressDialog progressDialog;
@@ -113,9 +115,10 @@ public class MainActivity extends Activity {
         stationList.setAdapter(stationListAdapter);
 
 		this.gameIntent = new Intent(this, GameActivity.class);
+        this.categoryIntent = new Intent(this, CategoryDialogActivity.class);
 		this.saveIntent = new Intent(this, SaveDialogActivity.class);
 		this.pictoAdminIntent.setComponent(new ComponentName("dk.aau.cs.giraf.pictosearch", "dk.aau.cs.giraf.pictosearch.PictoAdminMain"));
-		
+
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setNegativeButton(super.getResources().getString(R.string.okay), null);
         this.errorDialog = alertDialogBuilder.create();
@@ -138,6 +141,9 @@ public class MainActivity extends Activity {
             super.startActivityForResult(this.saveIntent, MainActivity.RECEIVE_GAME_NAME);
         }
 	}
+    public void onClickCategory(View view) {
+        super.startActivityForResult(this.categoryIntent, MainActivity.RECEIVE_GAME_NAME);
+    }
 	
 	public void onClickStartGame(View view) {
 	    if(this.isValidConfiguration()) {
