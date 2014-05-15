@@ -208,7 +208,7 @@ public class MainActivity extends Activity {
         GDialogAlert diag = new GDialogAlert(view.getContext(),
                 R.drawable.ic_launcher,
                 "Infomation",
-                "hej \n hej hej",
+                super.getResources().getString(R.string.InfoText),
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
