@@ -73,7 +73,7 @@ public class MainActivity extends Activity {
         View mainView = li.inflate(R.layout.activity_main,null);
 
         //Set the background
-        mainView.setBackgroundColor(APPLICATIONBACKGROUND);
+        mainView.setBackgroundDrawable(GComponent.GetBackgroundGradient());
         setContentView(mainView);
 
         /* Get data from launcher */

@@ -30,7 +30,7 @@
         android:orientation="horizontal"
         android:layout_gravity="left" >
         
-        <HorizontalScrollView
+        <dk.aau.cs.giraf.gui.GHorizontalScrollViewSnapper
             android:layout_height="match_parent"
             android:layout_width="wrap_content" >
             
@@ -40,7 +40,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="14dp"
             android:orientation="horizontal" />
-        </HorizontalScrollView>
+        </dk.aau.cs.giraf.gui.GHorizontalScrollViewSnapper>
         
         <ImageButton
             android:id="@+id/addPictogramButton"
