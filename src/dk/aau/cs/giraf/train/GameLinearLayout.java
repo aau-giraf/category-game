@@ -10,14 +10,13 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import dk.aau.cs.giraf.oasis.lib.models.Profile;
 import dk.aau.cs.giraf.pictogram.PictoFactory;
 //Bliver ikke brugt længere!
@@ -166,7 +165,7 @@ public class GameLinearLayout extends LinearLayout {
             
             int gameID = Integer.parseInt(game[0]);
             int guardianID = Integer.parseInt(game[1]);
-            long childID = Long.valueOf(game[2]);
+            int childID = Integer.valueOf(game[2]);
             String gameName = game[3];
             int TempdistanceBetweenStations = Integer.parseInt(game[4]);
             ArrayList<StationConfiguration> stations = new ArrayList<StationConfiguration>();

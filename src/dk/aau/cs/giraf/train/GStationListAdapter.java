@@ -70,7 +70,7 @@ public class GStationListAdapter extends BaseAdapter{
 
         @Override
         public void onClick(View v) {
-            ((MainActivity) GStationListAdapter.this.parent).startPictoAdmin(MainActivity.RECEIVE_MULTIPLE, this.associatedPictogramsLayout);
+            //((MainActivity) GStationListAdapter.this.parent).startPictoAdmin(MainActivity.RECEIVE_MULTIPLE, this.associatedPictogramsLayout);
         }
     }
 

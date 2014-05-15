@@ -9,13 +9,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.List;
 
 import dk.aau.cs.giraf.oasis.lib.models.Profile;
 
 public class ConfigurationList {
 
-    private Profile childProfile = null;
+    private Profile currentProfile = null;
     private Activity caller;
 
     private ArrayList<GameConfiguration> listOfConfiguration = new ArrayList<GameConfiguration>();
@@ -23,8 +22,16 @@ public class ConfigurationList {
     private ArrayList<GameConfiguration> listOfAllConfiguration = new ArrayList<GameConfiguration>();
 
     public ConfigurationList(Activity a, Profile c){
-        childProfile = c;
+        currentProfile = c;
         caller = a;
+        loadAllConfigurations();
+    }
+
+    public void update(Profile c){
+        listOfConfiguration.clear();
+        listOfAllConfiguration.clear();
+
+        currentProfile = c;
         loadAllConfigurations();
     }
 
@@ -77,7 +84,7 @@ public class ConfigurationList {
 
             int gameID = Integer.parseInt(game[0]);
             int guardianID = Integer.parseInt(game[1]);
-            long childID = Long.valueOf(game[2]);
+            int childID = Integer.valueOf(game[2]);
             String gameName = game[3];
             int TempdistanceBetweenStations = Integer.parseInt(game[4]);
             ArrayList<StationConfiguration> stations = new ArrayList<StationConfiguration>();
@@ -99,7 +106,7 @@ public class ConfigurationList {
             GameConfiguration gameConf = new GameConfiguration(gameName, gameID, childID, guardianID, TempdistanceBetweenStations);
             gameConf.setStations(stations);
 
-            if(this.childProfile.getId() != gameConf.getChildId()){
+            if(this.currentProfile.getId() == gameConf.getChildId() || this.currentProfile.getId() == gameConf.getGuardianID()){
                 this.listOfConfiguration.add(gameConf);
             }
             this.listOfAllConfiguration.add(gameConf);
