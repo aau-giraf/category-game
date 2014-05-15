@@ -11,8 +11,13 @@ import android.widget.ImageView;
 
 import java.util.ArrayList;
 
+import dk.aau.cs.giraf.gui.GButtonProfileSelect;
+import dk.aau.cs.giraf.gui.GHorizontalScrollViewSnapper;
+import dk.aau.cs.giraf.oasis.lib.models.Pictogram;
+
 public class GStationListAdapter extends BaseAdapter{
     private ArrayList<StationConfiguration> stations = new ArrayList<StationConfiguration>();
+    private ArrayList<ArrayList<PictogramButton>> pictoButtonList = new ArrayList<ArrayList<PictogramButton>>();
     private Activity parent = null;
     private static LayoutInflater inflater = null;
 
@@ -48,11 +53,22 @@ public class GStationListAdapter extends BaseAdapter{
 
         //The order og image button and associated pictograms layout statements, are very important here
         ImageButton addPictogramsButton = (ImageButton) v.findViewById(R.id.addPictogramButton);
+        GHorizontalScrollViewSnapper gScroller = (GHorizontalScrollViewSnapper) v.findViewById(R.id.scrollview);
+        for (int i : station.getAcceptPictograms()){
+            PictogramButton temp = new PictogramButton(parent.getContext());
+            temp.setPictogram(i);
+            if(!pictoButtonList.get(position).contains(temp)){
+                pictoButtonList.get(position).add(temp);
+                gScroller.addView(temp);
+            }
+        }
 
-        AssociatedPictogramsLayout associatedPictogramsLayout = (AssociatedPictogramsLayout) v.findViewById(R.id.associatedPictograms);
-        associatedPictogramsLayout.bindStation(station);
+        //AssociatedPictogramsLayout associatedPictogramsLayout = (AssociatedPictogramsLayout) v.findViewById(R.id.associatedPictograms);
+        //associatedPictogramsLayout.bindStation(station);
 
-        addPictogramsButton.setOnClickListener(new AddPictogramsClickListener(associatedPictogramsLayout));
+        addPictogramsButton.setOnClickListener(new AddClickListner(position));
+
+        //addPictogramsButton.setOnClickListener(new AddPictogramsClickListener(station));
 
         ImageView deleteButton = (ImageView) v.findViewById(R.id.deleteRowButton);
 
@@ -61,16 +77,16 @@ public class GStationListAdapter extends BaseAdapter{
         return v;
     }
 
-    private final class AddPictogramsClickListener implements View.OnClickListener {
-        private AssociatedPictogramsLayout associatedPictogramsLayout;
+    private final class AddClickListner implements View.OnClickListener {
+        private int station;
 
-        public AddPictogramsClickListener(AssociatedPictogramsLayout associatedPictogramsLayout) {
-            this.associatedPictogramsLayout = associatedPictogramsLayout;
+        public AddClickListner(int position){
+            station = position;
         }
 
         @Override
         public void onClick(View v) {
-            //((MainActivity) GStationListAdapter.this.parent).startPictoAdmin(MainActivity.RECEIVE_MULTIPLE, this.associatedPictogramsLayout);
+            ((MainActivity) GStationListAdapter.this.parent).startPictoAdmin(MainActivity.RECEIVE_MULTIPLE, station, v);
         }
     }
 

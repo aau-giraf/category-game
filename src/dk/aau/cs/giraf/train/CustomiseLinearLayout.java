@@ -45,12 +45,12 @@ public class CustomiseLinearLayout extends LinearLayout {
         ImageButton addPictogramsButton = (ImageButton) stationListItem.findViewById(R.id.addPictogramButton);
         this.addPictogramButtons.add(addPictogramsButton);
         
-        AssociatedPictogramsLayout associatedPictogramsLayout = (AssociatedPictogramsLayout) stationListItem.findViewById(R.id.associatedPictograms);
+        /*AssociatedPictogramsLayout associatedPictogramsLayout = (AssociatedPictogramsLayout) stationListItem.findViewById(R.id.associatedPictograms);
         this.associatedPictogramsLayouts.add(associatedPictogramsLayout);
         associatedPictogramsLayout.bindStation(station);
-        
+
         addPictogramsButton.setOnClickListener(new AddPictogramsClickListener(associatedPictogramsLayout));
-        
+        */
         ImageView deleteButton = (ImageView) stationListItem.findViewById(R.id.deleteRowButton);
         deleteButton.setOnClickListener(new RemoveClickListener(station));
         
@@ -136,7 +136,7 @@ public class CustomiseLinearLayout extends LinearLayout {
         
         @Override
         public void onClick(View v) {
-            ((MainActivity) CustomiseLinearLayout.this.getContext()).startPictoAdmin(MainActivity.RECEIVE_MULTIPLE, this.associatedPictogramsLayout, v);
+            //((MainActivity) CustomiseLinearLayout.this.getContext()).startPictoAdmin(MainActivity.RECEIVE_MULTIPLE, this.associatedPictogramsLayout, v);
         }
     }
     

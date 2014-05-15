@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<dk.aau.cs.giraf.gui.GLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:layout_centerInParent="true">
     
     <FrameLayout
         android:id="@+id/pictogramContainer"
@@ -19,4 +20,4 @@
         android:src="@android:drawable/ic_delete"
         android:background="@drawable/transparent_button" />
     
-</RelativeLayout>
+</dk.aau.cs.giraf.gui.GLayout>

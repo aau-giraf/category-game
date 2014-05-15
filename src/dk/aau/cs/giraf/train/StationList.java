@@ -28,4 +28,10 @@ public class StationList {
     public void removeStation(StationConfiguration station){
         stations.remove(station);
     }
+
+    public void receivePictograms(int[] pictogramIds, int selectedstation) {
+        for (int id : pictogramIds) {
+            this.stations.get(selectedstation).addAcceptPictogram(id);
+        }
+    }
 }

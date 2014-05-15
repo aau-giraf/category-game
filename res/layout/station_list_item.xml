@@ -32,14 +32,15 @@
         
         <dk.aau.cs.giraf.gui.GHorizontalScrollViewSnapper
             android:layout_height="match_parent"
-            android:layout_width="wrap_content" >
+            android:layout_width="wrap_content"
+            android:id="@+id/scrollview">
             
-        <dk.aau.cs.giraf.train.AssociatedPictogramsLayout
+        <!--<dk.aau.cs.giraf.train.AssociatedPictogramsLayout
             android:id="@+id/associatedPictograms"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="14dp"
-            android:orientation="horizontal" />
+            android:orientation="horizontal" />-->
         </dk.aau.cs.giraf.gui.GHorizontalScrollViewSnapper>
         
         <ImageButton

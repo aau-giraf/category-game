@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+
+import dk.aau.cs.giraf.gui.GLayout;
 import dk.aau.cs.giraf.pictogram.PictoFactory;
 import dk.aau.cs.giraf.pictogram.Pictogram;
 
@@ -16,7 +18,7 @@ import dk.aau.cs.giraf.pictogram.Pictogram;
  * @author Jesper Riemer Andersen
  * @see Pictogram
  */
-public class PictogramButton extends LinearLayout implements PictogramReceiver {
+public class PictogramButton extends GLayout {
     
     private FrameLayout pictogramContainer;
     private int pictogramId = -1;
@@ -103,8 +105,4 @@ public class PictogramButton extends LinearLayout implements PictogramReceiver {
 	        }
 	    }
 	}
-    @Override
-    public void receivePictograms(int[] pictogramIds, int requestCode) {
-        this.setPictogram(pictogramIds[0]); //Only receive one pictogram
-    }
 }

@@ -300,20 +300,21 @@ public class MainActivity extends Activity {
         }
         
         int[] checkout;
+
         
         switch(requestCode) {
         case MainActivity.RECEIVE_SINGLE:
         	checkout = data.getExtras().getIntArray("checkoutIds"); //Pictogram IDs
             
             if(checkout.length > 0) {
-                this.pictogramReceiver.receivePictograms(checkout, requestCode);
+                this.listOfStations.receivePictograms(checkout, selectedStation);
             }
         	break;
         case MainActivity.RECEIVE_MULTIPLE:
         	checkout = data.getExtras().getIntArray("checkoutIds"); //Pictogram IDs
             
             if(checkout.length > 0) {
-                this.pictogramReceiver.receivePictograms(checkout, requestCode);
+                this.listOfStations.receivePictograms(checkout, selectedStation);
             }
         	break;
         case MainActivity.RECEIVE_GAME_NAME:
@@ -321,13 +322,7 @@ public class MainActivity extends Activity {
         	String gameName = data.getExtras().getString(SaveDialogActivity.GAME_NAME);
             EditText text = (EditText)findViewById(R.id.distanceForStations);
             int distanceBetweenStations = Integer.parseInt(text.getText().toString());
-            if (distanceBetweenStations <= 0 ){
-                distanceBetweenStations = 12000;
-            }
-            else if (distanceBetweenStations < 20)
-            {
-                distanceBetweenStations = distanceBetweenStations * 100;
-            }
+
         	GameConfiguration gameConfiguration = getGameConfiguration(gameName, 1337, this.currentProfileData.childProfile.getId(),distanceBetweenStations); // TO DO
         	this.configurationHandler.addConfiguration(gameConfiguration);
             this.gameListAdapter.notifyDataSetChanged();
@@ -341,17 +336,16 @@ public class MainActivity extends Activity {
         	break;
         }
     }
-	
-	private PictogramReceiver pictogramReceiver;
-	
-	public void startPictoAdmin(int requestCode, PictogramReceiver pictogramRequester, View view) {
+
+	private int selectedStation;
+
+	public void startPictoAdmin(int requestCode, int Station, View view) {
+        selectedStation = Station;
 	    if(this.isCallable(this.pictoAdminIntent) == false) {
 	        this.showAlertMessage(super.getResources().getString(R.string.picto_error), view );
 	        return;
 	    }
 	    this.progressDialog.show();
-	    
-	    this.pictogramReceiver = pictogramRequester;
 	    
 	    //requestCode defines how many pictograms we want to receive
 	    switch(requestCode) {
