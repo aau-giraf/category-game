@@ -23,6 +23,7 @@ import android.widget.Toast;
 import dk.aau.cs.giraf.gui.GButtonProfileSelect;
 import dk.aau.cs.giraf.gui.GComponent;
 import dk.aau.cs.giraf.gui.GDialogAlert;
+import dk.aau.cs.giraf.gui.GDialogAlert;
 import dk.aau.cs.giraf.gui.GList;
 import dk.aau.cs.giraf.gui.GToast;
 import dk.aau.cs.giraf.oasis.lib.models.Profile;
@@ -195,6 +196,19 @@ public class MainActivity extends Activity {
             this.startActivity(this.gameIntent);
         }
 	}
+    public void onClickInfo(View view){
+        GDialogAlert diag = new GDialogAlert(view.getContext(),
+                R.drawable.ic_launcher,
+                "Infomation",
+                "hej \n hej hej",
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //Do nothing
+                    }
+                });
+        diag.show();
+    }
 	
 	private void showAlertMessage(String message, View view) {
         new GDialogAlert(view.getContext(),message, null).show();
