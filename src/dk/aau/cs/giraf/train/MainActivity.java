@@ -253,14 +253,12 @@ public class MainActivity extends Activity {
 				
 	        if(currentStation.get(i).getCategory() == -1)
 			{
-                new GDialogAlert(view.getContext(),super.getResources().getString(R.string.category_error), null).show();
-                //this.showAlertMessage(super.getResources().getString(R.string.category_error));
+                this.showAlertMessage(super.getResources().getString(R.string.category_error),view);
                 currentStation = null; //Free memory
                 return false;
             }
 			else if (currentStation.get(i).getAcceptPictograms().size() < 1) {
-                new GDialogAlert(view.getContext(),super.getResources().getString(R.string.pictogram_error), null).show();
-	            //this.showAlertMessage(super.getResources().getString(R.string.pictogram_error));
+	            this.showAlertMessage(super.getResources().getString(R.string.pictogram_error),view);
 	            currentStation = null; //Free memory
 	            return false;
 	        }
@@ -305,6 +303,9 @@ public class MainActivity extends Activity {
         switch(requestCode) {
         case MainActivity.RECEIVE_SINGLE:
         	checkout = data.getExtras().getIntArray("checkoutIds"); //Pictogram IDs
+            if(checkout.length == 0) {
+                checkout= new int[]{1}; //todo hack løsning er
+            }
             
             if(checkout.length > 0) {
                 this.listOfStations.receivePictograms(checkout, selectedStation);
@@ -312,7 +313,11 @@ public class MainActivity extends Activity {
         	break;
         case MainActivity.RECEIVE_MULTIPLE:
         	checkout = data.getExtras().getIntArray("checkoutIds"); //Pictogram IDs
-            
+
+            if(checkout.length == 0) {
+                checkout= new int[]{1,3,4}; //todo hack løsning er
+            }
+
             if(checkout.length > 0) {
                 this.listOfStations.receivePictograms(checkout, selectedStation);
             }
