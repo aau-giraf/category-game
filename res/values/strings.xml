@@ -34,14 +34,16 @@
     <string name="delete_dialog">Er du sikker på du vil slette dette spil?</string>
     <string name="InfoForDistanceForStations">Afstanden i sekunder </string>
     <string name="mainActivityInfo">Info</string>
-    <string name="InfoText">Velkommen til Kategorispillet!
-For at lave et nyt spil skal der først tilføjes en eller flere stationer hvilket gøres ved hjælp af knappen "Tilføj station". Dette får en station til at vises under "Tilpas stationer". Denne station kan slettes ved at trykke på det røde kryds.
-Ved at trykke på den hvide boks kan der vælges et piktogram til kategorien. Bagefter trykkes der på det grønne plus og der kan nu vælges et eller flere piktogrammer til at tilhøre kategorien.
-Vær opmærksom på der skal vælges mindst to piktogrammer hvis der kun laves én station.
-Når det ønskede antal stationer er lavet skal den hvide boks i bundet udfyldes med det antal sekunder toget skal køre mellem hver station.
-Denne værdi skal være mindst 15 sekunder.
-Herefter kan "Start spil" trykkes og spillet begynder.
-Spillet kan også gemmes ved at trykke på "Gem nyt spil" og det gemmes så under den valgte profil, og gemte spil kan ses til venstre under "Gemte spil".
+    <string name="InfoText">Velkommen til Kategorispillet! \n
+For at lave et nyt spil skal der først tilføjes en eller flere stationer hvilket gøres ved hjælp af knappen \"Tilføj station\". \n
+Dette får en station til at vises under \"Tilpas stationer\". Denne station kan slettes ved at trykke på det røde kryds. \n
+Ved at trykke på den hvide boks kan der vælges et piktogram til kategorien. \n
+Bagefter trykkes der på det grønne plus og der kan nu vælges et eller flere piktogrammer til at tilhøre kategorien. \n
+Vær opmærksom på der skal vælges mindst to piktogrammer hvis der kun laves én station. \n
+Når det ønskede antal stationer er lavet, skal den hvide boks i bundet udfyldes med det antal sekunder toget skal køre mellem hver station. \n
+Denne værdi skal være mindst 15 sekunder. \n
+Herefter kan \"Start spil\" trykkes og spillet begynder. \n
+Spillet kan også gemmes ved at trykke på \"Gem nyt spil\" og det gemmes så under den valgte profil, og gemte spil kan ses til venstre under "Gemte spil". \n
 Det er desuden muligt at skifte profil ved at trykke på profilbilledet i øverste venstre hjørne.</string>
     <!-- SAVE DIALOG ACTIVITY -->
     <string name="title_activity_save_dialog">SaveDialog</string>
