@@ -24,6 +24,7 @@ public class PictogramButton extends GLayout {
     private int pictogramId = -1;
     private ImageButton removeButton;
     private StationConfiguration station = null;
+    private int selectedStation;
     
     private void setup() {
         LayoutParams layoutParams = new LayoutParams(75, 75);
@@ -43,8 +44,9 @@ public class PictogramButton extends GLayout {
         super.setOnClickListener(new PictogramClickListener());
     }
     
-    public PictogramButton(Context context) {
+    public PictogramButton(Context context, int postion) {
         super(context);
+        this.selectedStation = postion;
         this.setup();
     }
     
@@ -89,10 +91,11 @@ public class PictogramButton extends GLayout {
 	}
 	
 	private final class PictogramClickListener implements OnClickListener {
+
         @Override
         public void onClick(View view) {
             //TODO Create loading picture
-            //((MainActivity) PictogramButton.this.getContext()).startPictoAdmin(MainActivity.RECEIVE_SINGLE, PictogramButton.this);
+            ((MainActivity) PictogramButton.this.getContext()).startPictoAdmin(MainActivity.RECEIVE_SINGLE, PictogramButton.this.selectedStation, PictogramButton.this);
 
         }
     }

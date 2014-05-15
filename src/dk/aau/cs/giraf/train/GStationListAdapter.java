@@ -63,7 +63,7 @@ public class GStationListAdapter extends BaseAdapter{
         LinearLayout scrollerL = (LinearLayout) gScroller.findViewById(R.id.scrollviewlayout);
 
         for (int i : station.getAcceptPictograms()){
-            PictogramButton temp = new PictogramButton(parent.getContext());
+            PictogramButton temp = new PictogramButton(parent.getContext(),position);
             temp.setPictogram(i);
             temp.setRemovable(true);
 
@@ -111,5 +111,9 @@ public class GStationListAdapter extends BaseAdapter{
             ((MainActivity)GStationListAdapter.this.parent).listOfStations.removeStation(station);
             GStationListAdapter.this.notifyDataSetChanged();
         }
+    }
+
+    private void removePictobuttom(int postion){
+       // this.pictoButtonList.get(postion).remove();
     }
 }
