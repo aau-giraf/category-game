@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+
+import dk.aau.cs.giraf.gui.GLayout;
 import dk.aau.cs.giraf.pictogram.PictoFactory;
 import dk.aau.cs.giraf.pictogram.Pictogram;
 
@@ -16,12 +18,15 @@ import dk.aau.cs.giraf.pictogram.Pictogram;
  * @author Jesper Riemer Andersen
  * @see Pictogram
  */
-public class PictogramButton extends LinearLayout implements PictogramReceiver {
+public class PictogramButton extends LinearLayout {
     
     private FrameLayout pictogramContainer;
     private int pictogramId = -1;
     private ImageButton removeButton;
     private StationConfiguration station = null;
+    private boolean isCategory = false;
+    private int selectedStation;
+    private int number;
     
     private void setup() {
         LayoutParams layoutParams = new LayoutParams(75, 75);
@@ -40,9 +45,17 @@ public class PictogramButton extends LinearLayout implements PictogramReceiver {
         
         super.setOnClickListener(new PictogramClickListener());
     }
-    
-    public PictogramButton(Context context) {
+
+    public PictogramButton(Context context, int postion, int number){
         super(context);
+        this.selectedStation = postion;
+        this.number = number;
+        this.setup();
+    }
+    
+    public PictogramButton(Context context, int postion) {
+        super(context);
+        this.selectedStation = postion;
         this.setup();
     }
     
@@ -51,9 +64,11 @@ public class PictogramButton extends LinearLayout implements PictogramReceiver {
 		this.setup();
 	}
 	
-	public void bindStationAsCategory(StationConfiguration station) {
+	public void bindStationAsCategory(StationConfiguration station,int position) {
 	    this.station = station;
 	    this.setPictogram(station.getCategory());
+        this.isCategory = true;
+        this.selectedStation = position;
 	}
 	
 	public int getPictogramId() {
@@ -87,23 +102,23 @@ public class PictogramButton extends LinearLayout implements PictogramReceiver {
 	}
 	
 	private final class PictogramClickListener implements OnClickListener {
+
         @Override
         public void onClick(View view) {
             //TODO Create loading picture
-            ((MainActivity) PictogramButton.this.getContext()).startPictoAdmin(MainActivity.RECEIVE_SINGLE, PictogramButton.this,view);
+            ((MainActivity) PictogramButton.this.getContext()).startPictoAdmin(MainActivity.RECEIVE_SINGLE, PictogramButton.this.selectedStation, PictogramButton.this.number,PictogramButton.this.isCategory, PictogramButton.this);
+
         }
     }
 	
 	private final class RemoveClickListener implements OnClickListener {
-	    @Override
+
+        @Override
 	    public void onClick(View view) {
 	        if(PictogramButton.this.removeButton.getVisibility() == View.VISIBLE) {
-	            ((ViewGroup) PictogramButton.this.getParent()).removeView(PictogramButton.this);
-	        }
+                ((MainActivity) PictogramButton.this.getContext()).listOfStations.stations.get(PictogramButton.this.selectedStation).removeAccepPictogram(PictogramButton.this.getPictogramId());
+                ((ViewGroup) PictogramButton.this.getParent()).removeView(PictogramButton.this);
+               }
 	    }
 	}
-    @Override
-    public void receivePictograms(int[] pictogramIds, int requestCode) {
-        this.setPictogram(pictogramIds[0]); //Only receive one pictogram
-    }
 }

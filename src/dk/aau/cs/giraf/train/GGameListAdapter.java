@@ -7,8 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import dk.aau.cs.giraf.gui.GTextView;
@@ -51,10 +53,35 @@ public class GGameListAdapter extends BaseAdapter{
 
         ImageView categoryPic = (ImageView) vi.findViewById(R.id.categoryPic);
         categoryPic.setImageResource(R.drawable.default_profile);
-        //Check om det er rigtig context
+
         Bitmap bitmap = PictoFactory.INSTANCE.getPictogram(activity.getApplicationContext(),data.get(position).getStation(0).getCategory()).getImageData();
         categoryPic.setImageBitmap(bitmap);
 
+        ImageButton deleteButton = (ImageButton) vi.findViewById(R.id.deleteConfigButton);
+        deleteButton.setOnClickListener(new DeleteConfigClickListener(this.data.get(position)));
+        deleteButton.setFocusable(false);
+
         return vi;
+    }
+
+    private final class DeleteConfigClickListener implements View.OnClickListener {
+
+        private GameConfiguration configuration;
+
+        public DeleteConfigClickListener(GameConfiguration g) {
+            this.configuration = g;
+        }
+
+        @Override
+        public void onClick(View view) {
+            ((MainActivity)GGameListAdapter.this.activity).configurationHandler.removeConfiguration(configuration);
+            try {
+                ((MainActivity)GGameListAdapter.this.activity).configurationHandler.saveAllConfigurations(MainActivity.SAVEFILE_PATH);
+            } catch (IOException e) {
+                e.printStackTrace();
+                //TODO:insert a alertbox
+            }
+            GGameListAdapter.this.notifyDataSetChanged();
+        }
     }
 }

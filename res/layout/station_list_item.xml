@@ -2,27 +2,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/station_list_background"
-    android:orientation="horizontal" >
+    android:orientation="horizontal"
+    android:background="@drawable/game_list_item">
 
     <LinearLayout
-        android:layout_width="91dp"
+        android:layout_width="81dp"
         android:layout_height="match_parent"
-        android:gravity="center" >
+        android:gravity="center">
 
         <dk.aau.cs.giraf.train.PictogramButton
             android:id="@+id/list_category"
             android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_marginLeft="3px" />
+            android:layout_height="75dp"/>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="1dp"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="9dp"
-        android:background="@android:color/black" >
-    </LinearLayout>
+    <dk.aau.cs.giraf.gui.GDividerVertical
+        android:layout_width="3dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_height="fill_parent"/>
 
     <LinearLayout
         android:layout_width="0dp"
@@ -34,23 +32,24 @@
         
         <HorizontalScrollView
             android:layout_height="match_parent"
-            android:layout_width="wrap_content" >
-            
-        <dk.aau.cs.giraf.train.AssociatedPictogramsLayout
-            android:id="@+id/associatedPictograms"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="14dp"
-            android:orientation="horizontal" />
+            android:id="@+id/scrollview">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:id="@+id/scrollviewlayout"
+                android:orientation="horizontal"/>
+
         </HorizontalScrollView>
         
         <ImageButton
             android:id="@+id/addPictogramButton"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/add_pictogram"
-            android:src="@android:drawable/ic_input_add"
+            android:src="@drawable/add"
             android:background="@drawable/transparent_button"
             android:layout_marginLeft="20.5dp" />
     </LinearLayout>
@@ -58,16 +57,16 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="0.07"
+        android:layout_weight="0.1"
         android:layout_gravity="right" >
 
         <ImageButton
             android:id="@+id/deleteRowButton"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/delete_row"
-            android:src="@android:drawable/ic_delete"
+            android:src="@drawable/delete"
             android:background="@drawable/transparent_button" />
     </LinearLayout>
 

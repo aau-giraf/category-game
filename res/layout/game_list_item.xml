@@ -4,21 +4,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:background="@drawable/game_list_item" >
+    android:background="@drawable/game_list_item">
 
     <ImageView
         android:id="@+id/categoryPic"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginLeft="6dp"
-        android:contentDescription="@string/profile_pic_description" />
+        android:contentDescription="@string/profile_pic_description"
+        android:layout_gravity="center_vertical"/>
 
     <dk.aau.cs.giraf.gui.GTextView
         android:id="@+id/configurationName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="fill_parent"
         android:layout_marginLeft="10dp"
-        android:gravity="center_vertical"
-        android:textColor="#FF000000" />
+        android:gravity="center_vertical" />
+
+    <ImageButton
+        android:id="@+id/deleteConfigButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|right"
+        android:contentDescription="@string/delete_row"
+        android:src="@drawable/delete"
+        android:background="@drawable/transparent_button"
+        android:focusable="false"/>
 
 </LinearLayout>

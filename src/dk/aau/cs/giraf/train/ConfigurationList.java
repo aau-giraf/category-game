@@ -12,9 +12,6 @@ import java.util.ArrayList;
 
 import dk.aau.cs.giraf.oasis.lib.models.Profile;
 
-/**
- * Created by Aleksander on 05-05-14.
- */
 public class ConfigurationList {
 
     private Profile currentProfile = null;
@@ -45,6 +42,11 @@ public class ConfigurationList {
 
     public ArrayList<GameConfiguration> getGameconfiguration(){
         return listOfConfiguration;
+    }
+
+    public void removeConfiguration(GameConfiguration g){
+        listOfConfiguration.remove(g);
+        listOfAllConfiguration.remove(g);
     }
 
     private void loadAllConfigurations() {

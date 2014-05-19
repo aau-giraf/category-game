@@ -57,7 +57,7 @@ public abstract class Shape extends Renderable {
     }
     
     /**
-     * An abstract method which must return the initial vertices forming the shape.
+     * An abstract method which must r_eturn the initial vertices forming the shape.
      * 
      * @param width
      * @param height
