@@ -11,12 +11,12 @@
     
     <ImageButton
         android:id="@+id/removeButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:contentDescription="@string/remove_pictogram"
-        android:src="@drawable/delete"
+        android:src="@android:drawable/ic_delete"
         android:background="@drawable/transparent_button" />
     
 </RelativeLayout>
