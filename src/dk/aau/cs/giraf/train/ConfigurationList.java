@@ -44,6 +44,11 @@ public class ConfigurationList {
         return listOfConfiguration;
     }
 
+    public void removeConfiguration(GameConfiguration g){
+        listOfConfiguration.remove(g);
+        listOfAllConfiguration.remove(g);
+    }
+
     private void loadAllConfigurations() {
         FileInputStream fis = null;
         StringWriter sWriter = new StringWriter(1024);

@@ -26,6 +26,7 @@ import dk.aau.cs.giraf.gui.GDialogAlert;
 import dk.aau.cs.giraf.gui.GDialogAlert;
 import dk.aau.cs.giraf.gui.GList;
 import dk.aau.cs.giraf.gui.GToast;
+import dk.aau.cs.giraf.oasis.lib.models.Pictogram;
 import dk.aau.cs.giraf.oasis.lib.models.Profile;
 import dk.aau.cs.giraf.train.opengl.GameActivity;
 
@@ -53,7 +54,7 @@ public class MainActivity extends Activity {
 	private AlertDialog errorDialog;
 	private Data currentProfileData = null;
     private GGameListAdapter gameListAdapter;
-    private ConfigurationList configurationHandler;
+    public ConfigurationList configurationHandler;
 
 	public static final int ALLOWED_PICTOGRAMS = 12;
 	public static final int ALLOWED_STATIONS   = ALLOWED_PICTOGRAMS;
@@ -85,53 +86,15 @@ public class MainActivity extends Activity {
                     extras.getInt("currentChildID"),
                     this.getApplicationContext());
         } else {
-            //TODO: Overvej en exception istedet
+            //some dummy data to start the profile selector with
             currentProfileData = new Data(
                     1,
                     11,
                     this.getApplicationContext());
         }
 
-		this.progressDialog = new ProgressDialog(this);
-        this.progressDialog.setMessage(super.getResources().getString(R.string.loading));
-        this.progressDialog.setCancelable(true);
-        
-        //Show progressDialog while loading activity. Set the color to white only one time
-        this.progressDialog.show();
-        ((TextView) this.progressDialog.findViewById(android.R.id.message)).setTextColor(android.graphics.Color.WHITE);
-
-        GList saveConfigurationList = (GList)this.findViewById(R.id.savedConfig);
-
-        this.configurationHandler = new ConfigurationList(this, this.currentProfileData.childProfile);
-        gameListAdapter = new GGameListAdapter(this,this.configurationHandler.getGameconfiguration());
-        saveConfigurationList.setAdapter(gameListAdapter);
-        saveConfigurationList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                MainActivity.this.setGameConfiguration((GameConfiguration) parent.getAdapter().getItem(position));
-            }
-        });
-        gameListAdapter.notifyDataSetChanged();
-
-        listOfStations = new StationList();
-
-        GList stationList = (GList)this.findViewById(R.id.stationList);
-        stationListAdapter = new GStationListAdapter(this, listOfStations.stations);
-        stationList.setAdapter(stationListAdapter);
-
-		this.gameIntent = new Intent(this, GameActivity.class);
-        this.categoryIntent = new Intent(this, CategoryDialogActivity.class);
-		this.saveIntent = new Intent(this, SaveDialogActivity.class);
-		this.pictoAdminIntent.setComponent(new ComponentName("dk.aau.cs.giraf.pictosearch", "dk.aau.cs.giraf.pictosearch.PictoAdminMain"));
-
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setNegativeButton(super.getResources().getString(R.string.okay), null);
-        this.errorDialog = alertDialogBuilder.create();
-
-        this.progressDialog.dismiss(); //Hide progressDialog after creation is done
-
         //Find the GButton in your View
-        gButtonProfileSelect = (GButtonProfileSelect) findViewById(R.id.ChanceProfile);
+        gButtonProfileSelect = (GButtonProfileSelect) findViewById(R.id.ChangeProfile);
         //Call the method setup with a Profile guardian, no currentProfile (which means that the guardian is the current Profile) and the onCloseListener
         gButtonProfileSelect.setup(this.currentProfileData.guardianProfile, this.currentProfileData.childProfile, new GButtonProfileSelect.onCloseListener() {
             @Override
@@ -150,20 +113,60 @@ public class MainActivity extends Activity {
                 }
             }
         });
+
+        if(extras == null){
+            this.gButtonProfileSelect.performClick();
+        }
+
+        GList saveConfigurationList = (GList)this.findViewById(R.id.savedConfig);
+        GList stationList = (GList)this.findViewById(R.id.stationList);
+
+        this.configurationHandler = new ConfigurationList(this, this.currentProfileData.childProfile);
+        gameListAdapter = new GGameListAdapter(this,this.configurationHandler.getGameconfiguration());
+        saveConfigurationList.setAdapter(gameListAdapter);
+        saveConfigurationList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                MainActivity.this.setGameConfiguration((GameConfiguration) parent.getAdapter().getItem(position));
+            }
+        });
+
+        listOfStations = new StationList();
+
+        stationListAdapter = new GStationListAdapter(this, listOfStations.stations);
+        stationList.setAdapter(stationListAdapter);
+
+		this.progressDialog = new ProgressDialog(this);
+        this.progressDialog.setMessage(super.getResources().getString(R.string.loading));
+        this.progressDialog.setCancelable(true);
+        
+        //Show progressDialog while loading activity. Set the color to white only one time
+        this.progressDialog.show();
+        ((TextView) this.progressDialog.findViewById(android.R.id.message)).setTextColor(android.graphics.Color.WHITE);
+
+		this.gameIntent = new Intent(this, GameActivity.class);
+        this.categoryIntent = new Intent(this, CategoryDialogActivity.class);
+		this.saveIntent = new Intent(this, SaveDialogActivity.class);
+		this.pictoAdminIntent.setComponent(new ComponentName("dk.aau.cs.giraf.pictosearch", "dk.aau.cs.giraf.pictosearch.PictoAdminMain"));
+
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setNegativeButton(super.getResources().getString(R.string.okay), null);
+        this.errorDialog = alertDialogBuilder.create();
+
+        this.progressDialog.dismiss(); //Hide progressDialog after creation is done
 	}
 
     public void onChangeProfile(Profile guardianProfile, Profile currentProfile) {
         if(currentProfile == null){
             this.currentProfileData.guardianProfile = guardianProfile;
             this.configurationHandler.update(guardianProfile);
-            this.gameListAdapter.notifyDataSetChanged();
         }
         else{
             this.currentProfileData.childProfile = currentProfile;
             this.configurationHandler.update(currentProfile);
-            this.gameListAdapter.notifyDataSetChanged();
         }
-
+        this.gameListAdapter.notifyDataSetChanged();
+        this.stationListAdapter.notifyDataSetChanged();
     }
 
     private class OnItemClickListener implements AdapterView.OnItemClickListener {
@@ -283,7 +286,7 @@ public class MainActivity extends Activity {
 	    this.listOfStations.setStationConfigurations(newReference);
         this.stationListAdapter.notifyDataSetChanged();
         EditText text = (EditText)findViewById(R.id.distanceForStations);
-        text.setText(Integer.toString((gameConfiguration.getDistanceBetweenStations() + 1750)/350));
+        text.setText(Integer.toString(gameConfiguration.getDistanceBetweenStations()));
 	}
 
 
@@ -299,27 +302,20 @@ public class MainActivity extends Activity {
         
         int[] checkout;
 
-        
         switch(requestCode) {
         case MainActivity.RECEIVE_SINGLE:
         	checkout = data.getExtras().getIntArray("checkoutIds"); //Pictogram IDs
-            if(checkout.length == 0) {
-                checkout= new int[]{1}; //todo hack løsning er
-            }
             
             if(checkout.length > 0) {
-                this.listOfStations.receivePictograms(checkout, selectedStation);
+                this.listOfStations.receivePictograms(checkout[0], this.selectedStation, this.selectedAcceptPictogram, this.isCategory);
             }
+
         	break;
         case MainActivity.RECEIVE_MULTIPLE:
         	checkout = data.getExtras().getIntArray("checkoutIds"); //Pictogram IDs
 
-            if(checkout.length == 0) {
-                checkout= new int[]{1,3,4}; //todo hack løsning er
-            }
-
             if(checkout.length > 0) {
-                this.listOfStations.receivePictograms(checkout, selectedStation);
+                this.listOfStations.receivePictograms(checkout, this.selectedStation);
             }
         	break;
         case MainActivity.RECEIVE_GAME_NAME:
@@ -342,14 +338,23 @@ public class MainActivity extends Activity {
         }
     }
 
-	private int selectedStation;
+    private int selectedStation, selectedAcceptPictogram;
+    private boolean isCategory = false;
 
-	public void startPictoAdmin(int requestCode, int Station, View view) {
-        selectedStation = Station;
+    public void startPictoAdmin(int requestCode, int selectedStation, int selectedAcceptPictogram, boolean isCategory, View view){
+        this.selectedAcceptPictogram = selectedAcceptPictogram;
+        this.isCategory = isCategory;
+        this.startPictoAdmin(requestCode, selectedStation, view);
+    }
+
+	public void startPictoAdmin(int requestCode, int selectedStation, View view) {
+        this.selectedStation = selectedStation;
+
 	    if(this.isCallable(this.pictoAdminIntent) == false) {
 	        this.showAlertMessage(super.getResources().getString(R.string.picto_error), view );
 	        return;
 	    }
+
 	    this.progressDialog.show();
 	    
 	    //requestCode defines how many pictograms we want to receive

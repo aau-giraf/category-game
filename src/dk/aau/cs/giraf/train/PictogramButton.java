@@ -18,13 +18,15 @@ import dk.aau.cs.giraf.pictogram.Pictogram;
  * @author Jesper Riemer Andersen
  * @see Pictogram
  */
-public class PictogramButton extends GLayout {
+public class PictogramButton extends LinearLayout {
     
     private FrameLayout pictogramContainer;
     private int pictogramId = -1;
     private ImageButton removeButton;
     private StationConfiguration station = null;
+    private boolean isCategory = false;
     private int selectedStation;
+    private int number;
     
     private void setup() {
         LayoutParams layoutParams = new LayoutParams(75, 75);
@@ -43,6 +45,13 @@ public class PictogramButton extends GLayout {
         
         super.setOnClickListener(new PictogramClickListener());
     }
+
+    public PictogramButton(Context context, int postion, int number){
+        super(context);
+        this.selectedStation = postion;
+        this.number = number;
+        this.setup();
+    }
     
     public PictogramButton(Context context, int postion) {
         super(context);
@@ -58,6 +67,7 @@ public class PictogramButton extends GLayout {
 	public void bindStationAsCategory(StationConfiguration station) {
 	    this.station = station;
 	    this.setPictogram(station.getCategory());
+        this.isCategory = true;
 	}
 	
 	public int getPictogramId() {
@@ -95,17 +105,19 @@ public class PictogramButton extends GLayout {
         @Override
         public void onClick(View view) {
             //TODO Create loading picture
-            ((MainActivity) PictogramButton.this.getContext()).startPictoAdmin(MainActivity.RECEIVE_SINGLE, PictogramButton.this.selectedStation, PictogramButton.this);
+            ((MainActivity) PictogramButton.this.getContext()).startPictoAdmin(MainActivity.RECEIVE_SINGLE, PictogramButton.this.selectedStation, PictogramButton.this.number,PictogramButton.this.isCategory, PictogramButton.this);
 
         }
     }
 	
 	private final class RemoveClickListener implements OnClickListener {
-	    @Override
+
+        @Override
 	    public void onClick(View view) {
 	        if(PictogramButton.this.removeButton.getVisibility() == View.VISIBLE) {
-	            ((ViewGroup) PictogramButton.this.getParent()).removeView(PictogramButton.this);
-	        }
+                ((MainActivity) PictogramButton.this.getContext()).listOfStations.stations.get(PictogramButton.this.selectedStation).removeAccepPictogram(PictogramButton.this.getPictogramId());
+                ((ViewGroup) PictogramButton.this.getParent()).removeView(PictogramButton.this);
+               }
 	    }
 	}
 }

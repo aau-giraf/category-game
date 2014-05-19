@@ -38,4 +38,13 @@ public class StationList {
             }
         }
     }
+
+    public void receivePictograms(int pictogramId, int selectedStation, int selectedAcceptPictogram, boolean category){
+        if(!category){
+            this.stations.get(selectedStation).changeAcceptPictogram(selectedAcceptPictogram,pictogramId);
+        }
+        else{
+            this.stations.get(selectedStation).setCategory(pictogramId);
+        }
+    }
 }

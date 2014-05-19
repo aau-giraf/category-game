@@ -19,7 +19,6 @@ import dk.aau.cs.giraf.oasis.lib.models.Pictogram;
 
 public class GStationListAdapter extends BaseAdapter{
     private ArrayList<StationConfiguration> stations = new ArrayList<StationConfiguration>();
-    private ArrayList<ArrayList<PictogramButton>> pictoButtonList = new ArrayList<ArrayList<PictogramButton>>();
     private Activity parent = null;
     private static LayoutInflater inflater = null;
 
@@ -50,27 +49,24 @@ public class GStationListAdapter extends BaseAdapter{
         View v = inflater.inflate(R.layout.station_list_item, null);
         StationConfiguration station = this.stations.get(position);
 
-        if(pictoButtonList.size() <= position){
-            pictoButtonList.add(new ArrayList<PictogramButton>());
-        }
-
         PictogramButton categoryPictogramButton = (PictogramButton) v.findViewById(R.id.list_category);
         categoryPictogramButton.bindStationAsCategory(station);
 
         //The order og image button and associated pictograms layout statements, are very important here
         ImageButton addPictogramsButton = (ImageButton) v.findViewById(R.id.addPictogramButton);
+
         HorizontalScrollView gScroller = (HorizontalScrollView) v.findViewById(R.id.scrollview);
         LinearLayout scrollerL = (LinearLayout) gScroller.findViewById(R.id.scrollviewlayout);
-
+        int number = 0;
         for (int i : station.getAcceptPictograms()){
-            PictogramButton temp = new PictogramButton(parent.getContext(),position);
+            PictogramButton temp = new PictogramButton(parent.getContext(),position, number);
             temp.setPictogram(i);
             temp.setRemovable(true);
-
+            number++;
             scrollerL.addView(temp);
         }
 
-        if (pictoButtonList.get(position).size() < 6){
+        if (station.getAcceptPictograms().size() < 6){
             addPictogramsButton.setVisibility(View.VISIBLE);
             addPictogramsButton.setOnClickListener(new AddClickListner(position));
         }
@@ -111,9 +107,5 @@ public class GStationListAdapter extends BaseAdapter{
             ((MainActivity)GStationListAdapter.this.parent).listOfStations.removeStation(station);
             GStationListAdapter.this.notifyDataSetChanged();
         }
-    }
-
-    private void removePictobuttom(int postion){
-       // this.pictoButtonList.get(postion).remove();
     }
 }

@@ -21,6 +21,8 @@ public final class Data {
         }
 
         guardianProfile = localDataFetcher.profilesHelper.getProfileById(guardianID);
-        childProfile = localDataFetcher.profilesHelper.getProfileById(childID);
+        if(childID != -1){
+            childProfile = localDataFetcher.profilesHelper.getProfileById(childID);
+        }
     }
 }
