@@ -50,7 +50,7 @@ public class GStationListAdapter extends BaseAdapter{
         StationConfiguration station = this.stations.get(position);
 
         PictogramButton categoryPictogramButton = (PictogramButton) v.findViewById(R.id.list_category);
-        categoryPictogramButton.bindStationAsCategory(station);
+        categoryPictogramButton.bindStationAsCategory(station,position);
 
         //The order og image button and associated pictograms layout statements, are very important here
         ImageButton addPictogramsButton = (ImageButton) v.findViewById(R.id.addPictogramButton);

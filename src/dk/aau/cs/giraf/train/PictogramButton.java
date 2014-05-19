@@ -64,10 +64,11 @@ public class PictogramButton extends LinearLayout {
 		this.setup();
 	}
 	
-	public void bindStationAsCategory(StationConfiguration station) {
+	public void bindStationAsCategory(StationConfiguration station,int position) {
 	    this.station = station;
 	    this.setPictogram(station.getCategory());
         this.isCategory = true;
+        this.selectedStation = position;
 	}
 	
 	public int getPictogramId() {
