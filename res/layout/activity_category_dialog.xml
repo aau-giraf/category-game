@@ -36,7 +36,6 @@
             android:text="@string/category_description"
             android:textColor="@color/white" />
     </LinearLayout>
-
     <dk.aau.cs.giraf.gui.GList
         android:layout_width="match_parent"
         android:layout_height="fill_parent"

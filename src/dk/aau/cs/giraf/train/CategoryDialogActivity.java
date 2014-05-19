@@ -18,7 +18,6 @@ import dk.aau.cs.giraf.oasis.lib.Helper;
 import dk.aau.cs.giraf.oasis.lib.models.Category;
 
 public class CategoryDialogActivity extends Activity{
-
     private Intent resultIntent = new Intent();
     private AlertDialog errorDialog;
     private List<Category> listOfCategories;
