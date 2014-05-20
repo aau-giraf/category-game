@@ -234,8 +234,11 @@ public class MainActivity extends Activity {
             currentStation = null; //Free memory
             return false;
         }
-
+        try{
         distanceBetweenStations = Integer.parseInt(text.getText().toString());
+        } catch (NumberFormatException e){
+            return false;
+        }
 
         if (distanceBetweenStations < MINIMUM_TIME || distanceBetweenStations > MAXIMUM_TIME){
             this.showAlertMessage("Værdien skal mellem 15 og 300 sekunder.", view);
