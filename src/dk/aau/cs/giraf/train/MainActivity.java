@@ -86,8 +86,7 @@ public class MainActivity extends Activity {
                     extras.getInt("currentChildID"),
                     this.getApplicationContext());
         } else {
-            //some dummy data to start the profile selector with
-            this.finish();
+            super.finish();
         }
 
         //Find the GButton in your View

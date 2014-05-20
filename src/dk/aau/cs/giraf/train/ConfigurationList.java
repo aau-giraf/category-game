@@ -86,35 +86,38 @@ public class ConfigurationList {
 
             String[] parts = configurations[i].split(";");
             String[] game = parts[0].split(",");
+            try{
+                int gameID = Integer.parseInt(game[0]);
+                int guardianID = Integer.parseInt(game[1]);
+                int childID = Integer.valueOf(game[2]);
+                String gameName = game[3];
+                int TempdistanceBetweenStations = Integer.parseInt(game[4]);
+                ArrayList<StationConfiguration> stations = new ArrayList<StationConfiguration>();
 
-            int gameID = Integer.parseInt(game[0]);
-            int guardianID = Integer.parseInt(game[1]);
-            int childID = Integer.valueOf(game[2]);
-            String gameName = game[3];
-            int TempdistanceBetweenStations = Integer.parseInt(game[4]);
-            ArrayList<StationConfiguration> stations = new ArrayList<StationConfiguration>();
+                // For each station
+                for (int k = 1; k < parts.length; k++) {
+                    StationConfiguration station = new StationConfiguration();
+                    String[] stationParts = parts[k].split(",");
 
-            // For each station
-            for (int k = 1; k < parts.length; k++) {
-                StationConfiguration station = new StationConfiguration();
-                String[] stationParts = parts[k].split(",");
+                    station.setCategory((Integer.parseInt(stationParts[0])));
 
-                station.setCategory((Integer.parseInt(stationParts[0])));
-
-                // For each accept pictogram of station
-                for (int n = 1; n < stationParts.length; n++) {
-                    station.addAcceptPictogram(Integer.parseInt(stationParts[n]));
+                    // For each accept pictogram of station
+                    for (int n = 1; n < stationParts.length; n++) {
+                        station.addAcceptPictogram(Integer.parseInt(stationParts[n]));
+                    }
+                    stations.add(station);
                 }
-                stations.add(station);
-            }
 
-            GameConfiguration gameConf = new GameConfiguration(gameName, gameID, childID, guardianID, TempdistanceBetweenStations);
-            gameConf.setStations(stations);
+                GameConfiguration gameConf = new GameConfiguration(gameName, gameID, childID, guardianID, TempdistanceBetweenStations);
+                gameConf.setStations(stations);
 
-            if(this.currentProfile.getId() == gameConf.getChildId() || this.currentProfile.getId() == gameConf.getGuardianID()){
-                this.listOfConfiguration.add(gameConf);
+                if(this.currentProfile.getId() == gameConf.getChildId() || this.currentProfile.getId() == gameConf.getGuardianID()){
+                    this.listOfConfiguration.add(gameConf);
+                }
+                this.listOfAllConfiguration.add(gameConf);
+            } catch (NumberFormatException e){
+
             }
-            this.listOfAllConfiguration.add(gameConf);
         }
     }
 
