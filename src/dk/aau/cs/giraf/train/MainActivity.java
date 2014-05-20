@@ -87,10 +87,7 @@ public class MainActivity extends Activity {
                     this.getApplicationContext());
         } else {
             //some dummy data to start the profile selector with
-            currentProfileData = new Data(
-                    1,
-                    11,
-                    this.getApplicationContext());
+            this.finish();
         }
 
         //Find the GButton in your View
@@ -120,8 +117,12 @@ public class MainActivity extends Activity {
 
         GList saveConfigurationList = (GList)this.findViewById(R.id.savedConfig);
         GList stationList = (GList)this.findViewById(R.id.stationList);
-
-        this.configurationHandler = new ConfigurationList(this, this.currentProfileData.childProfile);
+        if(this.currentProfileData.childProfile != null){
+            this.configurationHandler = new ConfigurationList(this, this.currentProfileData.childProfile);
+        }
+        else{
+            this.configurationHandler = new ConfigurationList(this, this.currentProfileData.guardianProfile);
+        }
         gameListAdapter = new GGameListAdapter(this,this.configurationHandler.getGameconfiguration());
         saveConfigurationList.setAdapter(gameListAdapter);
         saveConfigurationList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -190,9 +191,14 @@ public class MainActivity extends Activity {
 	public void onClickSaveGame(View view) throws IOException {
 	    if (this.isValidConfiguration(view)) {
 	    	this.saveIntent.putExtra(MainActivity.GAME_CONFIGURATIONS, this.configurationHandler.getGameconfiguration());
-	    	
-	    	this.saveIntent.putExtra(MainActivity.SELECTED_CHILD_NAME, this.currentProfileData.childProfile.getName());
-	    	this.saveIntent.putExtra(MainActivity.SELECTED_CHILD_ID, this.currentProfileData.childProfile.getId());
+	    	if(this.currentProfileData.childProfile != null){
+	    	    this.saveIntent.putExtra(MainActivity.SELECTED_CHILD_NAME, this.currentProfileData.childProfile.getName());
+	    	    this.saveIntent.putExtra(MainActivity.SELECTED_CHILD_ID, this.currentProfileData.childProfile.getId());
+            }
+            else {
+                this.saveIntent.putExtra(MainActivity.SELECTED_CHILD_NAME, this.currentProfileData.guardianProfile.getName());
+                this.saveIntent.putExtra(MainActivity.SELECTED_CHILD_ID, this.currentProfileData.guardianProfile.getId());
+            }
 	    	
             super.startActivityForResult(this.saveIntent, MainActivity.RECEIVE_GAME_NAME);
         }
@@ -203,7 +209,12 @@ public class MainActivity extends Activity {
 	
 	public void onClickStartGame(View view) {
 	    if(this.isValidConfiguration(view)) {
-            this.gameIntent.putExtra(MainActivity.GAME_CONFIGURATION, this.getGameConfiguration("the new game", 1337, this.currentProfileData.childProfile.getId(), distanceBetweenStations));
+            if(this.currentProfileData.childProfile != null){
+                this.gameIntent.putExtra(MainActivity.GAME_CONFIGURATION, this.getGameConfiguration("the new game", 1337, this.currentProfileData.childProfile.getId(), distanceBetweenStations));
+            }
+            else{
+                this.gameIntent.putExtra(MainActivity.GAME_CONFIGURATION, this.getGameConfiguration("the new game", 1337, this.currentProfileData.guardianProfile.getId(), distanceBetweenStations));
+            }
             this.startActivity(this.gameIntent);
         }
 	}
@@ -237,6 +248,7 @@ public class MainActivity extends Activity {
         try{
         distanceBetweenStations = Integer.parseInt(text.getText().toString());
         } catch (NumberFormatException e){
+            text.getText().clear();
             return false;
         }
 
@@ -326,8 +338,13 @@ public class MainActivity extends Activity {
         	String gameName = data.getExtras().getString(SaveDialogActivity.GAME_NAME);
             EditText text = (EditText)findViewById(R.id.distanceForStations);
             int distanceBetweenStations = Integer.parseInt(text.getText().toString());
-
-        	GameConfiguration gameConfiguration = getGameConfiguration(gameName, 1337, this.currentProfileData.childProfile.getId(),distanceBetweenStations); // TO DO
+            GameConfiguration gameConfiguration;
+            if(this.currentProfileData.childProfile != null){
+                gameConfiguration = getGameConfiguration(gameName, 1337, this.currentProfileData.childProfile.getId(),distanceBetweenStations);
+            }
+            else{
+                gameConfiguration = getGameConfiguration(gameName, 1337, this.currentProfileData.guardianProfile.getId(),distanceBetweenStations);
+            }
         	this.configurationHandler.addConfiguration(gameConfiguration);
             this.gameListAdapter.notifyDataSetChanged();
 
@@ -371,8 +388,9 @@ public class MainActivity extends Activity {
 	        this.pictoAdminIntent.putExtra("purpose", "multi");
 	        break;
 	    }
-        
-        this.pictoAdminIntent.putExtra("currentChildID", this.currentProfileData.childProfile.getId());
+        if(this.currentProfileData.childProfile != null){
+            this.pictoAdminIntent.putExtra("currentChildID", this.currentProfileData.childProfile.getId());
+        }
         this.pictoAdminIntent.putExtra("currentGuardianID", this.currentProfileData.guardianProfile.getId());
 
         super.startActivityForResult(this.pictoAdminIntent, requestCode);
