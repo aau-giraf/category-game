@@ -96,7 +96,7 @@ public class MainActivity extends Activity {
         //Find the GButton in your View
         gButtonProfileSelect = (GButtonProfileSelect) findViewById(R.id.ChangeProfile);
         //Call the method setup with a Profile guardian, no currentProfile (which means that the guardian is the current Profile) and the onCloseListener
-        gButtonProfileSelect.setup(this.currentProfileData.guardianProfile, this.currentProfileData.childProfile, new GButtonProfileSelect.onCloseListener() {
+        gButtonProfileSelect.setup(this.currentProfileData.guardianProfile, null, new GButtonProfileSelect.onCloseListener() {
             @Override
             public void onClose(Profile guardianProfile, Profile currentProfile) {
                 //If the guardian is the selected profile create GToast displaying the name
@@ -336,6 +336,8 @@ public class MainActivity extends Activity {
 			}
         	break;
         }
+        this.stationListAdapter.notifyDataSetChanged();
+
     }
 
     private int selectedStation, selectedAcceptPictogram;
