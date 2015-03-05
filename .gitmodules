@@ -1,12 +1,6 @@
-[submodule "OasisLib"]
-	path = OasisLib
-	url = http://cs-cust06-int.cs.aau.dk/git-ro/oasis-lib
 [submodule "pictogram-lib"]
 	path = pictogram-lib
 	url = http://cs-cust06-int.cs.aau.dk/git-ro/pictogram-lib.git
 [submodule "GIRAF_Components"]
 	path = GIRAF_Components
 	url = http://cs-cust06-int.cs.aau.dk/git-ro/giraf-component.git
-[submodule "metadata"]
-	path = metadata
-	url = ../../git-ro/meta-database
