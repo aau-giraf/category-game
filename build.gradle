@@ -1,4 +1,5 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+import java.util.regex.Pattern
+
 buildscript {
     repositories {
         mavenCentral()
@@ -14,7 +15,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
     compile project(':pictogram-lib')
     compile project(':OasisLib')
-    compile project(':GIRAF_Components')
+    compile project(':GIRAF_Components')    
 }
 
 android {
@@ -24,14 +25,59 @@ android {
     lintOptions {
         abortOnError false
     }
-    sourceSets {
-        // Move the build types to build-types/<type>
-        // For instance, build-types/debug/java, build-types/debug/AndroidManifest.xml, ...
-        // This moves them out of them default location under src/<type>/... which would
-        // conflict with src/ being used by the main source set.
-        // Adding new build types or product flavors should be accompanied
-        // by a similar customization.
-        debug.setRoot('build-types/debug')
-        release.setRoot('build-types/release')
+
+    signingConfigs {
+        release {
+            // Read keystore information from file on server
+            Properties props = new Properties()
+            props.load(new FileInputStream(rootProject.file('/srv/jenkins/google_play_keys/keystore.properties')))
+
+            storeFile file(props['storeFile'])
+            storePassword props['storePassword']
+            keyAlias props['keyAlias']
+            keyPassword props['keyPassword']
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            zipAlignEnabled = true
+        }
+    }
+
+    // Set custom apk name
+    applicationVariants.all { variant ->
+        def name
+        variant.outputs.each { output ->
+            def apkDirectory = output.outputFile.parentFile
+            def manifestParser = new com.android.builder.core.DefaultManifestParser()
+
+            if (output.zipAlign) {
+                name = applicationId + "_" + manifestParser.getVersionName(android.sourceSets.main.manifest.srcFile) + "." + manifestParser.getVersionCode(android.sourceSets.main.manifest.srcFile) + "_aligned.apk"
+                output.outputFile = new File(apkDirectory, name)
+            }
+
+            name = applicationId + "_" + manifestParser.getVersionName(android.sourceSets.main.manifest.srcFile) + "." + manifestParser.getVersionCode(android.sourceSets.main.manifest.srcFile) + "_unaligned.apk"
+            output.packageApplication.outputFile = new File(apkDirectory, name)
+        }    
+    }
+
+    // Autoincrement version code in android manifest
+    task('increaseVersionCode') << {
+        def manifestFile = file("src/main/AndroidManifest.xml")
+        def pattern = Pattern.compile("versionCode=\"(\\d+)\"")
+        def manifestText = manifestFile.getText()
+        def matcher = pattern.matcher(manifestText)
+        matcher.find()
+        def versionCode = Integer.parseInt(matcher.group(1))
+        def manifestContent = matcher.replaceAll("versionCode=\"" + ++versionCode + "\"")
+        manifestFile.write(manifestContent)
+    }
+
+    tasks.whenTaskAdded { task ->
+        if (task.name == 'generateReleaseBuildConfig') {
+            task.dependsOn 'increaseVersionCode'
+        }
     }
 }
