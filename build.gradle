@@ -30,12 +30,17 @@ android {
         release {
             // Read keystore information from file on server
             Properties props = new Properties()
-            props.load(new FileInputStream(rootProject.file('/srv/jenkins/google_play_keys/keystore.properties')))
+            if (rootProject.file('/srv/jenkins/google_play_keys/keystore.properties').exists()) 
+            {
+                props.load(new FileInputStream(rootProject.file('/srv/jenkins/google_play_keys/keystore.properties')))
+                storeFile file(props['storeFile'])
+                storePassword props['storePassword']
+                keyAlias props['keyAlias']
+                keyPassword props['keyPassword']
 
-            storeFile file(props['storeFile'])
-            storePassword props['storePassword']
-            keyAlias props['keyAlias']
-            keyPassword props['keyPassword']
+            }
+
+            
         }
     }
 
