@@ -32,7 +32,7 @@ class DeployPlugin implements Plugin<Project> {
                     versionsProp.load(new FileInputStream(project.rootProject.file(versionCodesFilePath)))
                     // Load version code. Increment as the incrementation task is run after thus task
                    versionCode = Integer.parseInt(versionsProp[applicationId])
-                }  
+                }
 
                 def name
                 variant.outputs.each { output ->
@@ -46,43 +46,43 @@ class DeployPlugin implements Plugin<Project> {
 
                     name = applicationId + "_v" + manifestParser.getVersionName(project.android.sourceSets.main.manifest.srcFile) + "b" + versionCode + "_" + variant.buildType.name.toLowerCase() + "_unaligned.apk"
                     output.packageApplication.outputFile = new File(apkDirectory, name)
-                }    
+                }
             }
         }
         // Autoincrement version code in android manifest
         project.task('increaseVersionCode') << {
             println("Log: VersionCode")
-            def manifestFilePath = 'src/main/AndroidManifest.xml'   
+            def manifestFilePath = 'src/main/AndroidManifest.xml'
             def applicationId = project.android.applicationVariants.applicationId[0]
             // Open version codes property file
             if (project.file(versionCodesFilePath).exists() != true) {
                 throw new GradleException("No version code file found. Only jenkins should run this task")
             }
-            def versionCodesFile = file(versionCodesFilePath)
+            def versionCodesFile = project.file(versionCodesFilePath)
             // Load version codes properties
             Properties versionsProp = new Properties()
             versionsProp.load(new FileInputStream(versionCodesFile))
 
             // Open manifest file and find versionCode
-            def manifestFile = file(manifestFilePath)
+            def manifestFile = project.file(manifestFilePath)
             def pattern = Pattern.compile("versionCode=\"(\\d+)\"")
             def manifestText = manifestFile.getText()
             def matcher = pattern.matcher(manifestText)
             matcher.find()
 
 
-            
+
 
             //If version code already exists
             if (versionsProp[applicationId] != null) {
                 def versionCode = Integer.parseInt(versionsProp[applicationId])
                 versionCode++
-                
+
                 // Write version code to manifest
                 def manifestContent = matcher.replaceAll("versionCode=\"" + versionCode + "\"")
                 manifestFile.write(manifestContent)
 
-                // Increment version code from version codes properties file            
+                // Increment version code from version codes properties file
                 def versionPattern = Pattern.compile(applicationId + "=(\\d+)")
                 def versionCodesText = versionCodesFile.getText()
                 def versionMatcher = versionPattern.matcher(versionCodesText)
@@ -116,7 +116,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
     compile project(':pictogram-lib')
     compile project(':OasisLib')
-    compile project(':GIRAF_Components')    
+    compile project(':GIRAF_Components')
 }
 
 android {
@@ -133,7 +133,7 @@ android {
             def keyStorePath = '/srv/jenkins/google_play_keys/keystore.properties'
 
             Properties props = new Properties()
-            if (rootProject.file(keyStorePath).exists()) 
+            if (rootProject.file(keyStorePath).exists())
             {
                 props.load(new FileInputStream(rootProject.file(keyStorePath)))
                 storeFile file(props['storeFile'])
@@ -150,9 +150,7 @@ android {
             zipAlignEnabled = true
         }
     }
-    
 
-    
+
+
 }
-
-    
