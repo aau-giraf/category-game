@@ -55,7 +55,7 @@ class DeployPlugin implements Plugin<Project> {
             def manifestFilePath = 'src/main/AndroidManifest.xml'   
             def applicationId = project.android.applicationVariants.applicationId[0]
             // Open version codes property file
-            if (file(versionCodesFilePath).exists() != true) {
+            if (project.rootproject.file(versionCodesFilePath).exists() != true) {
                 throw new GradleException("No version code file found. Only jenkins should run this task")
             }
             def versionCodesFile = file(versionCodesFilePath)
