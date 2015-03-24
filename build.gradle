@@ -9,20 +9,27 @@ buildscript {
     }
 }
 
+
+
 apply plugin: 'android'
-apply plugin: 'DeployPlugin'
+apply plugin: DeployPlugin
 
 class DeployPlugin implements Plugin<Project> {
     void apply(Project project) {
+        // Global variable to use in increase version code
+        def _applicationId = ""
+        def versionCodesFilePath = '/srv/jenkins/project_version_codes/versionCodes.properties'
+
         project.task('renameApk') << {
+
             println("Log: Rename")
             // Set custom apk name
-            applicationVariants.all { variant ->
+            project.android.applicationVariants.all { variant ->
                 def versionCode = 0
                 // Load version codes properties
-                if (rootProject.file(versionCodesFilePath).exists()) {
-                    Properties versionsProp = new Properties()
-                    versionsProp.load(new FileInputStream(rootProject.file(versionCodesFilePath)))
+                if (project.rootProject.file(versionCodesFilePath).exists()) {
+                    Properties  versionsProp = new Properties()
+                    versionsProp.load(new FileInputStream(project.rootProject.file(versionCodesFilePath)))
                     // Load version code. Increment as the incrementation task is run after thus task
                    versionCode = Integer.parseInt(versionsProp[applicationId])
                 }  
@@ -32,20 +39,21 @@ class DeployPlugin implements Plugin<Project> {
                     def apkDirectory = output.outputFile.parentFile
                     def manifestParser = new com.android.builder.core.DefaultManifestParser()
 
-                if (output.zipAlign) {
-                    name = applicationId + "_v" + manifestParser.getVersionName(android.sourceSets.main.manifest.srcFile) + "b" + versionCode + "_" + variant.buildType.name.toLowerCase() + "_aligned.apk"
-                    output.outputFile = new File(apkDirectory, name)
-                }
+                    if (output.zipAlign) {
+                        name = applicationId + "_v" + manifestParser.getVersionName(project.android.sourceSets.main.manifest.srcFile) + "b" + versionCode + "_" + variant.buildType.name.toLowerCase() + "_aligned.apk"
+                        output.outputFile = new File(apkDirectory, name)
+                    }
 
-                name = applicationId + "_v" + manifestParser.getVersionName(android.sourceSets.main.manifest.srcFile) + "b" + versionCode + "_" + variant.buildType.name.toLowerCase() + "_unaligned.apk"
-                output.packageApplication.outputFile = new File(apkDirectory, name)
-            }    
+                    name = applicationId + "_v" + manifestParser.getVersionName(project.android.sourceSets.main.manifest.srcFile) + "b" + versionCode + "_" + variant.buildType.name.toLowerCase() + "_unaligned.apk"
+                    output.packageApplication.outputFile = new File(apkDirectory, name)
+                }    
+            }
         }
         // Autoincrement version code in android manifest
-        prject.task('increaseVersionCode') << {
+        project.task('increaseVersionCode') << {
             println("Log: VersionCode")
             def manifestFilePath = 'src/main/AndroidManifest.xml'   
-            def applicationId = applicationVariants.applicationId[0]
+            def applicationId = project.android.applicationVariants.applicationId[0]
             // Open version codes property file
             if (file(versionCodesFilePath).exists() != true) {
                 throw new GradleException("No version code file found. Only jenkins should run this task")
@@ -142,13 +150,9 @@ android {
             zipAlignEnabled = true
         }
     }
-    // Global variable to use in increase version code
-    def _applicationId = ""
-    def versionCodesFilePath = '/srv/jenkins/project_version_codes/versionCodes.properties'
-
-    
-    }
-
     
 
+    
 }
+
+    
