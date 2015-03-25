@@ -33,7 +33,7 @@ android {
 }
 
 play {
-    serviceAccountEmail:'845822318110-g2fur4jtaa6g1jek6n4m5i3jbpmfi6em@developer.gserviceaccount.com'
+    serviceAccountEmail = '845822318110-g2fur4jtaa6g1jek6n4m5i3jbpmfi6em@developer.gserviceaccount.com'
     pk12File = file('~/google_play_keys/google_play_api_key.p12')
     track = 'alpha'
 }
