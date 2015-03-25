@@ -3,114 +3,18 @@ import java.util.regex.Pattern
 buildscript {
     repositories {
         mavenCentral()
+        maven {
+          url uri('gradleLibs/')
+        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.0.+'
+        classpath 'dk.giraf:deployPlugin:1.0'
     }
 }
-
-
 
 apply plugin: 'android'
-apply plugin: DeployPlugin
-
-class DeployPlugin implements Plugin<Project> {
-    void apply(Project project) {
-        // Global variable to use in increase version code
-        def _applicationId = ""
-        def versionCodesFilePath = '/srv/jenkins/project_version_codes/versionCodes.properties'
-
-        project.task('renameApk') << {
-
-            println("Log: Rename")
-            // Set custom apk name
-            project.android.applicationVariants.all { variant ->
-                def versionCode = 0
-                // Load version codes properties
-                if (project.rootProject.file(versionCodesFilePath).exists()) {
-                    Properties  versionsProp = new Properties()
-                    versionsProp.load(new FileInputStream(project.rootProject.file(versionCodesFilePath)))
-                    // Load version code. Increment as the incrementation task is run after thus task
-                   versionCode = Integer.parseInt(versionsProp[applicationId])
-                }
-
-                def name
-                variant.outputs.each { output ->
-                    def apkDirectory = output.outputFile.parentFile
-                    def manifestParser = new com.android.builder.core.DefaultManifestParser()
-
-                    if (output.zipAlign) {
-                        name = applicationId + "_v" + manifestParser.getVersionName(project.android.sourceSets.main.manifest.srcFile) + "b" + versionCode + "_" + variant.buildType.name.toLowerCase() + "_aligned.apk"
-                        output.outputFile = new File(apkDirectory, name)
-                    }
-
-                    name = applicationId + "_v" + manifestParser.getVersionName(project.android.sourceSets.main.manifest.srcFile) + "b" + versionCode + "_" + variant.buildType.name.toLowerCase() + "_unaligned.apk"
-                    output.packageApplication.outputFile = new File(apkDirectory, name)
-                }
-            }
-        }
-        // Autoincrement version code in android manifest
-        project.task('increaseVersionCode') << {
-            println("Log: VersionCode")
-            def manifestFilePath = 'src/main/AndroidManifest.xml'
-            def applicationId = project.android.applicationVariants.applicationId[0]
-            // Open version codes property file
-            if (project.file(versionCodesFilePath).exists() != true) {
-                throw new GradleException("No version code file found. Only jenkins should run this task")
-            }
-            def versionCodesFile = project.file(versionCodesFilePath)
-            // Load version codes properties
-            Properties versionsProp = new Properties()
-            versionsProp.load(new FileInputStream(versionCodesFile))
-
-            // Open manifest file and find versionCode
-            def manifestFile = project.file(manifestFilePath)
-            def pattern = Pattern.compile("versionCode=\"(\\d+)\"")
-            def manifestText = manifestFile.getText()
-            def matcher = pattern.matcher(manifestText)
-            matcher.find()
-
-
-
-
-            //If version code already exists
-            if (versionsProp[applicationId] != null) {
-                def versionCode = Integer.parseInt(versionsProp[applicationId])
-                versionCode++
-
-                // Write version code to manifest
-                def manifestContent = matcher.replaceAll("versionCode=\"" + versionCode + "\"")
-                manifestFile.write(manifestContent)
-
-                // Increment version code from version codes properties file
-                def versionPattern = Pattern.compile(applicationId + "=(\\d+)")
-                def versionCodesText = versionCodesFile.getText()
-                def versionMatcher = versionPattern.matcher(versionCodesText)
-                versionMatcher.find()
-                def newVersionCodesText = versionMatcher.replaceAll(applicationId + "=" + versionCode)
-                versionCodesFile.write(newVersionCodesText)
-            } else { // no version code was found for this project, make a new one!
-                def versionCode = 1
-
-                // Write version code to manifest
-                def manifestContent = matcher.replaceAll("versionCode=\"" + versionCode + "\"")
-                manifestFile.write(manifestContent)
-
-                // Add version code to version codes properties file
-                def versionCodesText = versionCodesFile.getText()
-                def newVersionCodesText = versionCodesText + "\n" + applicationId + "=" + versionCode
-                versionCodesFile.write(newVersionCodesText)
-            }
-        }
-
-        //Make release config generation depend on renaming
-        project.tasks.whenTaskAdded { task ->
-            if (task.name == 'generateReleaseBuildConfig') {
-                task.dependsOn 'renameApk'
-            }
-        }
-    }
-}
+apply plugin: 'dk.giraf.deploy'
 
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
@@ -126,31 +30,4 @@ android {
     lintOptions {
         abortOnError false
     }
-
-    signingConfigs {
-        release {
-            // Read keystore information from file on server
-            def keyStorePath = '/srv/jenkins/google_play_keys/keystore.properties'
-
-            Properties props = new Properties()
-            if (rootProject.file(keyStorePath).exists())
-            {
-                props.load(new FileInputStream(rootProject.file(keyStorePath)))
-                storeFile file(props['storeFile'])
-                storePassword props['storePassword']
-                keyAlias props['keyAlias']
-                keyPassword props['keyPassword']
-            }
-        }
-    }
-
-    buildTypes {
-        release {
-            signingConfig signingConfigs.release
-            zipAlignEnabled = true
-        }
-    }
-
-
-
 }
