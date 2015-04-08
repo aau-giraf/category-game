@@ -17,6 +17,7 @@ apply plugin: 'dk.giraf.deploy'
 apply plugin: 'play'
 
 repositories {
+    mavenCentral()
     maven {
         url 'http://cs-cust06-int.cs.aau.dk/artifactory/libraries'
     }
@@ -37,6 +38,11 @@ android {
 
     lintOptions {
         abortOnError false
+    }
+    buildTypes {
+        debug {
+            testCoverageEnabled true
+        }
     }
 }
 
