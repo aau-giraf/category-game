@@ -29,6 +29,7 @@ import dk.aau.cs.giraf.gui.GToast;
 import dk.aau.cs.giraf.oasis.lib.models.Pictogram;
 import dk.aau.cs.giraf.oasis.lib.models.Profile;
 import dk.aau.cs.giraf.train.opengl.GameActivity;
+import dk.aau.cs.giraf.core.data.Download;
 
 public class MainActivity extends Activity {
     public static final String SAVEFILE_PATH = "game_configurations.txt";
@@ -79,14 +80,15 @@ public class MainActivity extends Activity {
 
         /* Get data from launcher */
         Bundle extras = getIntent().getExtras();
-
         if (extras != null) {
             currentProfileData = new Data(
                     extras.getInt("currentGuardianID"),
                     extras.getInt("currentChildID"),
                     this.getApplicationContext());
         } else {
-            super.finish();
+            Intent intent;
+            intent = new Intent(this, Download.class);
+            this.startActivity(intent);
         }
 
         //Find the GButton in your View

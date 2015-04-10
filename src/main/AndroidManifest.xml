@@ -52,5 +52,9 @@
             android:name="android.support.PARENT_ACTIVITY"
             android:value="dk.aau.cs.giraf.train.MainActivity" />
         </activity>
+		<activity
+			android:label="@string/download"
+			android:name="dk.aau.cs.giraf.core.data.Download"
+			/>
     </application>
 </manifest>
