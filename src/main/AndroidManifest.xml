@@ -52,5 +52,13 @@
             android:name="android.support.PARENT_ACTIVITY"
             android:value="dk.aau.cs.giraf.train.MainActivity" />
         </activity>
+
+        <activity android:name="dk.aau.cs.giraf.core.pictosearch.PictoAdminMain">
+
+        </activity>
+
+        <activity android:name="dk.aau.cs.giraf.core.data.Download">
+
+        </activity>
     </application>
 </manifest>

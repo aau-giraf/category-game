@@ -1,14 +1,9 @@
 package dk.aau.cs.giraf.train;
 
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -20,13 +15,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import dk.aau.cs.giraf.core.data.Download;
+import dk.aau.cs.giraf.core.pictosearch.PictoAdminMain;
 import dk.aau.cs.giraf.gui.GButtonProfileSelect;
 import dk.aau.cs.giraf.gui.GComponent;
 import dk.aau.cs.giraf.gui.GDialogAlert;
-import dk.aau.cs.giraf.gui.GDialogAlert;
 import dk.aau.cs.giraf.gui.GList;
 import dk.aau.cs.giraf.gui.GToast;
-import dk.aau.cs.giraf.oasis.lib.models.Pictogram;
 import dk.aau.cs.giraf.oasis.lib.models.Profile;
 import dk.aau.cs.giraf.train.opengl.GameActivity;
 
@@ -48,6 +47,7 @@ public class MainActivity extends Activity {
     private Intent saveIntent;
     private Intent categoryIntent;
     private Intent pictoAdminIntent = new Intent();
+    private Intent download;
 	
 	private ProgressDialog progressDialog;
     private GButtonProfileSelect gButtonProfileSelect;
@@ -76,7 +76,8 @@ public class MainActivity extends Activity {
         //Set the background
         mainView.setBackgroundDrawable(GComponent.GetBackgroundGradient());
         setContentView(mainView);
-
+        this.download = new Intent(this, Download.class);
+        startActivity(download);
         /* Get data from launcher */
         Bundle extras = getIntent().getExtras();
 
@@ -147,7 +148,8 @@ public class MainActivity extends Activity {
 		this.gameIntent = new Intent(this, GameActivity.class);
         this.categoryIntent = new Intent(this, CategoryDialogActivity.class);
 		this.saveIntent = new Intent(this, SaveDialogActivity.class);
-		this.pictoAdminIntent.setComponent(new ComponentName("dk.aau.cs.giraf.pictosearch", "dk.aau.cs.giraf.pictosearch.PictoAdminMain"));
+		//this.pictoAdminIntent.setComponent(new ComponentName("dk.aau.cs.giraf.core.pictosearch", "dk.aau.cs.giraf.core.pictosearch.PictoAdminMain"));
+        this.pictoAdminIntent = new Intent(this, PictoAdminMain.class);
 
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setNegativeButton(super.getResources().getString(R.string.okay), null);
