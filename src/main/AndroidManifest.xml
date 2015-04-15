@@ -53,7 +53,7 @@
             android:value="dk.aau.cs.giraf.train.MainActivity" />
         </activity>
 		<activity
-			android:label="@string/download"
+			android:label="Download"
 			android:name="dk.aau.cs.giraf.core.data.Download"
 			/>
     </application>
