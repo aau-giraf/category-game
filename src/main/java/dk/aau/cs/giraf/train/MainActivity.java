@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -29,7 +30,7 @@ import dk.aau.cs.giraf.gui.GToast;
 import dk.aau.cs.giraf.oasis.lib.Helper;
 import dk.aau.cs.giraf.oasis.lib.models.Profile;
 import dk.aau.cs.giraf.train.opengl.GameActivity;
-import dk.aau.cs.giraf.core.data.Download;
+import dk.aau.cs.giraf.core.data.ProcessManager;
 
 public class MainActivity extends Activity {
     public static final String SAVEFILE_PATH = "game_configurations.txt";
@@ -103,16 +104,17 @@ public class MainActivity extends Activity {
             }
         /* Get data from launcher */
         Bundle extras = getIntent().getExtras();
-        if (extras != null) {
+
+        if (new ProcessManager().isProcessRunning("dk.aau.cs.giraf.launcher", this)) {
             currentProfileData = new Data(
                     extras.getInt("currentGuardianID"),
                     extras.getInt("currentChildID"),
                     this.getApplicationContext());
         } else {
-            Intent intent;
-            intent = new Intent(this, Download.class);
-            this.startActivity(intent);
+            Log.e("NoUser", "Running as Guest user");
+            currentProfileData = new Data();
         }
+
 
         //Find the GButton in your View
         gButtonProfileSelect = (GButtonProfileSelect) findViewById(R.id.ChangeProfile);
@@ -134,11 +136,11 @@ public class MainActivity extends Activity {
                 }
             }
         });
-
+/*
         if(extras == null){
             this.gButtonProfileSelect.performClick();
         }
-
+*/
         GList saveConfigurationList = (GList)this.findViewById(R.id.savedConfig);
         GList stationList = (GList)this.findViewById(R.id.stationList);
         if(this.currentProfileData.childProfile != null){
