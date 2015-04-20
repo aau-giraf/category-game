@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,7 +20,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import dk.aau.cs.giraf.core.data.Download;
 import dk.aau.cs.giraf.gui.GButtonProfileSelect;
 import dk.aau.cs.giraf.gui.GComponent;
 import dk.aau.cs.giraf.gui.GDialogAlert;
@@ -31,7 +29,10 @@ import dk.aau.cs.giraf.oasis.lib.Helper;
 import dk.aau.cs.giraf.oasis.lib.models.Profile;
 import dk.aau.cs.giraf.train.opengl.GameActivity;
 
+
 import dk.aau.cs.giraf.core.data.ProcessManager;
+import dk.aau.cs.giraf.core.data.Data;
+
 
 public class MainActivity extends Activity {
     public static final String SAVEFILE_PATH = "game_configurations.txt";
@@ -59,7 +60,7 @@ public class MainActivity extends Activity {
 
     private GButtonProfileSelect gButtonProfileSelect;
     private AlertDialog errorDialog;
-    private Data currentProfileData = null;
+    private ProfileData currentProfileData = null;
     private GGameListAdapter gameListAdapter;
     public ConfigurationList configurationHandler;
 
@@ -107,22 +108,23 @@ public class MainActivity extends Activity {
                 super.finish();
             }
         //Find the gButton in your View (needs to be disabled if it is a guest session)
-        gButtonProfileSelect = (GButtonProfileSelect) findViewById(R.id.ChangeProfile);
+        gButtonProfileSelect     = (GButtonProfileSelect) findViewById(R.id.ChangeProfile);
 
         // If the launcher is running it is not a guest session
-        this.isGuestSession = !(new ProcessManager().isProcessRunning("dk.aau.cs.giraf.launcher", this));
+        this.isGuestSession = Data.isProcessRunning("dk.aau.cs.giraf.launcher", this);
 
         if (isGuestSession) {
+            new GToast(this, super.getResources().getString(R.string.guest_toast), 100).show();
             // Disable button to switch profile as there are no other profile than Guest in standalone execution
             gButtonProfileSelect.setEnabled(false);
             // Empty Data constructor creates a guest profile
-            currentProfileData = new Data();
+            currentProfileData = new ProfileData();
         } else {
             /* Get data from launcher */
             Bundle extras = getIntent().getExtras();
 
             // If GIRAF launcher is running use its Profile data
-            currentProfileData = new Data(
+            currentProfileData = new ProfileData(
                     extras.getInt("currentGuardianID"),
                     extras.getInt("currentChildID"),
                     this.getApplicationContext());
@@ -177,14 +179,6 @@ public class MainActivity extends Activity {
         stationListAdapter = new GStationListAdapter(this, listOfStations.stations);
         stationList.setAdapter(stationListAdapter);
 
-        String guestToastText = "Du er nu logget på som gæst og nogle funktioner " +
-                                "er derfor deaktiveret. " +
-                                "Kør fra GIRAF Launcher hvis disse funktioner skal bruges.";
-        // TODO Fix so that this is properly displayed
-        // right now it dissappears prematurely due to the 'Downloading Pictograms' view
-        GToast guestToast = new GToast(getApplicationContext(), guestToastText, 15);
-        guestToast.show();
-
         this.PreConfigure();
     }
 
@@ -205,8 +199,7 @@ public class MainActivity extends Activity {
         // Create intents that are used throughout the app
         this.CreateIntents();
 
-        // Download all pictograms from local-db if there are none
-        this.DownloadAllPictograms();
+
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setNegativeButton(super.getResources().getString(R.string.okay), null);
@@ -224,7 +217,7 @@ public class MainActivity extends Activity {
     }
 
     private void DownloadAllPictograms() {
-        super.startActivity(new Intent(this, Download.class));
+        super.startActivity(new Intent(this, Data.class));
     }
 
     // Allows the user to change current profile. NOT possible in guest mode
