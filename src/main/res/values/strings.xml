@@ -54,5 +54,7 @@ Det er desuden muligt at skifte profil ved at trykke på profilbilledet til vens
     <string name="name_exists">Det indtastede navn findes allerede.</string>
     <string name="save_description">Spillet vil blive gemt under:</string>
     <string name="category_description">Vælg en kategori</string>
+    <string name="guest_toast">Du er nu logget på som gæst og nogle funktioner
+        er derfor deaktiveret. Kør fra GIRAF Launcher hvis disse funktioner skal bruges."</string>
     
 </resources>

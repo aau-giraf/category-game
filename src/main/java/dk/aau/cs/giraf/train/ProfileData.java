@@ -11,11 +11,11 @@ import dk.aau.cs.giraf.oasis.lib.models.Category;
 import dk.aau.cs.giraf.oasis.lib.models.Profile;
 
 
-public final class Data {
+public final class ProfileData {
 
     public Profile guardianProfile;
     public Profile childProfile;
-    public Data(int guardianID, int childID, Context context){
+    public ProfileData(int guardianID, int childID, Context context){
         Helper localDataFetcher = null;
         try {
             localDataFetcher = new Helper(context);
@@ -28,7 +28,7 @@ public final class Data {
             childProfile = localDataFetcher.profilesHelper.getProfileById(childID);
         }
     }
-    public Data() {
+    public ProfileData() {
         guardianProfile = new Profile("Tony Stark", 12345678, null, "tony@stark.dk", Profile.Roles.GUARDIAN, "address 1", null, 1, 0);
         Bitmap img = Bitmap.createBitmap(100,100, Bitmap.Config.ARGB_8888);
 
