@@ -90,8 +90,7 @@ public class MainActivity extends Activity {
             gButtonProfileSelect.setEnabled(false);
             // Empty Data constructor creates a guest profile
             currentProfileData = new ProfileData();
-            Intent download = new Intent(this, Data.class);
-            startActivity(download);
+            this.downloadAllPictograms();
         } else {
             /* Get data from launcher */
             Bundle extras = getIntent().getExtras();
@@ -184,7 +183,7 @@ public class MainActivity extends Activity {
         this.pictoAdminIntent = new Intent(this, PictoAdminMain.class);
     }
 
-    private void DownloadAllPictograms() {
+    private void downloadAllPictograms() {
         super.startActivity(new Intent(this, Data.class));
     }
 

@@ -53,8 +53,13 @@
             android:value="dk.aau.cs.giraf.train.MainActivity" />
         </activity>
 		<activity
-			android:label="Download"
-			android:name="dk.aau.cs.giraf.core.data.Download"
+			android:label="Data"
+			android:name="dk.aau.cs.giraf.core.data.Data"
 			/>
+        <provider
+            android:name="dk.aau.cs.giraf.localdb.DatabaseProvider"
+			android:authorities="dk.aau.cs.giraf.localdb.provider"
+            android:enabled="true"
+            android:exported="true"></provider>
     </application>
 </manifest>
