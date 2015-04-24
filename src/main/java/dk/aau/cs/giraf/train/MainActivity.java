@@ -2,6 +2,7 @@ package dk.aau.cs.giraf.train;
 
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -26,6 +27,7 @@ import dk.aau.cs.giraf.gui.GComponent;
 import dk.aau.cs.giraf.gui.GDialogAlert;
 import dk.aau.cs.giraf.gui.GList;
 import dk.aau.cs.giraf.gui.GToast;
+import dk.aau.cs.giraf.oasis.lib.Helper;
 import dk.aau.cs.giraf.oasis.lib.models.Profile;
 import dk.aau.cs.giraf.train.opengl.GameActivity;
 
@@ -73,21 +75,34 @@ public class MainActivity extends Activity {
         LayoutInflater li = LayoutInflater.from(this);
         View mainView = li.inflate(R.layout.activity_main,null);
 
+        Intent intent = getIntent();
+        Bundle extras = null;
+
         //Set the background
         mainView.setBackgroundDrawable(GComponent.GetBackgroundGradient());
         setContentView(mainView);
-        this.download = new Intent(this, Download.class);
-        startActivity(download);
-        /* Get data from launcher */
-        Bundle extras = getIntent().getExtras();
 
-        if (extras != null) {
-            currentProfileData = new Data(
-                    extras.getInt("currentGuardianID"),
-                    extras.getInt("currentChildID"),
+        if (ActivityManager.isUserAMonkey()) {
+            Helper h = new Helper(this);
+            h.CreateDummyData();
+            currentProfileData = new Data(h.profilesHelper.getGuardians().get(0).getId(),
+                    h.profilesHelper.getChildren().get(0).getId(),
                     this.getApplicationContext());
-        } else {
-            super.finish();
+        }
+        else {
+            this.download = new Intent(this, Download.class);
+            startActivity(download);
+            /* Get data from launcher */
+            extras = getIntent().getExtras();
+
+            if (extras != null) {
+                currentProfileData = new Data(
+                        extras.getInt("currentGuardianID"),
+                        extras.getInt("currentChildID"),
+                        this.getApplicationContext());
+            } else {
+                super.finish();
+            }
         }
 
         //Find the GButton in your View
