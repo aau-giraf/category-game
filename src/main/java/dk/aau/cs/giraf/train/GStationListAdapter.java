@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 import dk.aau.cs.giraf.gui.GButtonProfileSelect;
 import dk.aau.cs.giraf.gui.GHorizontalScrollViewSnapper;
-import dk.aau.cs.giraf.oasis.lib.models.Pictogram;
+import dk.aau.cs.giraf.dblib.models.Pictogram;
 
 public class GStationListAdapter extends BaseAdapter{
     private ArrayList<StationConfiguration> stations = new ArrayList<StationConfiguration>();

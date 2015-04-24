@@ -17,7 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import dk.aau.cs.giraf.oasis.lib.models.Profile;
+import dk.aau.cs.giraf.dblib.models.Profile;
 import dk.aau.cs.giraf.pictogram.PictoFactory;
 //Bliver ikke brugt længere!
 public class GameLinearLayout extends LinearLayout {

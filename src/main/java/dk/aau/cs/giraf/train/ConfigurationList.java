@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
 
-import dk.aau.cs.giraf.oasis.lib.models.Profile;
+import dk.aau.cs.giraf.dblib.models.Profile;
 
 public class ConfigurationList {
 
