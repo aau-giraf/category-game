@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import dk.aau.cs.giraf.core.data.Download;
 import dk.aau.cs.giraf.core.pictosearch.PictoAdminMain;
 import dk.aau.cs.giraf.gui.GButtonProfileSelect;
 import dk.aau.cs.giraf.gui.GComponent;
@@ -76,9 +75,7 @@ public class MainActivity extends Activity {
         //Set the background
         mainView.setBackgroundDrawable(GComponent.GetBackgroundGradient());
         setContentView(mainView);
-        this.download = new Intent(this, Download.class);
-        startActivity(download);
-        /* Get data from launcher */
+                /* Get data from launcher */
         Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
