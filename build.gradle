@@ -16,8 +16,13 @@ apply plugin: 'android'
 apply plugin: 'dk.giraf.deploy'
 apply plugin: 'play'
 
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
 repositories {
     mavenCentral()
+    mavenLocal()
     maven {
         url 'http://cs-cust06-int.cs.aau.dk/artifactory/libraries'
     }
@@ -32,7 +37,7 @@ dependencies {
     compile(group: 'dk.aau.cs.giraf', name: 'girafComponent', version: '3.1.0', ext: 'aar')
     compile(group: 'dk.aau.cs.giraf', name: 'oasisLib', version: '3.2.0', ext: 'aar')
     compile(group: 'dk.aau.cs.giraf', name: 'localDb', version: '2.0.3', ext: 'aar')
-    compile(group: 'dk.aau.cs.giraf', name: 'meta-database', version: '1.4.1')
+    compile(name: 'meta-database', ext:'jar')
 	compile(name:'corelib', ext:'aar')
 }
 

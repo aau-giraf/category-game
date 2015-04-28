@@ -28,6 +28,7 @@ import dk.aau.cs.giraf.train.opengl.GameActivity;
 
 import dk.aau.cs.giraf.core.data.Data;
 import dk.aau.cs.giraf.core.pictosearch.*;
+import dk.aau.cs.giraf.metadata.DatabaseTables;
 
 public class MainActivity extends Activity {
     public static final String SAVEFILE_PATH = "game_configurations.txt";
@@ -85,67 +86,70 @@ public class MainActivity extends Activity {
         this.isGuestSession = !Data.isProcessRunning("dk.aau.cs.giraf.launcher", this);
 
         if (isGuestSession) {
-            new GToast(this, super.getResources().getString(R.string.guest_toast), 100).show();
-            // Disable button to switch profile as there are no other profile than Guest in standalone execution
-            gButtonProfileSelect.setEnabled(false);
-            // Empty Data constructor creates a guest profile
-            currentProfileData = new ProfileData();
-            this.downloadAllPictograms();
-        } else {
-            /* Get data from launcher */
-            Bundle extras = getIntent().getExtras();
+        new GToast(this, super.getResources().getString(R.string.guest_toast), 100).show();
+        // Disable button to switch profile as there are no other profile than Guest in standalone execution
+        gButtonProfileSelect.setEnabled(false);
 
-            // If GIRAF launcher is running use its Profile data
-            currentProfileData = new ProfileData(
-                    extras.getInt("currentGuardianID"),
-                    extras.getInt("currentChildID"),
-                    this.getApplicationContext());
+        DatabaseTables.AUTHORITY = "dk.aau.cs.giraf.train.provider";
+
+        // Empty Data constructor creates a guest profile
+        currentProfileData = new ProfileData();
+        this.downloadAllPictograms();
+        } else {
+        /* Get data from launcher */
+        Bundle extras = getIntent().getExtras();
+
+        // If GIRAF launcher is running use its Profile data
+        currentProfileData = new ProfileData(
+        extras.getInt("currentGuardianID"),
+        extras.getInt("currentChildID"),
+        this.getApplicationContext());
         }
 
         //Call the method setup with a Profile guardian, no currentProfile (which means that the guardian is the current Profile) and the onCloseListener
         gButtonProfileSelect.setup(this.currentProfileData.guardianProfile, null, new GButtonProfileSelect.onCloseListener() {
-            @Override
-            public void onClose(Profile guardianProfile, Profile currentProfile) {
-                //If the guardian is the selected profile create GToast displaying the name
-                if (currentProfile == null) {
-                    GToast w = new GToast(getApplicationContext(), "Den valgte profil er " + guardianProfile.getName().toString(), 2);
-                    onChangeProfile(guardianProfile, null);
-                    w.show();
-                }
-                //If another current Profile is the selected profile create GToast displaying the name
-                else {
-                    GToast w = new GToast(getApplicationContext(), "Den valgte profil er " + currentProfile.getName().toString(), 2);
-                    onChangeProfile(guardianProfile, currentProfile);
-                    w.show();
-                }
-            }
+        @Override
+        public void onClose(Profile guardianProfile, Profile currentProfile) {
+        //If the guardian is the selected profile create GToast displaying the name
+        if (currentProfile == null) {
+        GToast w = new GToast(getApplicationContext(), "Den valgte profil er " + guardianProfile.getName().toString(), 2);
+        onChangeProfile(guardianProfile, null);
+        w.show();
+        }
+        //If another current Profile is the selected profile create GToast displaying the name
+        else {
+        GToast w = new GToast(getApplicationContext(), "Den valgte profil er " + currentProfile.getName().toString(), 2);
+        onChangeProfile(guardianProfile, currentProfile);
+        w.show();
+        }
+        }
         });
 
-		/* Not used anymore but maybe the performClick method can be called in some cases
+        /* Not used anymore but maybe the performClick method can be called in some cases
         if(extras == null){
-            this.gButtonProfileSelect.performClick();
+        this.gButtonProfileSelect.performClick();
         }
-		*/
+        */
 
         // Find buttons
         GList saveConfigurationList = (GList) this.findViewById(R.id.savedConfig);
         GList stationList = (GList) this.findViewById(R.id.stationList);
 
         if (this.currentProfileData.childProfile != null) {
-            this.configurationHandler = new ConfigurationList(this, this.currentProfileData.childProfile);
+        this.configurationHandler = new ConfigurationList(this, this.currentProfileData.childProfile);
         } else {
-            this.configurationHandler = new ConfigurationList(this, this.currentProfileData.guardianProfile);
+        this.configurationHandler = new ConfigurationList(this, this.currentProfileData.guardianProfile);
         }
 
         gameListAdapter = new GGameListAdapter(this, this.configurationHandler.getGameconfiguration());
         saveConfigurationList.setAdapter(gameListAdapter);
         saveConfigurationList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                MainActivity.this.setGameConfiguration((GameConfiguration) parent.getAdapter().getItem(position));
-            }
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        MainActivity.this.setGameConfiguration((GameConfiguration) parent.getAdapter().getItem(position));
+        }
         });
-
+        this.
         listOfStations = new StationList();
 
         stationListAdapter = new GStationListAdapter(this, listOfStations.stations);
