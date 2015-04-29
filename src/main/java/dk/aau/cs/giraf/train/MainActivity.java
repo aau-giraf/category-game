@@ -319,7 +319,7 @@ public class MainActivity extends Activity {
 	    return true;
 	}
 	
-	private GameConfiguration getGameConfiguration(String gameName, int gameID, int childID, int distanceBetweenStations) {
+	private GameConfiguration getGameConfiguration(String gameName, int gameID, long childID, int distanceBetweenStations) {
 
 	    GameConfiguration gameConfiguration = new GameConfiguration(gameName, gameID, childID, currentProfileData.guardianProfile.getId(), distanceBetweenStations); //TODO Set appropriate IDs
 	    gameConfiguration.setStations(this.listOfStations.getStations());

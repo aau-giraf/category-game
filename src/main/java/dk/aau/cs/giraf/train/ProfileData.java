@@ -15,7 +15,7 @@ public final class ProfileData {
 
     public Profile guardianProfile;
     public Profile childProfile;
-    public ProfileData(int guardianID, int childID, Context context){
+    public ProfileData(long guardianID, long childID, Context context){
         Helper localDataFetcher = null;
         try {
             localDataFetcher = new Helper(context);
