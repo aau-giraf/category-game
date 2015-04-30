@@ -54,7 +54,7 @@
         </activity>
         <provider
             android:name="dk.aau.cs.giraf.localdb.DatabaseProvider"
-            android:authorities="dk.aau.cs.giraf.localdb.provider"
+            android:authorities="dk.aau.cs.giraf.train.provider"
             android:enabled="true"
             android:exported="true"/>
     </application>
