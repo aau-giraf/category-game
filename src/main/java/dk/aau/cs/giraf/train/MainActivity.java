@@ -28,6 +28,7 @@ import dk.aau.cs.giraf.train.opengl.GameActivity;
 
 import dk.aau.cs.giraf.core.data.Data;
 import dk.aau.cs.giraf.core.pictosearch.*;
+import dk.aau.cs.giraf.metadata.DatabaseTables;
 
 public class MainActivity extends Activity {
     public static final String SAVEFILE_PATH = "game_configurations.txt";
@@ -90,6 +91,7 @@ public class MainActivity extends Activity {
             gButtonProfileSelect.setEnabled(false);
             // Empty Data constructor creates a guest profile
             currentProfileData = new ProfileData();
+
             this.downloadAllPictograms();
         } else {
             /* Get data from launcher */
