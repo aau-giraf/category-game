@@ -1,9 +1,5 @@
 package dk.aau.cs.giraf.train;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -18,17 +14,19 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import dk.aau.cs.giraf.core.data.Data;
+import dk.aau.cs.giraf.dblib.models.Profile;
 import dk.aau.cs.giraf.gui.GButtonProfileSelect;
 import dk.aau.cs.giraf.gui.GComponent;
 import dk.aau.cs.giraf.gui.GDialogAlert;
 import dk.aau.cs.giraf.gui.GList;
 import dk.aau.cs.giraf.gui.GToast;
-import dk.aau.cs.giraf.dblib.models.Profile;
+import dk.aau.cs.giraf.pictosearch.PictoAdminMain;
 import dk.aau.cs.giraf.train.opengl.GameActivity;
-
-import dk.aau.cs.giraf.core.data.Data;
-import dk.aau.cs.giraf.core.pictosearch.*;
-import dk.aau.cs.giraf.metadata.DatabaseTables;
 
 public class MainActivity extends Activity {
     public static final String SAVEFILE_PATH = "game_configurations.txt";
@@ -187,6 +185,7 @@ public class MainActivity extends Activity {
 
     private void downloadAllPictograms() {
         super.startActivity(new Intent(this, Data.class));
+
     }
 
     // Allows the user to change current profile. NOT possible in guest mode
@@ -349,11 +348,11 @@ public class MainActivity extends Activity {
             return;
         }
         
-        int[] checkout;
+        long[] checkout;
 
         switch(requestCode) {
         case MainActivity.RECEIVE_SINGLE:
-        	checkout = data.getExtras().getIntArray("checkoutIds"); //Pictogram IDs
+        	checkout = data.getExtras().getLongArray("checkoutIds"); //Pictogram IDs
             
             if(checkout.length > 0) {
                 this.listOfStations.receivePictograms(checkout[0], this.selectedStation, this.selectedAcceptPictogram, this.isCategory);
@@ -361,7 +360,7 @@ public class MainActivity extends Activity {
 
         	break;
         case MainActivity.RECEIVE_MULTIPLE:
-        	checkout = data.getExtras().getIntArray("checkoutIds"); //Pictogram IDs
+        	checkout = data.getExtras().getLongArray("checkoutIds"); //Pictogram IDs
 
             if(checkout.length > 0) {
                 this.listOfStations.receivePictograms(checkout, this.selectedStation);

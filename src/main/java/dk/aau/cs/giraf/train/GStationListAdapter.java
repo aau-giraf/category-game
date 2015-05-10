@@ -58,7 +58,7 @@ public class GStationListAdapter extends BaseAdapter{
         HorizontalScrollView gScroller = (HorizontalScrollView) v.findViewById(R.id.scrollview);
         LinearLayout scrollerL = (LinearLayout) gScroller.findViewById(R.id.scrollviewlayout);
         int number = 0;
-        for (int i : station.getAcceptPictograms()){
+        for (long i : station.getAcceptPictograms()){
             PictogramButton temp = new PictogramButton(parent.getContext(),position, number);
             temp.setPictogram(i);
             temp.setRemovable(true);

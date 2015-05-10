@@ -1,11 +1,11 @@
 package dk.aau.cs.giraf.train;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
-
-import android.os.Parcel;
-import android.os.Parcelable;
 
 /**
  * This class holds information about a single station.
@@ -15,8 +15,8 @@ import android.os.Parcelable;
  */
 public class StationConfiguration implements Parcelable {
     private boolean is_loading = false;
-    private int category = -1;
-    private ArrayList<Integer> acceptPictograms = new ArrayList<Integer>();
+    private long category = -1;
+    private ArrayList<Long> acceptPictograms = new ArrayList<Long>();
     
     public StationConfiguration() {
         
@@ -28,15 +28,15 @@ public class StationConfiguration implements Parcelable {
     
     public StationConfiguration(StationConfiguration stationConfiguration) {
         this.category = stationConfiguration.getCategory();
-        this.acceptPictograms = new ArrayList<Integer>(stationConfiguration.getAcceptPictograms());
+        this.acceptPictograms = new ArrayList<Long>(stationConfiguration.getAcceptPictograms());
 		this.setLoadingStation(stationConfiguration.isLoadingStation());
     }
     
-    public void addAcceptPictogram(int id) {
+    public void addAcceptPictogram(long id) {
         acceptPictograms.add(id);
     }
 
-    public void changeAcceptPictogram(int oldPictogram, int newPictogram){
+    public void changeAcceptPictogram(int oldPictogram, long newPictogram){
         //int index = this.acceptPictograms.indexOf(oldPictogram);
         this.acceptPictograms.set(oldPictogram,newPictogram);
     }
@@ -49,15 +49,15 @@ public class StationConfiguration implements Parcelable {
         this.acceptPictograms.clear();
     }
     
-    public ArrayList<Integer> getAcceptPictograms() {
+    public ArrayList<Long> getAcceptPictograms() {
         return this.acceptPictograms;
     }
     
-    public void setCategory(int category) {
+    public void setCategory(long category) {
         this.category = category;
     }
     
-    public int getCategory() {
+    public long getCategory() {
         return this.category;
     }
 	
@@ -75,7 +75,7 @@ public class StationConfiguration implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel out, int flags) {
-        out.writeInt(this.category);
+        out.writeLong(this.category);
         out.writeList(this.acceptPictograms);
     }
     
@@ -107,7 +107,7 @@ public class StationConfiguration implements Parcelable {
     	
     	sWriter.write(String.valueOf(this.category));
     	
-    	for(int pictogram : acceptPictograms) {
+    	for(long pictogram : acceptPictograms) {
     		sWriter.append(",");
     		sWriter.write(String.valueOf(pictogram));
     	}
