@@ -13,10 +13,6 @@ import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 
-import dk.aau.cs.giraf.gui.GButtonProfileSelect;
-import dk.aau.cs.giraf.gui.GHorizontalScrollViewSnapper;
-import dk.aau.cs.giraf.dblib.models.Pictogram;
-
 public class GStationListAdapter extends BaseAdapter{
     private ArrayList<StationConfiguration> stations = new ArrayList<StationConfiguration>();
     private Activity parent = null;
@@ -57,7 +53,7 @@ public class GStationListAdapter extends BaseAdapter{
 
         HorizontalScrollView gScroller = (HorizontalScrollView) v.findViewById(R.id.scrollview);
         LinearLayout scrollerL = (LinearLayout) gScroller.findViewById(R.id.scrollviewlayout);
-        int number = 0;
+        long number = 0;
         for (long i : station.getAcceptPictograms()){
             PictogramButton temp = new PictogramButton(parent.getContext(),position, number);
             temp.setPictogram(i);

@@ -2,7 +2,7 @@ package dk.aau.cs.giraf.train;
 
 import java.util.ArrayList;
 
-public class StationList {
+public class StationList implements PictogramReceiver {
     public ArrayList<StationConfiguration> stations = new ArrayList<StationConfiguration>();
 
     public ArrayList<StationConfiguration> getStations() {
@@ -35,7 +35,7 @@ public class StationList {
         }
     }
 
-    public void receivePictograms(long pictogramId, int selectedStation, int selectedAcceptPictogram, boolean category){
+    public void receivePictograms(long pictogramId, int selectedStation, long selectedAcceptPictogram, boolean category){
         if(!category){
             this.stations.get(selectedStation).changeAcceptPictogram(selectedAcceptPictogram,pictogramId);
         }

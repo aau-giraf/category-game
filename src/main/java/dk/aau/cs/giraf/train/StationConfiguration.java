@@ -17,54 +17,54 @@ public class StationConfiguration implements Parcelable {
     private boolean is_loading = false;
     private long category = -1;
     private ArrayList<Long> acceptPictograms = new ArrayList<Long>();
-    
+
     public StationConfiguration() {
-        
+
     }
-    
-    public StationConfiguration(int CategoryPictogramId) {
+
+    public StationConfiguration(long CategoryPictogramId) {
         this.category = CategoryPictogramId;
     }
-    
+
     public StationConfiguration(StationConfiguration stationConfiguration) {
         this.category = stationConfiguration.getCategory();
         this.acceptPictograms = new ArrayList<Long>(stationConfiguration.getAcceptPictograms());
-		this.setLoadingStation(stationConfiguration.isLoadingStation());
+        this.setLoadingStation(stationConfiguration.isLoadingStation());
     }
-    
+
     public void addAcceptPictogram(long id) {
         acceptPictograms.add(id);
     }
 
-    public void changeAcceptPictogram(int oldPictogram, long newPictogram){
-        //int index = this.acceptPictograms.indexOf(oldPictogram);
-        this.acceptPictograms.set(oldPictogram,newPictogram);
+    public void changeAcceptPictogram(long oldPictogram, long newPictogram){
+        int index = this.acceptPictograms.indexOf(oldPictogram);
+        this.acceptPictograms.set(index,newPictogram);
     }
-    
-    public void removeAccepPictogram(int id) {
+
+    public void removeAccepPictogram(long id) {
         this.acceptPictograms.remove(this.acceptPictograms.indexOf(id));
     }
-    
+
     public void clearAcceptPictograms() {
         this.acceptPictograms.clear();
     }
-    
+
     public ArrayList<Long> getAcceptPictograms() {
         return this.acceptPictograms;
     }
-    
+
     public void setCategory(long category) {
         this.category = category;
     }
-    
+
     public long getCategory() {
         return this.category;
     }
-	
-	public boolean isLoadingStation() {
+
+    public boolean isLoadingStation() {
         return this.is_loading;
     }
-	public void setLoadingStation(boolean b) {
+    public void setLoadingStation(boolean b) {
         this.is_loading = b;
     }
 
@@ -78,24 +78,24 @@ public class StationConfiguration implements Parcelable {
         out.writeLong(this.category);
         out.writeList(this.acceptPictograms);
     }
-    
+
     public static final Parcelable.Creator<StationConfiguration> CREATOR = new Parcelable.Creator<StationConfiguration>() {
         @Override
         public StationConfiguration createFromParcel(Parcel in) {
             return new StationConfiguration(in);
         }
-        
+
         @Override
         public StationConfiguration[] newArray(int size) {
             return new StationConfiguration[size];
         }
     };
-    
+
     private StationConfiguration(Parcel in) {
-        this.category = in.readInt();
+        this.category = in.readLong();
         in.readList(this.acceptPictograms, null);
     }
-    
+
     /**
      * Write the station to a string.<br />
      * Example format: category,pictogram,pictogram
@@ -103,18 +103,18 @@ public class StationConfiguration implements Parcelable {
      * @throws IOException
      */
     public String writeStation() throws IOException {
-    	StringWriter sWriter = new StringWriter(1024);
-    	
-    	sWriter.write(String.valueOf(this.category));
-    	
-    	for(long pictogram : acceptPictograms) {
-    		sWriter.append(",");
-    		sWriter.write(String.valueOf(pictogram));
-    	}
-    	
-    	String result = sWriter.toString();
-    	sWriter.close();
-    	
-    	return result;
+        StringWriter sWriter = new StringWriter(1024);
+
+        sWriter.write(String.valueOf(this.category));
+
+        for(long  pictogram : acceptPictograms) {
+            sWriter.append(",");
+            sWriter.write(String.valueOf(pictogram));
+        }
+
+        String result = sWriter.toString();
+        sWriter.close();
+
+        return result;
     }
 }

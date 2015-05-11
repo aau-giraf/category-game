@@ -1,18 +1,15 @@
 package dk.aau.cs.giraf.train.opengl;
 
-import java.util.ArrayList;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnDismissListener;
-import android.content.DialogInterface.OnShowListener;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,14 +19,14 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
+
+import java.util.ArrayList;
+
 import dk.aau.cs.giraf.train.GameConfiguration;
 import dk.aau.cs.giraf.train.MainActivity;
 import dk.aau.cs.giraf.train.R;
 import dk.aau.cs.giraf.train.R.id;
-import dk.aau.cs.giraf.train.StationConfiguration;
 import dk.aau.cs.giraf.train.opengl.game.GameData;
-import android.util.Log;
 
 public class GameActivity extends Activity {
 
@@ -187,7 +184,7 @@ public class GameActivity extends Activity {
 	private void addFrameLayoutsAndPictograms(int numberOfPictoFrames) {
 		initLayouts();
 		//numberOfPictoFrames = (numberOfPictoFrames <= 4) ? 4:6;
-		
+		Log.d("Train", "NumberOfPictoFrames " + numberOfPictoFrames);
 		for (StationLinearLayout station : stationLinear) {
 			station.addPictoFrames(numberOfPictoFrames);
 		}
@@ -198,7 +195,7 @@ public class GameActivity extends Activity {
 		
 		trainDriverLinear = addSingleFrameToLinearLayout(trainDriverLinear);
 		
-		ArrayList<Integer> pictogramIdsToAdd = gameConfiguration.getIdOfAllPictograms();
+		ArrayList<Long> pictogramIdsToAdd = gameConfiguration.getIdOfAllPictograms();
 		int nextPicId = 0;
 		
 		for (StationLinearLayout station : stationLinear){

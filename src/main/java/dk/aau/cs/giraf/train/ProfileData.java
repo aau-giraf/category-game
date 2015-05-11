@@ -4,10 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
-import java.util.List;
-
 import dk.aau.cs.giraf.dblib.Helper;
-import dk.aau.cs.giraf.dblib.models.Category;
 import dk.aau.cs.giraf.dblib.models.Profile;
 
 
@@ -23,9 +20,9 @@ public final class ProfileData {
             //TODO:lav en ordenlig exception
         }
 
-        guardianProfile = localDataFetcher.profilesHelper.getProfileById(guardianID);
+        guardianProfile = localDataFetcher.profilesHelper.getById(guardianID);
         if(childID != -1){
-            childProfile = localDataFetcher.profilesHelper.getProfileById(childID);
+            childProfile = localDataFetcher.profilesHelper.getById(childID);
         }
     }
     public ProfileData() {

@@ -56,5 +56,5 @@ Det er desuden muligt at skifte profil ved at trykke på profilbilledet til vens
     <string name="category_description">Vælg en kategori</string>
     <string name="guest_toast">Du er nu logget på som gæst og nogle funktioner
         er derfor deaktiveret. Kør fra GIRAF Launcher hvis disse funktioner skal bruges."</string>
-    
+    <string name="only_one_station_and_piktogram_error">Du skal have mere end ét piktogram i dit spil, hvis du kun har én station.</string>
 </resources>
