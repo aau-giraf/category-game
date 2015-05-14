@@ -52,12 +52,15 @@
             android:name="android.support.PARENT_ACTIVITY"
             android:value="dk.aau.cs.giraf.train.MainActivity" />
         </activity>
+<<<<<<< HEAD
 
 		<activity
 			android:label="Data"
 			android:name="dk.aau.cs.giraf.core.data.Data"
 		</activity>
 
+=======
+>>>>>>> 9f8bb849a512b7ced8b6caf55ecc31b9d02f4db6
         <provider
             android:name="dk.aau.cs.giraf.localdb.DatabaseProvider"
             android:authorities="dk.aau.cs.giraf.train.provider"

@@ -1,9 +1,4 @@
 package dk.aau.cs.giraf.train;
-
-<<<<<<< HEAD
-
-=======
->>>>>>> d2d2ba1... Updated to handle pictosearch as a library, still need work
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
@@ -24,39 +19,28 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-<<<<<<< HEAD
-=======
+
 import dk.aau.cs.giraf.core.data.Data;
 import dk.aau.cs.giraf.dblib.models.Profile;
->>>>>>> d2d2ba1... Updated to handle pictosearch as a library, still need work
+
+
 import dk.aau.cs.giraf.gui.GButtonProfileSelect;
 import dk.aau.cs.giraf.gui.GComponent;
 import dk.aau.cs.giraf.gui.GDialogAlert;
 import dk.aau.cs.giraf.gui.GList;
 import dk.aau.cs.giraf.gui.GToast;
-<<<<<<< HEAD
+
 import dk.aau.cs.giraf.oasis.lib.Helper;
 import dk.aau.cs.giraf.oasis.lib.models.Profile;
 
 import dk.aau.cs.giraf.dblib.models.Profile;
 import dk.aau.cs.giraf.train.opengl.GameActivity;
 
-
 import dk.aau.cs.giraf.core.data.ProcessManager;
-import dk.aau.cs.giraf.core.data.Data;
-<<<<<<< HEAD
-
-=======
-import dk.aau.cs.giraf.core.pictosearch.*;
-import dk.aau.cs.giraf.metadata.DatabaseTables;
->>>>>>> 60e0bbd... updated blablaba
-
-=======
 import dk.aau.cs.giraf.pictosearch.PictoAdminMain;
 import dk.aau.cs.giraf.train.opengl.GameActivity;
 import dk.aau.cs.giraf.utilities.IntentConstants;
 
->>>>>>> d2d2ba1... Updated to handle pictosearch as a library, still need work
 public class MainActivity extends Activity {
     public static final String SAVEFILE_PATH = "game_configurations.txt";
     public static final String GAME_CONFIGURATION = "GameConfiguration";
@@ -110,6 +94,7 @@ public class MainActivity extends Activity {
         //Set the background
         mainView.setBackgroundDrawable(GComponent.GetBackgroundGradient());
         setContentView(mainView);
+
 
         if (ActivityManager.isUserAMonkey()) {
             Helper h = new Helper(this);
@@ -218,11 +203,13 @@ public class MainActivity extends Activity {
         this.progressDialog.show();
         ((TextView) this.progressDialog.findViewById(android.R.id.message)).setTextColor(android.graphics.Color.WHITE);
 
+
 		this.gameIntent = new Intent(this, GameActivity.class);
         this.categoryIntent = new Intent(this, CategoryDialogActivity.class);
 		this.saveIntent = new Intent(this, SaveDialogActivity.class);
 		//this.pictoAdminIntent.setComponent(new ComponentName("dk.aau.cs.giraf.core.pictosearch", "dk.aau.cs.giraf.core.pictosearch.PictoAdminMain"));
         this.pictoAdminIntent = new Intent(this, PictoAdminMain.class);
+
         // Create intents that are used throughout the app
         this.CreateIntents();
 
