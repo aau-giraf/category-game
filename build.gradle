@@ -36,6 +36,7 @@ dependencies {
     compile(group: 'dk.aau.cs.giraf', name: 'meta-database', version: '1.0')
     compile(group: 'dk.aau.cs.giraf', name: 'corelib', version: '1.2.0', ext: 'aar')
 
+
 }
 
 android {

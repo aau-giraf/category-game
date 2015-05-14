@@ -16,9 +16,9 @@ import android.os.Parcelable;
  */
 public class GameConfiguration implements Parcelable {
 
-    private int   guardianID;
+    private long   guardianID;
 	private String gameName;
-	private int   childID;
+	private long   childID;
 	private int   gameID;
     private int  distanceBetweenStations;
 	private ArrayList<StationConfiguration> stations = new ArrayList<StationConfiguration>();
@@ -30,7 +30,7 @@ public class GameConfiguration implements Parcelable {
 		this.guardianID = Data.;
 	}*/
 	
-	public GameConfiguration(String gameName, int gameID, int childID, int guardianID, int distanceBetweenStations) {
+	public GameConfiguration(String gameName, int gameID, long childID, long guardianID, int distanceBetweenStations) {
 		this.gameName = gameName;
 		this.childID = childID;
 		this.gameID = gameID;
@@ -41,10 +41,10 @@ public class GameConfiguration implements Parcelable {
     public int getDistanceBetweenStations(){
         return this.distanceBetweenStations;
     };
-	public int getChildId() {
+	public long getChildId() {
 	    return this.childID;
 	}
-    public int getGuardianID(){ return this.guardianID; }
+    public long getGuardianID(){ return this.guardianID; }
 
 	
 	public void addStation(StationConfiguration station) {
@@ -91,9 +91,9 @@ public class GameConfiguration implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel out, int flags) {
-        out.writeInt(this.guardianID);
+        out.writeLong(this.guardianID);
         out.writeString(this.gameName);
-        out.writeInt(this.childID);
+        out.writeLong(this.childID);
         out.writeInt(this.gameID);
         out.writeInt(this.distanceBetweenStations);
         out.writeList(this.stations);
