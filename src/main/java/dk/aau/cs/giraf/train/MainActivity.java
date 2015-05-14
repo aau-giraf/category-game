@@ -102,6 +102,9 @@ public class MainActivity extends Activity {
             } else {
                 super.finish();
             }
+        //Find the GButton in your View
+        gButtonProfileSelect = (GButtonProfileSelect) findViewById(R.id.ChangeProfile);
+
         /* Get data from launcher */
         Bundle extras = getIntent().getExtras();
 
@@ -112,12 +115,11 @@ public class MainActivity extends Activity {
                     this.getApplicationContext());
         } else {
             Log.e("NoUser", "Running as Guest user");
-            currentProfileData = new Data();
+			gButtonProfileSelect.setEnabled(false);
+            currentProfileData = new Data();	
         }
 
 
-        //Find the GButton in your View
-        gButtonProfileSelect = (GButtonProfileSelect) findViewById(R.id.ChangeProfile);
         //Call the method setup with a Profile guardian, no currentProfile (which means that the guardian is the current Profile) and the onCloseListener
         gButtonProfileSelect.setup(this.currentProfileData.guardianProfile, null, new GButtonProfileSelect.onCloseListener() {
             @Override
