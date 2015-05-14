@@ -54,7 +54,7 @@ public class GGameListAdapter extends BaseAdapter{
         ImageView categoryPic = (ImageView) vi.findViewById(R.id.categoryPic);
         categoryPic.setImageResource(R.drawable.default_profile);
 
-        Bitmap bitmap = PictoFactory.INSTANCE.getPictogram(activity.getApplicationContext(),data.get(position).getStation(0).getCategory()).getImageData();
+        Bitmap bitmap = PictoFactory.INSTANCE.getPictogram(activity.getApplicationContext(), data.get(position).getStation(0).getCategory()).getImageData();
         categoryPic.setImageBitmap(bitmap);
 
         ImageButton deleteButton = (ImageButton) vi.findViewById(R.id.deleteConfigButton);

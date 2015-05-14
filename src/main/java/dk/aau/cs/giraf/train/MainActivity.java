@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -53,6 +54,7 @@ import dk.aau.cs.giraf.metadata.DatabaseTables;
 =======
 import dk.aau.cs.giraf.pictosearch.PictoAdminMain;
 import dk.aau.cs.giraf.train.opengl.GameActivity;
+import dk.aau.cs.giraf.utilities.IntentConstants;
 
 >>>>>>> d2d2ba1... Updated to handle pictosearch as a library, still need work
 public class MainActivity extends Activity {
@@ -148,8 +150,8 @@ public class MainActivity extends Activity {
 
             // If GIRAF launcher is running use its Profile data
             currentProfileData = new ProfileData(
-                    extras.getInt("currentGuardianID"),
-                    extras.getInt("currentChildID"),
+                    extras.getLong("currentGuardianID"),
+                    extras.getLong("currentChildID"),
                     this.getApplicationContext());
         }
 
@@ -187,6 +189,8 @@ public class MainActivity extends Activity {
         } else {
             this.configurationHandler = new ConfigurationList(this, this.currentProfileData.guardianProfile);
         }
+
+        Log.d("Train", "number of saved gameconfigurations: " + this.configurationHandler.getGameconfiguration().size());
 
         gameListAdapter = new GGameListAdapter(this, this.configurationHandler.getGameconfiguration());
         saveConfigurationList.setAdapter(gameListAdapter);
@@ -270,34 +274,34 @@ public class MainActivity extends Activity {
 
         }
     }
-	
-	public void onClickAddStation(View view) {
+
+    public void onClickAddStation(View view) {
         this.listOfStations.stations.add(new StationConfiguration());
         this.stationListAdapter.notifyDataSetChanged();
-	}
-	
-	public void onClickSaveGame(View view) throws IOException {
-	    if (this.isValidConfiguration(view)) {
-	    	this.saveIntent.putExtra(MainActivity.GAME_CONFIGURATIONS, this.configurationHandler.getGameconfiguration());
-	    	if(this.currentProfileData.childProfile != null){
-	    	    this.saveIntent.putExtra(MainActivity.SELECTED_CHILD_NAME, this.currentProfileData.childProfile.getName());
-	    	    this.saveIntent.putExtra(MainActivity.SELECTED_CHILD_ID, this.currentProfileData.childProfile.getId());
+    }
+
+    public void onClickSaveGame(View view) throws IOException {
+        if (this.isValidConfiguration(view)) {
+            this.saveIntent.putExtra(MainActivity.GAME_CONFIGURATIONS, this.configurationHandler.getGameconfiguration());
+            if(this.currentProfileData.childProfile != null){
+                this.saveIntent.putExtra(MainActivity.SELECTED_CHILD_NAME, this.currentProfileData.childProfile.getName());
+                this.saveIntent.putExtra(MainActivity.SELECTED_CHILD_ID, this.currentProfileData.childProfile.getId());
             }
             else {
                 this.saveIntent.putExtra(MainActivity.SELECTED_CHILD_NAME, this.currentProfileData.guardianProfile.getName());
                 this.saveIntent.putExtra(MainActivity.SELECTED_CHILD_ID, this.currentProfileData.guardianProfile.getId());
             }
-	    	
+
             super.startActivityForResult(this.saveIntent, MainActivity.RECEIVE_GAME_NAME);
         }
-	}
+    }
     public void onClickCategory(View view) {
         super.startActivityForResult(this.categoryIntent, MainActivity.RECEIVE_GAME_NAME);
     }
-	
-	public void onClickStartGame(View view) {
+
+    public void onClickStartGame(View view) {
         // TODO: ID should be implemented, instead of giving all games the id of '1337'
-	    if(this.isValidConfiguration(view)) {
+        if(this.isValidConfiguration(view)) {
             if(this.currentProfileData.childProfile != null){
                 this.gameIntent.putExtra(MainActivity.GAME_CONFIGURATION, this.getGameConfiguration("the new game", 1337, this.currentProfileData.childProfile.getId(), distanceBetweenStations));
             }
@@ -306,7 +310,7 @@ public class MainActivity extends Activity {
             }
             this.startActivity(this.gameIntent);
         }
-	}
+    }
     public void onClickInfo(View view){
         GDialogAlert diag = new GDialogAlert(view.getContext(),
                 R.drawable.ic_launcher,
@@ -320,23 +324,23 @@ public class MainActivity extends Activity {
                 });
         diag.show();
     }
-	
-	private void showAlertMessage(String message, View view) {
+
+    private void showAlertMessage(String message, View view) {
         new GDialogAlert(view.getContext(),message, null).show();
-	}
-	
-	private boolean isValidConfiguration(View view) {
-	    ArrayList<StationConfiguration> currentStation = this.listOfStations.getStations();
+    }
+
+    private boolean isValidConfiguration(View view) {
+        ArrayList<StationConfiguration> currentStation = this.listOfStations.getStations();
         EditText text = (EditText)findViewById(R.id.distanceForStations);
         if (text == null || text.getText().toString().equals(""))
         {
             this.showAlertMessage("Du skal skrive køretiden mellem stationer" +
-                                  " for at kunne starte og gemme spillet", view);
+                    " for at kunne starte og gemme spillet", view);
             currentStation = null; //Free memory
             return false;
         }
         try{
-        distanceBetweenStations = Integer.parseInt(text.getText().toString());
+            distanceBetweenStations = Integer.parseInt(text.getText().toString());
         } catch (NumberFormatException e){
             text.getText().clear();
             return false;
@@ -348,117 +352,127 @@ public class MainActivity extends Activity {
         }
 
         distanceBetweenStations =(int)Math.ceil((Integer.parseInt(text.getText().toString()) * 350) - 1750);
-	    //There needs to be at least one station
-	    if(currentStation.size() < 1) {
-	        this.showAlertMessage(super.getResources().getString(R.string.station_error),view);
-	        currentStation = null; //Free memory
+        //There needs to be at least one station
+        if(currentStation.size() < 1) {
+            this.showAlertMessage(super.getResources().getString(R.string.station_error),view);
+            currentStation = null; //Free memory
             return false;
         }
-	    for (int i = 0; i < currentStation.size(); i++)
-		{
-			if (currentStation.get(i).isLoadingStation())
-				continue;
-				
-	        if(currentStation.get(i).getCategory() == -1)
-			{
+        //Check if there is only one station with only one pictogram, as it does not make sense to start such a game.
+        else if(currentStation.size() == 1 && currentStation.get(0).getAcceptPictograms().size() == 1)
+        {
+            //Not a valid game, return false
+            this.showAlertMessage(super.getResources().getString(R.string.only_one_station_and_piktogram_error), view);
+            return false;
+        }
+        for (int i = 0; i < currentStation.size(); i++)
+        {
+            if (currentStation.get(i).isLoadingStation())
+                continue;
+
+            if(currentStation.get(i).getCategory() == -1)
+            {
                 this.showAlertMessage(super.getResources().getString(R.string.category_error),view);
                 currentStation = null; //Free memory
                 return false;
             }
-			else if (currentStation.get(i).getAcceptPictograms().size() < 1) {
-	            this.showAlertMessage(super.getResources().getString(R.string.pictogram_error),view);
-	            currentStation = null; //Free memory
-	            return false;
-	        }
-	    }
-	    currentStation = null; //Free memory
-	    //If we have come this far, then the configuration is valid
-	    return true;
-	}
-	
-	private GameConfiguration getGameConfiguration(String gameName, int gameID, long childID, int distanceBetweenStations) {
+            else if (currentStation.get(i).getAcceptPictograms().size() < 1) {
+                this.showAlertMessage(super.getResources().getString(R.string.pictogram_error),view);
+                currentStation = null; //Free memory
+                return false;
+            }
+        }
 
-	    GameConfiguration gameConfiguration = new GameConfiguration(gameName, gameID, childID, currentProfileData.guardianProfile.getId(), distanceBetweenStations); //TODO Set appropriate IDs
-	    gameConfiguration.setStations(this.listOfStations.getStations());
-	    return gameConfiguration;
-	}
-	
-	public void setGameConfiguration(GameConfiguration gameConfiguration) {
-	    ArrayList<StationConfiguration> newReference = new ArrayList<StationConfiguration>();
-	    for (int i = 0; i < gameConfiguration.getStations().size(); i++) {
-	        newReference.add(new StationConfiguration(gameConfiguration.getStation(i)));
-	    }
-	    this.listOfStations.setStationConfigurations(newReference);
+
+        currentStation = null; //Free memory
+        //If we have come this far, then the configuration is valid
+        return true;
+    }
+
+    private GameConfiguration getGameConfiguration(String gameName, int gameID, long childID, int distanceBetweenStations) {
+
+        GameConfiguration gameConfiguration = new GameConfiguration(gameName, gameID, childID, currentProfileData.guardianProfile.getId(), distanceBetweenStations); //TODO Set appropriate IDs
+        gameConfiguration.setStations(this.listOfStations.getStations());
+        return gameConfiguration;
+    }
+
+    public void setGameConfiguration(GameConfiguration gameConfiguration) {
+        ArrayList<StationConfiguration> newReference = new ArrayList<StationConfiguration>();
+        for (int i = 0; i < gameConfiguration.getStations().size(); i++) {
+            newReference.add(new StationConfiguration(gameConfiguration.getStation(i)));
+        }
+        this.listOfStations.setStationConfigurations(newReference);
         this.stationListAdapter.notifyDataSetChanged();
         EditText text = (EditText)findViewById(R.id.distanceForStations);
         text.setText(Integer.toString(gameConfiguration.getDistanceBetweenStations()));
-	}
+    }
 
-	@Override
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         this.progressDialog.dismiss();
-        
+
         //If we did not receive any data or the result was not OK, abort
         if(data == null || resultCode != RESULT_OK) {
             return;
         }
-        
+
         long[] checkout;
 
         switch(requestCode) {
-        case MainActivity.RECEIVE_SINGLE:
-        	checkout = data.getExtras().getLongArray("checkoutIds"); //Pictogram IDs
-            
-            if(checkout.length > 0) {
-                this.listOfStations.receivePictograms(checkout[0], this.selectedStation, this.selectedAcceptPictogram, this.isCategory);
-            }
+            case MainActivity.RECEIVE_SINGLE:
+                checkout = data.getExtras().getLongArray("checkoutIds"); //Pictogram IDs
 
-        	break;
-        case MainActivity.RECEIVE_MULTIPLE:
-        	checkout = data.getExtras().getLongArray("checkoutIds"); //Pictogram IDs
+                if(checkout.length > 0) {
+                    Log.d("dk.aau.cs.giraf.train", "Single: " + checkout[0]);
+                    this.listOfStations.receivePictograms(checkout[0], this.selectedStation, this.selectedAcceptPictogram, this.isCategory);
+                }
 
-            if(checkout.length > 0) {
-                this.listOfStations.receivePictograms(checkout, this.selectedStation);
-            }
-        	break;
-        case MainActivity.RECEIVE_GAME_NAME:
+                break;
+            case MainActivity.RECEIVE_MULTIPLE:
+                checkout = data.getExtras().getLongArray("checkoutIds"); //Pictogram IDs
 
-        	String gameName = data.getExtras().getString(SaveDialogActivity.GAME_NAME);
-            EditText text = (EditText)findViewById(R.id.distanceForStations);
-            int distanceBetweenStations = Integer.parseInt(text.getText().toString());
-            GameConfiguration gameConfiguration;
-            if(this.currentProfileData.childProfile != null){
-                gameConfiguration = getGameConfiguration(gameName, 1337, this.currentProfileData.childProfile.getId(),distanceBetweenStations);
-            }
-            else{
-                gameConfiguration = getGameConfiguration(gameName, 1337, this.currentProfileData.guardianProfile.getId(),distanceBetweenStations);
-            }
-        	this.configurationHandler.addConfiguration(gameConfiguration);
-            this.gameListAdapter.notifyDataSetChanged();
+                if(checkout.length > 0) {
+                    Log.d("dk.aau.cs.giraf.train", "Multiple: " + checkout[0]);
+                    this.listOfStations.receivePictograms(checkout, this.selectedStation);
+                }
+                break;
+            case MainActivity.RECEIVE_GAME_NAME:
 
-			try {
-				this.configurationHandler.saveAllConfigurations(SAVEFILE_PATH);
-			} catch (IOException e) {
-				e.printStackTrace();
-				Toast.makeText(this, "Kan ikke gemme", Toast.LENGTH_SHORT).show();
-			}
-        	break;
+                String gameName = data.getExtras().getString(SaveDialogActivity.GAME_NAME);
+                EditText text = (EditText)findViewById(R.id.distanceForStations);
+                int distanceBetweenStations = Integer.parseInt(text.getText().toString());
+                GameConfiguration gameConfiguration;
+                if(this.currentProfileData.childProfile != null){
+                    gameConfiguration = getGameConfiguration(gameName, 1337, this.currentProfileData.childProfile.getId(),distanceBetweenStations);
+                }
+                else{
+                    gameConfiguration = getGameConfiguration(gameName, 1337, this.currentProfileData.guardianProfile.getId(),distanceBetweenStations);
+                }
+                this.configurationHandler.addConfiguration(gameConfiguration);
+                this.gameListAdapter.notifyDataSetChanged();
+
+                try {
+                    this.configurationHandler.saveAllConfigurations(SAVEFILE_PATH);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Toast.makeText(this, "Kan ikke gemme", Toast.LENGTH_SHORT).show();
+                }
+                break;
         }
         this.stationListAdapter.notifyDataSetChanged();
 
     }
-
-    private int selectedStation, selectedAcceptPictogram;
+    private int selectedStation = -1;
+    long selectedAcceptPictogram = -1;
     private boolean isCategory = false;
-
-    public void startPictoAdmin(int requestCode, int selectedStation, int selectedAcceptPictogram, boolean isCategory, View view){
+    public void startPictoAdmin(int requestCode, int selectedStation, long selectedAcceptPictogram, boolean isCategory, View view){
         this.selectedAcceptPictogram = selectedAcceptPictogram;
         this.isCategory = isCategory;
         this.startPictoAdmin(requestCode, selectedStation, view);
     }
 
-	public void startPictoAdmin(int requestCode, int selectedStation, View view) {
+    public void startPictoAdmin(int requestCode, int selectedStation, View view) {
         this.selectedStation = selectedStation; // Add pictogram to station goes here
 
         /* This method was used when corelib did not manage pictosearch as Train had to make sure pictosearch was installed.
@@ -468,27 +482,27 @@ public class MainActivity extends Activity {
 	    }
 	    */
 
-	    this.progressDialog.show();
-	    
-	    //requestCode defines how many pictograms we want to receive
-	    switch(requestCode) {
-	    case MainActivity.RECEIVE_SINGLE:
-	        this.pictoAdminIntent.putExtra("purpose", "single");
-	        break;
-	    case MainActivity.RECEIVE_MULTIPLE:
-	        this.pictoAdminIntent.putExtra("purpose", "multi");
-	        break;
-	    }
-        if(this.currentProfileData.childProfile != null){
-            this.pictoAdminIntent.putExtra("currentChildID", this.currentProfileData.childProfile.getId());
+        this.progressDialog.show();
+
+        //requestCode defines how many pictograms we want to receive
+        switch(requestCode) {
+            case MainActivity.RECEIVE_SINGLE:
+                this.pictoAdminIntent.putExtra(IntentConstants.PURPOSE, IntentConstants.SINGLE);
+                break;
+            case MainActivity.RECEIVE_MULTIPLE:
+                this.pictoAdminIntent.putExtra(IntentConstants.PURPOSE, IntentConstants.MULTI);
+                break;
         }
-        this.pictoAdminIntent.putExtra("currentGuardianID", this.currentProfileData.guardianProfile.getId());
+        if(this.currentProfileData.childProfile != null){
+            this.pictoAdminIntent.putExtra(IntentConstants.CURRENT_CHILD_ID, this.currentProfileData.childProfile.getId());
+        }
+        this.pictoAdminIntent.putExtra(IntentConstants.CURRENT_GUARDIAN_ID, this.currentProfileData.guardianProfile.getId());
 
         super.startActivityForResult(this.pictoAdminIntent, requestCode);
-	}
-	
-	private boolean isCallable(Intent intent) {
+    }
+
+    private boolean isCallable(Intent intent) {
         List<ResolveInfo> list = getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
         return list.size() > 0;
-	}
+    }
 }

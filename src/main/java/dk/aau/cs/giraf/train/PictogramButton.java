@@ -7,77 +7,77 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import dk.aau.cs.giraf.gui.GirafPictogramItemView;
-import dk.aau.cs.giraf.dblib.Helper;
-import dk.aau.cs.giraf.dblib.models.Pictogram;
+
+import dk.aau.cs.giraf.pictogram.PictoFactory;
+import dk.aau.cs.giraf.pictogram.Pictogram;
+
 /**
  * A layout containing a pictogram. Click the button to choose a pictogram.
  * @author Jesper Riemer Andersen
  * @see Pictogram
  */
 public class PictogramButton extends LinearLayout {
-    
-    private GirafPictogramItemView pictogramContainer;
+
+    private FrameLayout pictogramContainer;
     private long pictogramId = -1;
     private ImageButton removeButton;
     private StationConfiguration station = null;
     private boolean isCategory = false;
     private int selectedStation;
-    private int number;
-    
+    private long number;
+
     private void setup() {
         LayoutParams layoutParams = new LayoutParams(75, 75);
         super.setLayoutParams(layoutParams);
         super.setBackgroundResource(R.drawable.shape_white);
-        
+
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View pictogramLayout = layoutInflater.inflate(R.layout.pictogram_layout, null);
         super.addView(pictogramLayout);
-        
-        this.pictogramContainer = (GirafPictogramItemView) pictogramLayout.findViewById(R.id.pictogramContainer);
-        
+
+        this.pictogramContainer = (FrameLayout) pictogramLayout.findViewById(R.id.pictogramContainer);
+
         this.removeButton = (ImageButton) pictogramLayout.findViewById(R.id.removeButton);
         this.removeButton.setVisibility(View.INVISIBLE);
         this.removeButton.setOnClickListener(new RemoveClickListener());
-        
+
         super.setOnClickListener(new PictogramClickListener());
     }
 
-    public PictogramButton(Context context, int postion, int number){
+    public PictogramButton(Context context, int postion, long number){
         super(context);
         this.selectedStation = postion;
         this.number = number;
         this.setup();
     }
-    
+
     public PictogramButton(Context context, int postion) {
         super(context);
         this.selectedStation = postion;
         this.setup();
     }
-    
+
 	public PictogramButton(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		this.setup();
 	}
-	
+
 	public void bindStationAsCategory(StationConfiguration station,int position) {
 	    this.station = station;
 	    this.setPictogram(station.getCategory());
         this.isCategory = true;
         this.selectedStation = position;
 	}
-	
+
 	public long getPictogramId() {
         return this.pictogramId;
     }
-	
+
     public Pictogram getPictogram() {
         return (Pictogram) this.pictogramContainer.getChildAt(0); //Returns null if non-existent
     }
-	
+
 	public void setRemovable(boolean isRemovable) {
 	    if(isRemovable) {
 	        this.removeButton.setVisibility(View.VISIBLE);   //Show remove button
@@ -85,19 +85,21 @@ public class PictogramButton extends LinearLayout {
 	        this.removeButton.setVisibility(View.INVISIBLE); //Hide remove button
 	    }
 	}
-	
+
 	public void setPictogram(long pictogramId) {
 	    this.pictogramId = pictogramId;
 	    this.pictogramContainer.removeAllViews();
 	    if(pictogramId == -1) { return; }
-	    Helper helper = new Helper(getContext());
+
 	    if(this.station != null) { this.station.setCategory(pictogramId); } //If this is a category, save it
-        Pictogram pictogram = helper.pictogramHelper.getById(pictogramId);
-        //pictogram.renderImage();
-        //pictogram.renderText();
-        this.pictogramContainer.setImageModel(pictogram);
+
+	    Pictogram pictogram = PictoFactory.getPictogram(getContext(), pictogramId);
+        pictogram.renderImage();
+        pictogram.renderText();
+
+        this.pictogramContainer.addView(pictogram);
 	}
-	
+
 	private final class PictogramClickListener implements OnClickListener {
 
         @Override
@@ -107,7 +109,7 @@ public class PictogramButton extends LinearLayout {
 
         }
     }
-	
+
 	private final class RemoveClickListener implements OnClickListener {
 
         @Override

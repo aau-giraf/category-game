@@ -1,7 +1,5 @@
 package dk.aau.cs.giraf.train;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -12,6 +10,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class SaveDialogActivity extends Activity {
     
     public static final String GAME_NAME = "gameName";
@@ -20,7 +20,7 @@ public class SaveDialogActivity extends Activity {
     private AlertDialog errorDialog;
     
     private ArrayList<GameConfiguration> currentGameConfigurations;
-    private int selectedChildId;
+    private long selectedChildId;
     private String selectedChildName;
     
     @Override
@@ -41,7 +41,7 @@ public class SaveDialogActivity extends Activity {
         Bundle extras = super.getIntent().getExtras();
         if(extras != null) {
             this.currentGameConfigurations = extras.getParcelableArrayList(MainActivity.GAME_CONFIGURATIONS);
-            this.selectedChildId = extras.getInt(MainActivity.SELECTED_CHILD_ID);
+            this.selectedChildId = extras.getLong(MainActivity.SELECTED_CHILD_ID);
             this.selectedChildName = extras.getString(MainActivity.SELECTED_CHILD_NAME);
             
             ((TextView) super.findViewById(R.id.saveDescription)).append(" " + this.selectedChildName);

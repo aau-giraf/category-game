@@ -2,6 +2,7 @@ package dk.aau.cs.giraf.train;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -80,17 +81,17 @@ public class ConfigurationList {
 
     private void splitConfigurations(String data) {
         String[] configurations = data.split("\n");
-
+        Log.d("Train", "Configs: " + configurations.length);
         // For each configuration
         for (int i = 0; i < configurations.length; i++) {
 
             String[] parts = configurations[i].split(";");
             String[] game = parts[0].split(",");
             try{
-                int gameID = Integer.parseInt(game[0]);
-                int guardianID = Integer.parseInt(game[1]);
-                int childID = Integer.valueOf(game[2]);
-                String gameName = game[3];
+                long guardianID =  Long.parseLong(game[0]);
+                String gameName = game[1];
+                long childID =  Long.parseLong(game[2]);
+                int gameID = Integer.parseInt(game[3]);
                 int TempdistanceBetweenStations = Integer.parseInt(game[4]);
                 ArrayList<StationConfiguration> stations = new ArrayList<StationConfiguration>();
 
@@ -99,11 +100,11 @@ public class ConfigurationList {
                     StationConfiguration station = new StationConfiguration();
                     String[] stationParts = parts[k].split(",");
 
-                    station.setCategory((Integer.parseInt(stationParts[0])));
+                    station.setCategory(Long.parseLong(stationParts[0]));
 
                     // For each accept pictogram of station
                     for (int n = 1; n < stationParts.length; n++) {
-                        station.addAcceptPictogram(Integer.parseInt(stationParts[n]));
+                        station.addAcceptPictogram(Long.parseLong(stationParts[n]));
                     }
                     stations.add(station);
                 }
@@ -116,7 +117,7 @@ public class ConfigurationList {
                 }
                 this.listOfAllConfiguration.add(gameConf);
             } catch (NumberFormatException e){
-
+                Log.e("ConfigurationList/splitConfigurations", e.getMessage());
             }
         }
     }

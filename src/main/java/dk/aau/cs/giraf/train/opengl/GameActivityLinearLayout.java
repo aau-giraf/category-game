@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+
 import dk.aau.cs.giraf.train.R;
 /***
  * An abstract class that contains methods for StationLinearLayout and WagonLinearLayout.
@@ -19,25 +21,32 @@ public abstract class GameActivityLinearLayout extends LinearLayout {
 		super(context, attrs);
 	}
 	
-	public void addPictoFrames(int numberOfPictoFrames){
-		Drawable normalShape = getResources().getDrawable(R.drawable.shape);
-		int height = 300/(numberOfPictoFrames/2);
-		if (height >= 100) height = 100;
-		
-		int pictocount = (numberOfPictoFrames / 2);
-		if (numberOfPictoFrames % 2 == 1) pictocount += 1;
-		if (pictocount < 2) pictocount = 2;
-		
-		for (int j = 0; j < pictocount; j++) {
-			LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(0,height,1.0f);
-			PictoFrameLayout pictoFrameLayout = new PictoFrameLayout(this.getContext());
-			pictoFrameLayout.setLayoutParams(linearLayoutParams);
-			pictoFrameLayout.setBackgroundDrawable(normalShape);
-			pictoFrameLayout.setOnDragListener(new DragListener());
-			
-			this.addView(pictoFrameLayout);
-		}
-	}
+	public void addPictoFrames(int numberOfPictoFrames) {
+        try {
+            Log.d("Train/GameActivityLinearLayout", "numberOfPictoFrames: "+ numberOfPictoFrames);
+                Drawable normalShape = getResources().getDrawable(R.drawable.shape);
+                int height = 300 / (numberOfPictoFrames / 2);
+                if (height >= 100) height = 100;
+
+                int pictocount = (numberOfPictoFrames / 2);
+                if (numberOfPictoFrames % 2 == 1) pictocount += 1;
+                if (pictocount < 2) pictocount = 2;
+
+                for (int j = 0; j < pictocount; j++) {
+                    LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(0, height, 1.0f);
+                    PictoFrameLayout pictoFrameLayout = new PictoFrameLayout(this.getContext());
+                    pictoFrameLayout.setLayoutParams(linearLayoutParams);
+                    pictoFrameLayout.setBackgroundDrawable(normalShape);
+                    pictoFrameLayout.setOnDragListener(new DragListener());
+
+                    this.addView(pictoFrameLayout);
+                }
+            }
+            catch (ArithmeticException e) {
+                e.printStackTrace();
+            }
+    }
+
 	
 	/**
 	 * A drag listner implementing an onDrag() method that runs when something
