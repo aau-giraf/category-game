@@ -27,6 +27,8 @@ import dk.aau.cs.giraf.gui.GList;
 import dk.aau.cs.giraf.gui.GToast;
 import dk.aau.cs.giraf.oasis.lib.Helper;
 import dk.aau.cs.giraf.oasis.lib.models.Profile;
+
+import dk.aau.cs.giraf.dblib.models.Profile;
 import dk.aau.cs.giraf.train.opengl.GameActivity;
 
 
@@ -111,7 +113,7 @@ public class MainActivity extends Activity {
         gButtonProfileSelect     = (GButtonProfileSelect) findViewById(R.id.ChangeProfile);
 
         // If the launcher is running it is not a guest session
-        this.isGuestSession = Data.isProcessRunning("dk.aau.cs.giraf.launcher", this);
+        this.isGuestSession = !Data.isProcessRunning("dk.aau.cs.giraf.launcher", this);
 
         if (isGuestSession) {
             new GToast(this, super.getResources().getString(R.string.guest_toast), 100).show();
@@ -119,6 +121,8 @@ public class MainActivity extends Activity {
             gButtonProfileSelect.setEnabled(false);
             // Empty Data constructor creates a guest profile
             currentProfileData = new ProfileData();
+            Intent download = new Intent(this, Data.class);
+            startActivity(download);
         } else {
             /* Get data from launcher */
             Bundle extras = getIntent().getExtras();

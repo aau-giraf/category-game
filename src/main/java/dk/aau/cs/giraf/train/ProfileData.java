@@ -6,9 +6,9 @@ import android.graphics.Color;
 
 import java.util.List;
 
-import dk.aau.cs.giraf.oasis.lib.Helper;
-import dk.aau.cs.giraf.oasis.lib.models.Category;
-import dk.aau.cs.giraf.oasis.lib.models.Profile;
+import dk.aau.cs.giraf.dblib.Helper;
+import dk.aau.cs.giraf.dblib.models.Category;
+import dk.aau.cs.giraf.dblib.models.Profile;
 
 
 public final class ProfileData {

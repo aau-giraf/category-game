@@ -14,8 +14,8 @@ import java.util.List;
 
 import dk.aau.cs.giraf.gui.GList;
 import dk.aau.cs.giraf.gui.GTextView;
-import dk.aau.cs.giraf.oasis.lib.Helper;
-import dk.aau.cs.giraf.oasis.lib.models.Category;
+import dk.aau.cs.giraf.dblib.Helper;
+import dk.aau.cs.giraf.dblib.models.Category;
 
 public class CategoryDialogActivity extends Activity{
     private Intent resultIntent = new Intent();
