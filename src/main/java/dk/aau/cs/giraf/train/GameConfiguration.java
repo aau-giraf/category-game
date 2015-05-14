@@ -1,11 +1,11 @@
 package dk.aau.cs.giraf.train;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
-
-import android.os.Parcel;
-import android.os.Parcelable;
 
 /**
  * This class contains all information of a game configuration.
@@ -75,8 +75,8 @@ public class GameConfiguration implements Parcelable {
 		return numberOfPictograms;
 	}
 	
-	public ArrayList<Integer> getIdOfAllPictograms(){
-		ArrayList<Integer> pictogramIds =new ArrayList<Integer>();
+	public ArrayList<Long> getIdOfAllPictograms(){
+		ArrayList<Long> pictogramIds =new ArrayList<Long>();
 		
 		for (StationConfiguration station : this.stations) {
 			pictogramIds.addAll(station.getAcceptPictograms());

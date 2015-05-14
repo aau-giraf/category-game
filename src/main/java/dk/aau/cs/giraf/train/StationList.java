@@ -1,10 +1,6 @@
 package dk.aau.cs.giraf.train;
 
-import android.widget.ImageButton;
-
 import java.util.ArrayList;
-
-import dk.aau.cs.giraf.train.opengl.game.Station;
 
 public class StationList {
     public ArrayList<StationConfiguration> stations = new ArrayList<StationConfiguration>();
@@ -29,9 +25,9 @@ public class StationList {
         stations.remove(station);
     }
 
-    public void receivePictograms(int[] pictogramIds, int selectedstation) {
+    public void receivePictograms(long[] pictogramIds, int selectedstation) {
         int i = this.stations.get(selectedstation).getAcceptPictograms().size();
-        for (int id : pictogramIds) {
+        for (long id : pictogramIds) {
             if(i < 6){
                 this.stations.get(selectedstation).addAcceptPictogram(id);
                 i++;
@@ -39,7 +35,7 @@ public class StationList {
         }
     }
 
-    public void receivePictograms(int pictogramId, int selectedStation, int selectedAcceptPictogram, boolean category){
+    public void receivePictograms(long pictogramId, int selectedStation, int selectedAcceptPictogram, boolean category){
         if(!category){
             this.stations.get(selectedStation).changeAcceptPictogram(selectedAcceptPictogram,pictogramId);
         }
