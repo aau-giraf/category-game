@@ -53,12 +53,9 @@
             android:value="dk.aau.cs.giraf.train.MainActivity" />
         </activity>
 
-        <activity android:name="dk.aau.cs.giraf.core.pictosearch.PictoAdminMain">
-
-        </activity>
-
-        <activity android:name="dk.aau.cs.giraf.core.data.Download">
-
-        </activity>
+		<activity
+			android:label="@string/download"
+			android:name="dk.aau.cs.giraf.core.data.Download"
+			/>
     </application>
 </manifest>
