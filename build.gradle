@@ -16,8 +16,14 @@ apply plugin: 'android'
 apply plugin: 'dk.giraf.deploy'
 apply plugin: 'play'
 
+// Always download latest snapshot
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
 repositories {
     mavenCentral()
+    mavenLocal()
     maven {
         url 'http://cs-cust06-int.cs.aau.dk/artifactory/libraries'
     }
