@@ -19,24 +19,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import dk.aau.cs.giraf.core.data.Data;
+import dk.aau.cs.giraf.dblib.Helper;
 import dk.aau.cs.giraf.dblib.models.Profile;
-
-
 import dk.aau.cs.giraf.gui.GButtonProfileSelect;
 import dk.aau.cs.giraf.gui.GComponent;
 import dk.aau.cs.giraf.gui.GDialogAlert;
 import dk.aau.cs.giraf.gui.GList;
 import dk.aau.cs.giraf.gui.GToast;
-
-import dk.aau.cs.giraf.oasis.lib.Helper;
-import dk.aau.cs.giraf.oasis.lib.models.Profile;
-
-import dk.aau.cs.giraf.dblib.models.Profile;
-import dk.aau.cs.giraf.train.opengl.GameActivity;
-
-import dk.aau.cs.giraf.core.data.ProcessManager;
 import dk.aau.cs.giraf.pictosearch.PictoAdminMain;
 import dk.aau.cs.giraf.train.opengl.GameActivity;
 import dk.aau.cs.giraf.utilities.IntentConstants;
@@ -62,7 +52,7 @@ public class MainActivity extends Activity {
     private Intent categoryIntent;
     private Intent pictoAdminIntent = new Intent();
     private Intent download;
-	
+
 	private ProgressDialog progressDialog;
 
     private GButtonProfileSelect gButtonProfileSelect;
@@ -89,7 +79,6 @@ public class MainActivity extends Activity {
         View mainView = li.inflate(R.layout.activity_main, null);
 
         Intent intent = getIntent();
-        Bundle extras = null;
 
         //Set the background
         mainView.setBackgroundDrawable(GComponent.GetBackgroundGradient());
@@ -99,65 +88,55 @@ public class MainActivity extends Activity {
         if (ActivityManager.isUserAMonkey()) {
             Helper h = new Helper(this);
             h.CreateDummyData();
-            currentProfileData = new Data(h.profilesHelper.getGuardians().get(0).getId(),
+            currentProfileData = new ProfileData(h.profilesHelper.getGuardians().get(0).getId(),
                     h.profilesHelper.getChildren().get(0).getId(),
                     this.getApplicationContext());
         }
         else {
-            /* Get data from launcher */
-            extras = getIntent().getExtras();
+            //Find the gButton in your View (needs to be disabled if it is a guest session)
+            gButtonProfileSelect = (GButtonProfileSelect) findViewById(R.id.ChangeProfile);
 
-            if (extras != null) {
-                currentProfileData = new Data(
-                        extras.getInt("currentGuardianID"),
-                        extras.getInt("currentChildID"),
-                        this.getApplicationContext());
+            // If the launcher is running it is not a guest session
+            this.isGuestSession = !Data.isProcessRunning("dk.aau.cs.giraf.launcher", this);
+
+            if (isGuestSession) {
+                new GToast(this, super.getResources().getString(R.string.guest_toast), 100).show();
+                // Disable button to switch profile as there are no other profile than Guest in standalone execution
+                gButtonProfileSelect.setEnabled(false);
+                // Empty Data constructor creates a guest profile
+                currentProfileData = new ProfileData();
+
+                this.downloadAllPictograms();
             } else {
-                super.finish();
-            }
-        //Find the gButton in your View (needs to be disabled if it is a guest session)
-        gButtonProfileSelect     = (GButtonProfileSelect) findViewById(R.id.ChangeProfile);
-
-        // If the launcher is running it is not a guest session
-        this.isGuestSession = !Data.isProcessRunning("dk.aau.cs.giraf.launcher", this);
-
-        if (isGuestSession) {
-            new GToast(this, super.getResources().getString(R.string.guest_toast), 100).show();
-            // Disable button to switch profile as there are no other profile than Guest in standalone execution
-            gButtonProfileSelect.setEnabled(false);
-            // Empty Data constructor creates a guest profile
-            currentProfileData = new ProfileData();
-
-            this.downloadAllPictograms();
-        } else {
             /* Get data from launcher */
-            Bundle extras = getIntent().getExtras();
+                Bundle extras = getIntent().getExtras();
 
-            // If GIRAF launcher is running use its Profile data
-            currentProfileData = new ProfileData(
-                    extras.getLong("currentGuardianID"),
-                    extras.getLong("currentChildID"),
-                    this.getApplicationContext());
+                // If GIRAF launcher is running use its Profile data
+                currentProfileData = new ProfileData(
+                        extras.getLong("currentGuardianID"),
+                        extras.getLong("currentChildID"),
+                        this.getApplicationContext());
+            }
         }
 
-        //Call the method setup with a Profile guardian, no currentProfile (which means that the guardian is the current Profile) and the onCloseListener
-        gButtonProfileSelect.setup(this.currentProfileData.guardianProfile, null, new GButtonProfileSelect.onCloseListener() {
-            @Override
-            public void onClose(Profile guardianProfile, Profile currentProfile) {
-                //If the guardian is the selected profile create GToast displaying the name
-                if (currentProfile == null) {
-                    GToast w = new GToast(getApplicationContext(), "Den valgte profil er " + guardianProfile.getName().toString(), 2);
-                    onChangeProfile(guardianProfile, null);
-                    w.show();
+            //Call the method setup with a Profile guardian, no currentProfile (which means that the guardian is the current Profile) and the onCloseListener
+            gButtonProfileSelect.setup(this.currentProfileData.guardianProfile, null, new GButtonProfileSelect.onCloseListener() {
+                @Override
+                public void onClose(Profile guardianProfile, Profile currentProfile) {
+                    //If the guardian is the selected profile create GToast displaying the name
+                    if (currentProfile == null) {
+                        GToast w = new GToast(getApplicationContext(), "Den valgte profil er " + guardianProfile.getName().toString(), 2);
+                        onChangeProfile(guardianProfile, null);
+                        w.show();
+                    }
+                    //If another current Profile is the selected profile create GToast displaying the name
+                    else {
+                        GToast w = new GToast(getApplicationContext(), "Den valgte profil er " + currentProfile.getName().toString(), 2);
+                        onChangeProfile(guardianProfile, currentProfile);
+                        w.show();
+                    }
                 }
-                //If another current Profile is the selected profile create GToast displaying the name
-                else {
-                    GToast w = new GToast(getApplicationContext(), "Den valgte profil er " + currentProfile.getName().toString(), 2);
-                    onChangeProfile(guardianProfile, currentProfile);
-                    w.show();
-                }
-            }
-        });
+            });
 
 		/* Not used anymore but maybe the performClick method can be called in some cases
         if(extras == null){
@@ -194,6 +173,8 @@ public class MainActivity extends Activity {
         this.PreConfigure();
     }
 
+
+
     private void PreConfigure() {
         this.progressDialog = new ProgressDialog(this);
         this.progressDialog.setMessage(super.getResources().getString(R.string.loading));
@@ -207,7 +188,6 @@ public class MainActivity extends Activity {
 		this.gameIntent = new Intent(this, GameActivity.class);
         this.categoryIntent = new Intent(this, CategoryDialogActivity.class);
 		this.saveIntent = new Intent(this, SaveDialogActivity.class);
-		//this.pictoAdminIntent.setComponent(new ComponentName("dk.aau.cs.giraf.core.pictosearch", "dk.aau.cs.giraf.core.pictosearch.PictoAdminMain"));
         this.pictoAdminIntent = new Intent(this, PictoAdminMain.class);
 
         // Create intents that are used throughout the app
