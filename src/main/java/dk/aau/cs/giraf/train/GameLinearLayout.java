@@ -71,7 +71,7 @@ public class GameLinearLayout extends LinearLayout {
         if (!this.gameConfigurations.contains(gameConfiguration)){
             this.gameConfigurations.add(gameConfiguration);
 
-            if(this.selectedChild != null && gameConfiguration.getChildId() == this.selectedChild.getId()) {
+            if(this.selectedChild != null && gameConfiguration.getChildID() == this.selectedChild.getId()) {
                 //If it belongs to current Child, make the view.
                 this.makeView(gameConfiguration);
             }
@@ -87,7 +87,7 @@ public class GameLinearLayout extends LinearLayout {
         }
 
         for (GameConfiguration gameConfiguration : this.gameConfigurations) {
-            if(gameConfiguration.getChildId() != this.selectedChild.getId()) {
+            if(gameConfiguration.getChildID() != this.selectedChild.getId()) {
                 continue;
             }
 

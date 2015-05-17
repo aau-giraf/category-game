@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.io.IOException;
-import java.io.StringWriter;
 import java.util.ArrayList;
 
 /**
@@ -19,7 +18,7 @@ public class GameConfiguration implements Parcelable {
     private long   guardianID;
     private String gameName;
     private long   childID;
-    private int   gameID;
+    private long   gameID;
     private int  distanceBetweenStations;
     private ArrayList<StationConfiguration> stations = new ArrayList<StationConfiguration>();
 	
@@ -30,7 +29,7 @@ public class GameConfiguration implements Parcelable {
 		this.guardianID = Data.;
 	}*/
 
-    public GameConfiguration(String gameName, int gameID, long childID, long guardianID, int distanceBetweenStations) {
+    public GameConfiguration(String gameName, long gameID, long childID, long guardianID, int distanceBetweenStations) {
         this.gameName = gameName;
         this.childID = childID;
         this.gameID = gameID;
@@ -41,10 +40,11 @@ public class GameConfiguration implements Parcelable {
     public int getDistanceBetweenStations(){
         return this.distanceBetweenStations;
     };
-    public long getChildId() {
+    public long getChildID() {
         return this.childID;
     }
     public long getGuardianID(){ return this.guardianID; }
+    public long getGameID() {return this.gameID;}
 
 
     public void addStation(StationConfiguration station) {
@@ -94,7 +94,7 @@ public class GameConfiguration implements Parcelable {
         out.writeLong(this.guardianID);
         out.writeString(this.gameName);
         out.writeLong(this.childID);
-        out.writeInt(this.gameID);
+        out.writeLong(this.gameID);
         out.writeInt(this.distanceBetweenStations);
         out.writeList(this.stations);
     }
@@ -127,7 +127,7 @@ public class GameConfiguration implements Parcelable {
      * @return String representation of the configuration.
      * @throws IOException
      */
-    public String writeConfiguration() throws IOException {
+    /*public String writeConfiguration() throws IOException {
         StringWriter sWriter = new StringWriter(1024);
 
         sWriter.write(String.valueOf(this.guardianID));
@@ -156,5 +156,5 @@ public class GameConfiguration implements Parcelable {
     public boolean readConfiguration(int gameID) {
 
         return true;
-    }
+    }*/
 }

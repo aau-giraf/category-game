@@ -10,11 +10,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import dk.aau.cs.giraf.gui.GTextView;
-
 import dk.aau.cs.giraf.pictogram.PictoFactory;
 
 public class GGameListAdapter extends BaseAdapter{
@@ -75,12 +73,7 @@ public class GGameListAdapter extends BaseAdapter{
         @Override
         public void onClick(View view) {
             ((MainActivity)GGameListAdapter.this.activity).configurationHandler.removeConfiguration(configuration);
-            try {
-                ((MainActivity)GGameListAdapter.this.activity).configurationHandler.saveAllConfigurations(MainActivity.SAVEFILE_PATH);
-            } catch (IOException e) {
-                e.printStackTrace();
-                //TODO:insert a alertbox
-            }
+            ((MainActivity)GGameListAdapter.this.activity).configurationHandler.SaveSettings();
             GGameListAdapter.this.notifyDataSetChanged();
         }
     }

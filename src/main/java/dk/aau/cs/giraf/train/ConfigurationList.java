@@ -4,141 +4,113 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.StringWriter;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
+import dk.aau.cs.giraf.dblib.Helper;
+import dk.aau.cs.giraf.dblib.controllers.ProfileController;
 import dk.aau.cs.giraf.dblib.models.Profile;
+import dk.aau.cs.giraf.dblib.models.Settings;
 
 public class ConfigurationList {
 
     private Profile currentProfile = null;
     private Activity caller;
-
+    private Context context;
+    private Helper helper;
+    private ProfileController profileController;
     private ArrayList<GameConfiguration> listOfConfiguration = new ArrayList<GameConfiguration>();
-    /*Internal storage for all configurations*/
-    private ArrayList<GameConfiguration> listOfAllConfiguration = new ArrayList<GameConfiguration>();
+    private static final String TAG = ConfigurationList.class.getName();
 
-    public ConfigurationList(Activity a, Profile c){
-        currentProfile = c;
-        caller = a;
-        loadAllConfigurations();
+    public ConfigurationList(Activity a, Profile c, Context context){
+        this.profileController = new ProfileController(context);
+
+        this.helper = new Helper(a);
+        this.currentProfile = c;
+        this.caller = a;
+        this.context = context;
     }
 
     public void update(Profile c){
-        listOfConfiguration.clear();
-        listOfAllConfiguration.clear();
-
-        currentProfile = c;
-        loadAllConfigurations();
+        this.listOfConfiguration.clear();
+        this.currentProfile = c;
+        this.GetSavedSettings();
     }
 
     public void addConfiguration(GameConfiguration g){
-        listOfConfiguration.add(g);
-        listOfAllConfiguration.add(g);
+        this.listOfConfiguration.add(g);
     }
 
     public ArrayList<GameConfiguration> getGameconfiguration(){
-        return listOfConfiguration;
+        return this.listOfConfiguration;
     }
 
     public void removeConfiguration(GameConfiguration g){
-        listOfConfiguration.remove(g);
-        listOfAllConfiguration.remove(g);
+        this.listOfConfiguration.remove(g);
     }
 
-    private void loadAllConfigurations() {
-        FileInputStream fis = null;
-        StringWriter sWriter = new StringWriter(1024);
 
-        try {
-            fis = this.caller.getApplicationContext().openFileInput(MainActivity.SAVEFILE_PATH);
-
-            int content;
-            while ((content = fis.read()) != -1) {
-                // convert to char and append to string
-                sWriter.append((char) content);
-            }
-        } catch(FileNotFoundException e) {
+    public void GetSavedSettings() {
+        Log.d(this.TAG, "Getting saved settings for currentProfile");
+        Settings setting;
+        setting = this.currentProfile.getNewSettings();
+        //Hack to check if settings is empty, there is no method for this.
+        if(setting.toJSON().equals("{}")){
+            Log.d(this.TAG, "No setting saved, nothing to parse.");
             return;
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                sWriter.close();
-                if (fis != null)
-                    fis.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
         }
+        //Try to parse the saved configurations
+        try {
+            GameConfiguration gC;
+            StationConfiguration sC;
+            //Get games configurations and parse to json
+            String games = setting.getSetting(this.context, "getGames");
+            //Convert it to a JSONArray
+            JSONArray jGameConfigurations = new JSONArray(games);
+            //Parse jsonArray to list of game configurations objects
+            for (int i = 0; i < jGameConfigurations.length(); i++) {
+                JSONObject jgC = jGameConfigurations.getJSONObject(i);
+                gC = new GameConfiguration(jgC.getString("gameName"), jgC.getLong("gameID"), jgC.getLong("childID"), jgC.getLong("guardianID"), jgC.getInt("distanceBetweenStations"));
 
-        this.splitConfigurations(sWriter.toString());
-    }
-
-    private void splitConfigurations(String data) {
-        String[] configurations = data.split("\n");
-        Log.d("Train", "Configs: " + configurations.length);
-        // For each configuration
-        for (int i = 0; i < configurations.length; i++) {
-
-            String[] parts = configurations[i].split(";");
-            String[] game = parts[0].split(",");
-            try{
-                long guardianID =  Long.parseLong(game[0]);
-                String gameName = game[1];
-                long childID =  Long.parseLong(game[2]);
-                int gameID = Integer.parseInt(game[3]);
-                int TempdistanceBetweenStations = Integer.parseInt(game[4]);
-                ArrayList<StationConfiguration> stations = new ArrayList<StationConfiguration>();
-
-                // For each station
-                for (int k = 1; k < parts.length; k++) {
-                    StationConfiguration station = new StationConfiguration();
-                    String[] stationParts = parts[k].split(",");
-
-                    station.setCategory(Long.parseLong(stationParts[0]));
-
-                    // For each accept pictogram of station
-                    for (int n = 1; n < stationParts.length; n++) {
-                        station.addAcceptPictogram(Long.parseLong(stationParts[n]));
+                //Load stations into gameconfiguration object
+                JSONArray jStations = jgC.getJSONArray("stations");
+                for (int j = 0; j < jStations.length(); j++) {
+                    sC = new StationConfiguration(jStations.getJSONObject(j).getLong("category"));
+                    //Load pictograms associated with the station
+                    JSONArray jAceptedPictograms = jStations.getJSONObject(j).getJSONArray("acceptPitograms");
+                    for (int k = 0; k < jAceptedPictograms.length(); k++) {
+                        long pictogramID = jAceptedPictograms.getLong(k);
+                        Log.d(this.TAG, "PictogramID: " + pictogramID);
+                        sC.addAcceptPictogram(pictogramID);
                     }
-                    stations.add(station);
+                    gC.addStation(sC);
                 }
-
-                GameConfiguration gameConf = new GameConfiguration(gameName, gameID, childID, guardianID, TempdistanceBetweenStations);
-                gameConf.setStations(stations);
-
-                if(this.currentProfile.getId() == gameConf.getChildId() || this.currentProfile.getId() == gameConf.getGuardianID()){
-                    this.listOfConfiguration.add(gameConf);
-                }
-                this.listOfAllConfiguration.add(gameConf);
-            } catch (NumberFormatException e){
-                Log.e("ConfigurationList/splitConfigurations", e.getMessage());
+                this.listOfConfiguration.add(gC);
             }
         }
-    }
-
-    public void saveAllConfigurations(String saveFilePath) throws IOException {
-        FileOutputStream fos = null;
-
-        try {
-            fos = caller.openFileOutput(saveFilePath, Context.MODE_PRIVATE);
-            for (GameConfiguration game : this.listOfAllConfiguration) {
-                fos.write(game.writeConfiguration().getBytes());
-            }
-        } catch(FileNotFoundException e) {
-            return;
-        } catch (IOException e) {
+        catch (JSONException e) {
             e.printStackTrace();
-        } finally {
-            if (fos != null) {
-                fos.flush();
-                fos.close();
-            }
         }
+
     }
+
+    public void SaveSettings() {
+        Log.d(this.TAG, "Saving settings for currentProfile");
+        Settings s = new Settings();
+
+
+        //Create a json string with all the game configurations
+        String stringOfGameConfigurations = new JSONArray(this.listOfConfiguration).toString();
+
+        //Add the json string to the profile's setting
+        s.createSetting(this.context, "getGames", stringOfGameConfigurations);
+
+        this.currentProfile.setNewSettings(s);
+        this.profileController.modify(currentProfile);
+
+    }
+
 }

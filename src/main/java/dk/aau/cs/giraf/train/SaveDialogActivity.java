@@ -72,7 +72,7 @@ public class SaveDialogActivity extends Activity {
     private boolean isValidGameName(String gameName) {
         //Make sure game name doesn't already exist
         for (GameConfiguration configuration : this.currentGameConfigurations) {
-            if (configuration.getChildId() == this.selectedChildId && configuration.getGameName().equals(gameName)) {
+            if (configuration.getChildID() == this.selectedChildId && configuration.getGameName().equals(gameName)) {
                 this.showAlertMessage(super.getResources().getString(R.string.name_exists));
                 return false;
             }

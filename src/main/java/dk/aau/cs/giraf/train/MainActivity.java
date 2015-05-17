@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,7 +50,6 @@ public class MainActivity extends Activity {
     private Intent saveIntent;
     private Intent categoryIntent;
     private Intent pictoAdminIntent = new Intent();
-    private Intent download;
 
 	private ProgressDialog progressDialog;
 
@@ -66,6 +64,8 @@ public class MainActivity extends Activity {
 
     private final int MINIMUM_TIME = 15;
     private final int MAXIMUM_TIME = 300;
+
+    private GameConfiguration currentGameConfiguration;
 
     public StationList listOfStations = null;
     private GStationListAdapter stationListAdapter;
@@ -83,7 +83,6 @@ public class MainActivity extends Activity {
         //Set the background
         mainView.setBackgroundDrawable(GComponent.GetBackgroundGradient());
         setContentView(mainView);
-
 
         if (ActivityManager.isUserAMonkey()) {
             Helper h = new Helper(this);
@@ -149,9 +148,9 @@ public class MainActivity extends Activity {
         GList stationList = (GList) this.findViewById(R.id.stationList);
 
         if (this.currentProfileData.childProfile != null) {
-            this.configurationHandler = new ConfigurationList(this, this.currentProfileData.childProfile);
+            this.configurationHandler = new ConfigurationList(this, this.currentProfileData.childProfile, getApplicationContext());
         } else {
-            this.configurationHandler = new ConfigurationList(this, this.currentProfileData.guardianProfile);
+            this.configurationHandler = new ConfigurationList(this, this.currentProfileData.guardianProfile, getApplicationContext());
         }
 
         Log.d("Train", "number of saved gameconfigurations: " + this.configurationHandler.getGameconfiguration().size());
@@ -269,11 +268,17 @@ public class MainActivity extends Activity {
     public void onClickStartGame(View view) {
         // TODO: ID should be implemented, instead of giving all games the id of '1337'
         if(this.isValidConfiguration(view)) {
+            Bundle extras = new Bundle();
+            extras.putInt("distanceBetweenStations", this.currentGameConfiguration.getDistanceBetweenStations());
+            extras.putString("gameName", this.currentGameConfiguration.getGameName());
+
             if(this.currentProfileData.childProfile != null){
                 this.gameIntent.putExtra(MainActivity.GAME_CONFIGURATION, this.getGameConfiguration("the new game", 1337, this.currentProfileData.childProfile.getId(), distanceBetweenStations));
+                //this.gameIntent.putExtras(MainActivity.GAME_CONFIGURATION, this.currentGameConfiguration);
             }
             else {
                 this.gameIntent.putExtra(MainActivity.GAME_CONFIGURATION, this.getGameConfiguration("the new game", 1337, this.currentProfileData.guardianProfile.getId(), distanceBetweenStations));
+                //this.gameIntent.putExtras(MainActivity.GAME_CONFIGURATION, this.currentGameConfiguration);
             }
             this.startActivity(this.gameIntent);
         }
@@ -372,6 +377,9 @@ public class MainActivity extends Activity {
         this.stationListAdapter.notifyDataSetChanged();
         EditText text = (EditText)findViewById(R.id.distanceForStations);
         text.setText(Integer.toString(gameConfiguration.getDistanceBetweenStations()));
+
+
+        this.currentGameConfiguration = gameConfiguration;
     }
 
     @Override
@@ -419,12 +427,8 @@ public class MainActivity extends Activity {
                 this.configurationHandler.addConfiguration(gameConfiguration);
                 this.gameListAdapter.notifyDataSetChanged();
 
-                try {
-                    this.configurationHandler.saveAllConfigurations(SAVEFILE_PATH);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Toast.makeText(this, "Kan ikke gemme", Toast.LENGTH_SHORT).show();
-                }
+                this.configurationHandler.SaveSettings();
+
                 break;
         }
         this.stationListAdapter.notifyDataSetChanged();
