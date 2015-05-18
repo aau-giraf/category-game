@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import dk.aau.cs.giraf.core.data.Constants;
 import dk.aau.cs.giraf.core.data.Data;
 import dk.aau.cs.giraf.dblib.Helper;
 import dk.aau.cs.giraf.dblib.models.Profile;
@@ -105,16 +106,7 @@ public class MainActivity extends Activity {
                 // Empty Data constructor creates a guest profile
                 this.downloadAllPictograms();
                 //Get guest guardian profile
-                Helper helper = new Helper(this.getApplicationContext());
-                //Profile guestGuardianProfile = new Profile("GuestGuardian", 00000000, null, "guestprofile@giraf.dk", Profile.Roles.GUARDIAN, "Selma Lagerloefsvej 300", null, 1, 0);
-
-                if (helper.profilesHelper.getById(138) == null)
-                {
-                    Log.d("Train", "Cannot get object from id");
-                }
-                else
-                    Log.d("Train", "Can get object from id");
-                this.currentProfileData = new ProfileData(138, -1, this.getApplicationContext());
+                this.currentProfileData = new ProfileData(Constants.guestGuardianID, -1, this.getApplicationContext());
 
 
             } else {
