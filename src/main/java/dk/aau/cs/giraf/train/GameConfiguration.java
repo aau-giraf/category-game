@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.util.ArrayList;
 
 /**
@@ -22,12 +23,10 @@ public class GameConfiguration implements Parcelable {
     private int  distanceBetweenStations;
     private ArrayList<StationConfiguration> stations = new ArrayList<StationConfiguration>();
 	
-	/*public GameConfiguration(String gameName, int gameID, int childID) {
+	public GameConfiguration(String gameName, int distanceBetweenStations) {
 		this.gameName = gameName;
-		this.childID = childID;
-		this.gameID = gameID;
-		this.guardianID = Data.;
-	}*/
+		this.distanceBetweenStations = distanceBetweenStations;
+	}
 
     public GameConfiguration(String gameName, long gameID, long childID, long guardianID, int distanceBetweenStations) {
         this.gameName = gameName;
@@ -46,9 +45,10 @@ public class GameConfiguration implements Parcelable {
     public int getDistanceBetweenStations(){
         return this.distanceBetweenStations;
     };
-    public long getChildID() {
+
+    /*public long getChildID() {
         return this.childID;
-    }
+    }*/
     public long getGuardianID(){ return this.guardianID; }
     public long getGameID() {return this.gameID;}
 
@@ -122,7 +122,7 @@ public class GameConfiguration implements Parcelable {
         this.guardianID = in.readLong();
         this.gameName = in.readString();
         this.childID = in.readLong();
-        this.gameID = in.readInt();
+        this.gameID = in.readLong();
         this.distanceBetweenStations = in.readInt();
         in.readList(this.stations, StationConfiguration.class.getClassLoader());
     }
@@ -133,7 +133,7 @@ public class GameConfiguration implements Parcelable {
      * @return String representation of the configuration.
      * @throws IOException
      */
-    /*public String writeConfiguration() throws IOException {
+    public String writeConfiguration() throws IOException {
         StringWriter sWriter = new StringWriter(1024);
 
         sWriter.write(String.valueOf(this.guardianID));
@@ -162,5 +162,5 @@ public class GameConfiguration implements Parcelable {
     public boolean readConfiguration(int gameID) {
 
         return true;
-    }*/
+    }
 }

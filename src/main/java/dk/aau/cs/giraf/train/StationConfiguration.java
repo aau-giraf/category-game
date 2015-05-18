@@ -3,6 +3,8 @@ package dk.aau.cs.giraf.train;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.IOException;
+import java.io.StringWriter;
 import java.util.ArrayList;
 
 /**
@@ -100,7 +102,7 @@ public class StationConfiguration implements Parcelable {
      * @return String representation of the station.
      * @throws IOException
      */
-    /*
+
     public String writeStation() throws IOException {
         StringWriter sWriter = new StringWriter(1024);
 
@@ -115,5 +117,5 @@ public class StationConfiguration implements Parcelable {
         sWriter.close();
 
         return result;
-    }*/
+    }
 }

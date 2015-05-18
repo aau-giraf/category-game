@@ -30,8 +30,6 @@ import dk.aau.cs.giraf.pictosearch.PictoAdminMain;
 import dk.aau.cs.giraf.train.opengl.GameActivity;
 import dk.aau.cs.giraf.utilities.IntentConstants;
 
-import static dk.aau.cs.giraf.core.data.Data.getGuestGuardianProfile;
-
 public class MainActivity extends Activity {
     public static final String SAVEFILE_PATH = "game_configurations.txt";
     public static final String GAME_CONFIGURATION = "GameConfiguration";
@@ -105,13 +103,20 @@ public class MainActivity extends Activity {
                 // Disable button to switch profile as there are no other profile than Guest in standalone execution
                 gButtonProfileSelect.setEnabled(false);
                 // Empty Data constructor creates a guest profile
-
-                //Get guest guardian profile
-                Profile guestGuardianProfile = getGuestGuardianProfile(this.getApplicationContext());
-
-                currentProfileData = new ProfileData(guestGuardianProfile.getId(), -1, this.getApplicationContext());
-
                 this.downloadAllPictograms();
+                //Get guest guardian profile
+                Helper helper = new Helper(this.getApplicationContext());
+                //Profile guestGuardianProfile = new Profile("GuestGuardian", 00000000, null, "guestprofile@giraf.dk", Profile.Roles.GUARDIAN, "Selma Lagerloefsvej 300", null, 1, 0);
+
+                if (helper.profilesHelper.getById(138) == null)
+                {
+                    Log.d("Train", "Cannot get object from id");
+                }
+                else
+                    Log.d("Train", "Can get object from id");
+                this.currentProfileData = new ProfileData(138, -1, this.getApplicationContext());
+
+
             } else {
             /* Get data from launcher */
                 Bundle extras = getIntent().getExtras();
@@ -154,9 +159,9 @@ public class MainActivity extends Activity {
         GList stationList = (GList) this.findViewById(R.id.stationList);
 
         if (this.currentProfileData.childProfile != null) {
-            this.configurationHandler = new ConfigurationList(this, this.currentProfileData.childProfile, getApplicationContext());
+            this.configurationHandler = new ConfigurationList(this, this.currentProfileData.childProfile, this.getApplicationContext());
         } else {
-            this.configurationHandler = new ConfigurationList(this, this.currentProfileData.guardianProfile, getApplicationContext());
+            this.configurationHandler = new ConfigurationList(this, this.currentProfileData.guardianProfile, this.getApplicationContext());
         }
 
         Log.d("Train", "number of saved gameconfigurations: " + this.configurationHandler.getGameconfiguration().size());
@@ -272,12 +277,13 @@ public class MainActivity extends Activity {
     }
 
     public void onClickStartGame(View view) {
+        // TODO: ID should be implemented, instead of giving all games the id of '1337'
         if(this.isValidConfiguration(view)) {
             if(this.currentProfileData.childProfile != null){
-                this.gameIntent.putExtra(MainActivity.GAME_CONFIGURATION, this.getGameConfiguration(this.currentProfileData.childProfile.getId(), distanceBetweenStations));
+                this.gameIntent.putExtra(MainActivity.GAME_CONFIGURATION, this.getGameConfiguration("the new game", 1337, this.currentProfileData.childProfile.getId(), distanceBetweenStations));
             }
             else {
-                this.gameIntent.putExtra(MainActivity.GAME_CONFIGURATION, this.getGameConfiguration(this.currentProfileData.guardianProfile.getId(), distanceBetweenStations));
+                this.gameIntent.putExtra(MainActivity.GAME_CONFIGURATION, this.getGameConfiguration("the new game", 1337, this.currentProfileData.guardianProfile.getId(), distanceBetweenStations));
             }
             this.startActivity(this.gameIntent);
         }
@@ -360,9 +366,9 @@ public class MainActivity extends Activity {
         return true;
     }
 
-    private GameConfiguration getGameConfiguration(long childID, int distanceBetweenStations) {
+    private GameConfiguration getGameConfiguration(String gameName, int gameID, long childID, int distanceBetweenStations) {
 
-        GameConfiguration gameConfiguration = new GameConfiguration(childID, currentProfileData.guardianProfile.getId(), distanceBetweenStations); //TODO Set appropriate IDs
+        GameConfiguration gameConfiguration = new GameConfiguration(gameName, gameID, childID, currentProfileData.guardianProfile.getId(), distanceBetweenStations); //TODO Set appropriate IDs
         gameConfiguration.setStations(this.listOfStations.getStations());
         return gameConfiguration;
     }
@@ -376,9 +382,6 @@ public class MainActivity extends Activity {
         this.stationListAdapter.notifyDataSetChanged();
         EditText text = (EditText)findViewById(R.id.distanceForStations);
         text.setText(Integer.toString(gameConfiguration.getDistanceBetweenStations()));
-
-
-        this.currentGameConfiguration = gameConfiguration;
     }
 
     @Override
@@ -418,10 +421,10 @@ public class MainActivity extends Activity {
                 int distanceBetweenStations = Integer.parseInt(text.getText().toString());
                 GameConfiguration gameConfiguration;
                 if(this.currentProfileData.childProfile != null){
-                    gameConfiguration = getGameConfiguration(this.currentProfileData.childProfile.getId(),distanceBetweenStations);
+                    gameConfiguration = getGameConfiguration(gameName, 1337, this.currentProfileData.childProfile.getId(),distanceBetweenStations);
                 }
                 else{
-                    gameConfiguration = getGameConfiguration(this.currentProfileData.guardianProfile.getId(),distanceBetweenStations);
+                    gameConfiguration = getGameConfiguration(gameName, 1337, this.currentProfileData.guardianProfile.getId(),distanceBetweenStations);
                 }
                 this.configurationHandler.addConfiguration(gameConfiguration);
                 this.gameListAdapter.notifyDataSetChanged();
