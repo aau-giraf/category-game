@@ -25,10 +25,22 @@ public class ConfigurationList {
     private ArrayList<GameConfiguration> listOfConfiguration = new ArrayList<GameConfiguration>();
     private static final String TAG = ConfigurationList.class.getName();
 
+    //Strong constants used in the class
+    public final String getGames = "getGames";
+    public final String gameName = "gameName";
+    public final String gameID = "gameID";
+    public final String childID = "childID";
+    public final String guardianID = "guardianID";
+    public final String distanceBetweenStations = "distanceBetweenStations";
+    public final String stations = "stations";
+    public final String category = "category";
+    public final String acceptPitograms = "acceptPitograms";
+
+
     public ConfigurationList(Activity a, Profile c, Context context){
         this.profileController = new ProfileController(context);
 
-        this.helper = new Helper(a);
+        this.helper = new Helper(context);
         this.currentProfile = c;
         this.caller = a;
         this.context = context;
@@ -67,20 +79,20 @@ public class ConfigurationList {
             GameConfiguration gC;
             StationConfiguration sC;
             //Get games configurations and parse to json
-            String games = setting.getSetting(this.context, "getGames");
+            String games = setting.getSetting(this.context, this.getGames);
             //Convert it to a JSONArray
             JSONArray jGameConfigurations = new JSONArray(games);
             //Parse jsonArray to list of game configurations objects
             for (int i = 0; i < jGameConfigurations.length(); i++) {
                 JSONObject jgC = jGameConfigurations.getJSONObject(i);
-                gC = new GameConfiguration(jgC.getString("gameName"), jgC.getLong("gameID"), jgC.getLong("childID"), jgC.getLong("guardianID"), jgC.getInt("distanceBetweenStations"));
+                gC = new GameConfiguration(jgC.getString(this.gameName), jgC.getLong(this.gameID), jgC.getLong(this.childID), jgC.getLong(this.guardianID), jgC.getInt(this.distanceBetweenStations));
 
                 //Load stations into gameconfiguration object
-                JSONArray jStations = jgC.getJSONArray("stations");
+                JSONArray jStations = jgC.getJSONArray(this.stations);
                 for (int j = 0; j < jStations.length(); j++) {
-                    sC = new StationConfiguration(jStations.getJSONObject(j).getLong("category"));
+                    sC = new StationConfiguration(jStations.getJSONObject(j).getLong(this.category));
                     //Load pictograms associated with the station
-                    JSONArray jAceptedPictograms = jStations.getJSONObject(j).getJSONArray("acceptPitograms");
+                    JSONArray jAceptedPictograms = jStations.getJSONObject(j).getJSONArray(this.acceptPitograms);
                     for (int k = 0; k < jAceptedPictograms.length(); k++) {
                         long pictogramID = jAceptedPictograms.getLong(k);
                         Log.d(this.TAG, "PictogramID: " + pictogramID);
@@ -106,7 +118,7 @@ public class ConfigurationList {
         String stringOfGameConfigurations = new JSONArray(this.listOfConfiguration).toString();
 
         //Add the json string to the profile's setting
-        s.createSetting(this.context, "getGames", stringOfGameConfigurations);
+        s.createSetting(this.context, this.getGames, stringOfGameConfigurations);
 
         this.currentProfile.setNewSettings(s);
         this.profileController.modify(currentProfile);

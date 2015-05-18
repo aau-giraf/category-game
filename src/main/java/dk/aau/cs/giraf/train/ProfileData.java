@@ -25,15 +25,4 @@ public final class ProfileData {
             childProfile = localDataFetcher.profilesHelper.getById(childID);
         }
     }
-    public ProfileData() {
-        guardianProfile = new Profile("Tony Stark", 12345678, null, "tony@stark.dk", Profile.Roles.GUARDIAN, "address 1", null, 1, 0);
-        Bitmap img = Bitmap.createBitmap(100,100, Bitmap.Config.ARGB_8888);
-
-        for (int i = 0; i < img.getWidth();i++){
-            img.setPixel(i,i, Color.CYAN);
-        }
-
-        childProfile = new Profile("William Jensen", 88888888,  img, "william@jensen.dk", Profile.Roles.CHILD, "address 1", null, 1, 0);
-
-    }
 }

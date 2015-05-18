@@ -37,6 +37,12 @@ public class GameConfiguration implements Parcelable {
         this.distanceBetweenStations = distanceBetweenStations;
     }
 
+    public GameConfiguration(long childID, long guardianID, int distanceBetweenStations){
+        this.childID = childID;
+        this.guardianID = guardianID;
+        this.distanceBetweenStations = distanceBetweenStations;
+    }
+
     public int getDistanceBetweenStations(){
         return this.distanceBetweenStations;
     };
