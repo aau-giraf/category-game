@@ -83,7 +83,6 @@ public class MainActivity extends Activity {
 
         if (ActivityManager.isUserAMonkey()) {
             Helper h = new Helper(this);
-            h.CreateDummyData();
             currentProfileData = new Data(h.profilesHelper.getGuardians().get(0).getId(),
                     h.profilesHelper.getChildren().get(0).getId(),
                     this.getApplicationContext());
