@@ -1,28 +1,24 @@
 package dk.aau.cs.giraf.train;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Color;
 
-import dk.aau.cs.giraf.dblib.Helper;
+import dk.aau.cs.giraf.dblib.controllers.ProfileController;
 import dk.aau.cs.giraf.dblib.models.Profile;
 
-
 public final class ProfileData {
-
+    private static final String TAG = ConfigurationList.class.getName();
     public Profile guardianProfile;
     public Profile childProfile;
     public ProfileData(long guardianID, long childID, Context context){
-        Helper localDataFetcher = null;
+        ProfileController pf = null;
         try {
-            localDataFetcher = new Helper(context);
+            pf = new ProfileController(context);
         } catch (Exception e) {
             //TODO:lav en ordenlig exception
         }
-
-        guardianProfile = localDataFetcher.profilesHelper.getById(guardianID);
+        guardianProfile = pf.getById(guardianID);
         if(childID != -1){
-            childProfile = localDataFetcher.profilesHelper.getById(childID);
+            childProfile = pf.getById(childID);
         }
     }
 }

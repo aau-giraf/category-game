@@ -1,14 +1,10 @@
 package dk.aau.cs.giraf.train;
 
 import android.app.Activity;
-import android.content.Context;
 import android.util.Log;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 
-import dk.aau.cs.giraf.dblib.Helper;
 import dk.aau.cs.giraf.dblib.controllers.ProfileController;
 import dk.aau.cs.giraf.dblib.models.Profile;
 import dk.aau.cs.giraf.dblib.models.Settings;
@@ -17,8 +13,6 @@ public class ConfigurationList {
 
     private Profile currentProfile = null;
     private Activity caller;
-    private Context context;
-    private Helper helper;
     private ProfileController profileController;
     private ArrayList<GameConfiguration> listOfConfiguration = new ArrayList<GameConfiguration>();
     private static final String TAG = ConfigurationList.class.getName();
@@ -34,12 +28,10 @@ public class ConfigurationList {
     public final String acceptPitograms = "acceptPitograms";
 
 
-    public ConfigurationList(Activity a, Profile c, Context context){
-        this.profileController = new ProfileController(context);
-        this.helper = new Helper(context);
+    public ConfigurationList(Activity a, Profile c){
+        this.profileController = new ProfileController(a.getApplicationContext());
         this.currentProfile = c;
         this.caller = a;
-        this.context = context;
         this.GetSavedSettings();
     }
 
@@ -74,14 +66,14 @@ public class ConfigurationList {
 
 
         //Parse configurations
-        String configurations = setting.getSetting(this.context, "getGames");
+        String configurations = setting.getSetting(this.caller.getApplicationContext(), "getGames");
         Log.d(this.TAG, configurations);
-        this.listOfConfiguration = this.parseConfigurations(configurations);
+        this.listOfConfiguration.addAll(parseConfigurations(configurations));
 
     }
 
     private ArrayList<GameConfiguration> parseConfigurations(String configurations) {
-        String[] configs = configurations.split("\n");
+        String[] configs = configurations.split("_");
         ArrayList<GameConfiguration> games = new ArrayList<GameConfiguration>();
         for (int i = 0; i < configs.length; i++) {
             GameConfiguration gC =  null;
@@ -92,7 +84,7 @@ public class ConfigurationList {
             //Instantiate gC object
             gC = new GameConfiguration(gameName, distanceBetweenStations);
 
-            String[] stations = parts[2].split(";");
+            String[] stations = parts[2].split("&");
             for(int j = 0; j < stations.length; j++) {
                 //split into category and accepted pictograms
                 Log.d(this.TAG, "Number of stations to parse: " + stations.length);
@@ -136,17 +128,17 @@ public class ConfigurationList {
                     }
                     gameConfigurations = gameConfigurations.substring(0, gameConfigurations.length() - 1);
 
-                    gameConfigurations += ";";
+                    gameConfigurations += "&";
                 }
                 gameConfigurations = gameConfigurations.substring(0, gameConfigurations.length() - 1);
 
-                gameConfigurations += "\n";
+                gameConfigurations += "_";
 
 
             Log.d(this.TAG, gameConfigurations);
         }
             gameConfigurations = gameConfigurations.substring(0, gameConfigurations.length()-1);
-            s.createSetting(this.context, "getGames", gameConfigurations);
+            s.createSetting(this.caller.getApplicationContext(), "getGames", gameConfigurations);
         }
 
         this.currentProfile.setNewSettings(s);

@@ -66,7 +66,6 @@ public class MainActivity extends Activity {
     private final int MINIMUM_TIME = 15;
     private final int MAXIMUM_TIME = 300;
 
-    private GameConfiguration currentGameConfiguration;
 
     public StationList listOfStations = null;
     private GStationListAdapter stationListAdapter;
@@ -112,12 +111,17 @@ public class MainActivity extends Activity {
             } else {
             /* Get data from launcher */
                 Bundle extras = getIntent().getExtras();
-
-                // If GIRAF launcher is running use its Profile data
-                currentProfileData = new ProfileData(
-                        extras.getLong("currentGuardianID"),
-                        extras.getLong("currentChildID"),
-                        this.getApplicationContext());
+                if(extras == null) {
+                    Log.d("Train", "Extras are null, shutdown application");
+                    return;
+                }
+                else{
+                    long guardianID = extras.getLong("currentGuardianID");
+                    long childID = extras.getLong("currentChildID");
+                    Log.d("Train", "Extra values: " + guardianID + " - " + childID);
+                    // If GIRAF launcher is running use its Profile data
+                    currentProfileData = new ProfileData(guardianID, childID, this.getApplicationContext());
+                }
             }
         }
 
@@ -151,9 +155,9 @@ public class MainActivity extends Activity {
         GList stationList = (GList) this.findViewById(R.id.stationList);
 
         if (this.currentProfileData.childProfile != null) {
-            this.configurationHandler = new ConfigurationList(this, this.currentProfileData.childProfile, this.getApplicationContext());
+            this.configurationHandler = new ConfigurationList(this, this.currentProfileData.childProfile);
         } else {
-            this.configurationHandler = new ConfigurationList(this, this.currentProfileData.guardianProfile, this.getApplicationContext());
+            this.configurationHandler = new ConfigurationList(this, this.currentProfileData.guardianProfile);
         }
 
         Log.d("Train", "number of saved gameconfigurations: " + this.configurationHandler.getGameconfiguration().size());
@@ -222,14 +226,18 @@ public class MainActivity extends Activity {
     public void onChangeProfile(Profile guardianProfile, Profile currentProfile) {
         if(currentProfile == null){
             this.currentProfileData.guardianProfile = guardianProfile;
+            //this.configurationHandler = new ConfigurationList(this, guardianProfile);
             this.configurationHandler.update(guardianProfile);
         }
         else{
             this.currentProfileData.childProfile = currentProfile;
+            //this.configurationHandler = new ConfigurationList(this, currentProfile);
             this.configurationHandler.update(currentProfile);
         }
-        this.gameListAdapter.notifyDataSetChanged();
+
+
         this.stationListAdapter.notifyDataSetChanged();
+        this.gameListAdapter.notifyDataSetChanged();
     }
 
     private class OnItemClickListener implements AdapterView.OnItemClickListener {
