@@ -184,10 +184,10 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
             public void onClick(View view) {
                 if(isValidConfiguration(view)) {
                     if(currentProfileData.childProfile != null){
-                        gameIntent.putExtra(MainActivity.GAME_CONFIGURATION, getGameConfiguration("the new game", 1337, currentProfileData.childProfile.getId()));
+                        gameIntent.putExtra(MainActivity.GAME_CONFIGURATION, getGameConfiguration("the new game", currentProfileData.childProfile.getId(), distanceBetweenStations));
                     }
                     else {
-                        gameIntent.putExtra(MainActivity.GAME_CONFIGURATION, getGameConfiguration("the new game", 1337, currentProfileData.guardianProfile.getId()));
+                        gameIntent.putExtra(MainActivity.GAME_CONFIGURATION, getGameConfiguration("the new game",  currentProfileData.guardianProfile.getId(), distanceBetweenStations));
                     }
                     startActivity(gameIntent);
                 }
