@@ -101,9 +101,9 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
             this.isGuestSession = !Data.isProcessRunning("dk.aau.cs.giraf.launcher", this);
 
             if (isGuestSession) {
-                new GToast(this, super.getResources().getString(R.string.guest_toast), 100).show();
+                //new GToast(this, super.getResources().getString(R.string.guest_toast), 100).show();
                 // Disable button to switch profile as there are no other profile than Guest in standalone execution
-                changeUserButton.setVisibility(View.INVISIBLE);
+                //changeUserButton.setVisibility(View.INVISIBLE);
                 // Empty Data constructor creates a guest profile
                 this.downloadAllPictograms();
                 //Get guest guardian profile
