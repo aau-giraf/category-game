@@ -415,9 +415,13 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
         //If we have come this far, then the configuration is valid
         return true;
     }
+    //WTF?? //Lasse. todo
+    private int getDistanceBetweenStations(){
+        return ((distanceSelector.getProgress() * 350 - 1750));
+    }
 
     private GameConfiguration getGameConfiguration(String gameName, int gameID, long childID) {
-        GameConfiguration gameConfiguration = new GameConfiguration(gameName, gameID, childID, currentProfileData.guardianProfile.getId(), distanceSelector.getProgress());//TODO Set appropriate IDs
+        GameConfiguration gameConfiguration = new GameConfiguration(gameName, gameID, childID, currentProfileData.guardianProfile.getId(), getDistanceBetweenStations());//TODO Set appropriate IDs
         gameConfiguration.setStations(this.listOfStations.getStations());
         return gameConfiguration;
     }
@@ -527,7 +531,7 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 GToast w;
-                distanceSelector.setProgress(distanceSelector.getProgress() < 15 ? MINIMUM_TIME : (int) Math.ceil(distanceSelector.getProgress()));
+                distanceSelector.setProgress(distanceSelector.getProgress() < 15 ? MINIMUM_TIME : distanceSelector.getProgress());
                 w = new GToast(getApplicationContext(), "Tiden mellem stationerne er nu: " + String.valueOf(distanceSelector.getProgress()) + " sekunder", 4);
                 w.show();
             }
