@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,13 +31,14 @@ import dk.aau.cs.giraf.gui.GDialogAlert;
 import dk.aau.cs.giraf.gui.GList;
 import dk.aau.cs.giraf.gui.GToast;
 import dk.aau.cs.giraf.gui.GirafButton;
+import dk.aau.cs.giraf.gui.GirafNotifyDialog;
 import dk.aau.cs.giraf.gui.GirafProfileSelectorDialog;
 import dk.aau.cs.giraf.pictosearch.PictoAdminMain;
 import dk.aau.cs.giraf.showcaseview.targets.ViewTarget;
 import dk.aau.cs.giraf.train.opengl.GameActivity;
 import dk.aau.cs.giraf.utilities.IntentConstants;
 
-public class MainActivity extends GirafActivity implements GirafProfileSelectorDialog.OnSingleProfileSelectedListener{
+public class MainActivity extends GirafActivity implements GirafProfileSelectorDialog.OnSingleProfileSelectedListener, GirafNotifyDialog.Notification{
     public static final String SAVEFILE_PATH = "game_configurations.txt";
     public static final String GAME_CONFIGURATION = "GameConfiguration";
     public static final String GAME_CONFIGURATIONS = "GameConfigurations";
@@ -48,13 +50,14 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
     public static final int RECEIVE_MULTIPLE = 1;
     public static final int RECEIVE_GAME_NAME = 2;
     public static final int APPLICATIONBACKGROUND = 0xFFFFBB55;
+    // Identifier for callback
+    private static final int NOTIFY_DIALOG_ID = 1;
+    // Fragment tag (android specific)
+    private static final String NOTIFY_DIALOG_TAG = "DIALOG_TAG";
 
     //Identifier for fragment
     private static final int CHANGE_USER_DIALOG = 113;
     // Profiles of which the categories will be loaded from
-    private Profile childProfile;
-    private Profile guardianProfile;
-
     private int distanceBetweenStations;
 
     private boolean isGuestSession;
@@ -86,7 +89,6 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
     private GirafButton addStationButton;
     private GirafButton saveGameButton;
     private GirafButton helpButton;
-    private Profile mCurrentUser;
 
 
 
@@ -186,9 +188,9 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
      */
     public Profile getCurrentUser() {
         if (currentProfileData.childProfile != null) {
-            return childProfile;
+            return currentProfileData.childProfile;
         } else if (currentProfileData.guardianProfile != null) {
-            return guardianProfile;
+            return currentProfileData.guardianProfile;
         }
 
         return null;
@@ -200,7 +202,7 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
         changeUserButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {//todo fix lige 37
-                GirafProfileSelectorDialog changeUser = GirafProfileSelectorDialog.newInstance(MainActivity.this, (long)37, false, false, "Vælg den borger du vil skifte til.", CHANGE_USER_SELECTOR_DIALOG);
+                GirafProfileSelectorDialog changeUser = GirafProfileSelectorDialog.newInstance(MainActivity.this, currentProfileData.guardianProfile.getId(), false, false, "Vælg den borger du vil skifte til.", CHANGE_USER_SELECTOR_DIALOG);
                 changeUser.show(getSupportFragmentManager(), "" + CHANGE_USER_SELECTOR_DIALOG);
             }
         });
@@ -234,18 +236,18 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
         if (i == CHANGE_USER_SELECTOR_DIALOG) {
 
             // Update the profile
-            mCurrentUser = profile;
+            currentProfileData.childProfile = profile;
 
             if (profile == null) {
 
-                GToast w = new GToast(getApplicationContext(), "Den valgte profil er " + guardianProfile.getName().toString(), 2);
-                onChangeProfile(guardianProfile, null);
+                GToast w = new GToast(getApplicationContext(), "Den valgte profil er " + currentProfileData.guardianProfile.getName().toString(), 2);
+                onChangeProfile(currentProfileData.guardianProfile, null);
                 w.show();
             }
             //If another current Profile is the selected profile create GToast displaying the name
             else {
-                GToast w = new GToast(getApplicationContext(), "Den valgte profil er " + mCurrentUser.getName().toString(), 2);
-                onChangeProfile(guardianProfile, mCurrentUser);
+                GToast w = new GToast(getApplicationContext(), "Den valgte profil er " + currentProfileData.childProfile.getName().toString(), 2);
+                onChangeProfile(currentProfileData.guardianProfile, currentProfileData.childProfile);
                 w.show();
             }
         }
@@ -306,6 +308,11 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
         this.stationListAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void noticeDialog(int i) {
+
+    }
+
     private class OnItemClickListener implements AdapterView.OnItemClickListener {
         private GameConfiguration gameConfiguration;
 
@@ -340,7 +347,7 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
         }
     }
     public void onClickCategory(View view) {
-        super.startActivityForResult(this.categoryIntent, MainActivity.RECEIVE_GAME6_NAME);
+        super.startActivityForResult(this.categoryIntent, MainActivity.RECEIVE_GAME_NAME);
     }
 
     public void onClickStartGame(View view) {
@@ -371,7 +378,10 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
     }
 
     private void showAlertMessage(String message, View view) {
-        new GDialogAlert(view.getContext(),message, null).show();
+        // Creates an instance of the dialog
+        GirafNotifyDialog notifyDialog = GirafNotifyDialog.newInstance("Hovsa", message, NOTIFY_DIALOG_ID);
+        // Shows the dialog
+        notifyDialog.show(getSupportFragmentManager(), NOTIFY_DIALOG_TAG);
     }
 
     private boolean isValidConfiguration(View view) {
@@ -379,8 +389,7 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
         EditText text = (EditText)findViewById(R.id.distanceForStations);
         if (text == null || text.getText().toString().equals(""))
         {
-            this.showAlertMessage("Du skal skrive køretiden mellem stationer" +
-                    " for at kunne starte og gemme spillet", view);
+            this.showAlertMessage("Du skal skrive køretiden mellem stationer" + " for at kunne starte og gemme spillet", view);
             currentStation = null; //Free memory
             return false;
         }
@@ -427,15 +436,12 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
                 return false;
             }
         }
-
-
         currentStation = null; //Free memory
         //If we have come this far, then the configuration is valid
         return true;
     }
 
     private GameConfiguration getGameConfiguration(String gameName, int gameID, long childID, int distanceBetweenStations) {
-
         GameConfiguration gameConfiguration = new GameConfiguration(gameName, gameID, childID, currentProfileData.guardianProfile.getId(), distanceBetweenStations); //TODO Set appropriate IDs
         gameConfiguration.setStations(this.listOfStations.getStations());
         return gameConfiguration;
