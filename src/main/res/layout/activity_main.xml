@@ -65,7 +65,6 @@
         </dk.aau.cs.giraf.gui.GList>
     </LinearLayout>
 </LinearLayout>
-
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
