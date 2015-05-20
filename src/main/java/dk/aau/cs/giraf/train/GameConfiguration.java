@@ -46,9 +46,9 @@ public class GameConfiguration implements Parcelable {
         return this.distanceBetweenStations;
     };
 
-    /*public long getChildID() {
+    public long getChildID() {
         return this.childID;
-    }*/
+    }
     public long getGuardianID(){ return this.guardianID; }
     public long getGameID() {return this.gameID;}
 

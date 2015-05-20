@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import dk.aau.cs.giraf.dblib.Helper;
 import dk.aau.cs.giraf.dblib.controllers.ProfileController;
@@ -72,46 +74,9 @@ public class ConfigurationList {
 
 
         //Parse configurations
-        String configurations = setting.getSetting(this.context, this.getGames);
-
+        String configurations = setting.getSetting(this.context, "getGames");
+        Log.d(this.TAG, configurations);
         this.listOfConfiguration = this.parseConfigurations(configurations);
-
-
-
-
-
-        //Try to parse the saved configurations
-        /*try {
-            GameConfiguration gC;
-            StationConfiguration sC;
-            //Get games configurations and parse to json
-            String games = setting.getSetting(this.context, this.getGames);
-            //Convert it to a JSONArray
-            JSONArray jGameConfigurations = new JSONArray(games);
-            //Parse jsonArray to list of game configurations objects
-            for (int i = 0; i < jGameConfigurations.length(); i++) {
-                JSONObject jgC = jGameConfigurations.getJSONObject(i);
-                gC = new GameConfiguration(jgC.getString(this.gameName), jgC.getLong(this.gameID), jgC.getLong(this.childID), jgC.getLong(this.guardianID), jgC.getInt(this.distanceBetweenStations));
-
-                //Load stations into gameconfiguration object
-                JSONArray jStations = jgC.getJSONArray(this.stations);
-                for (int j = 0; j < jStations.length(); j++) {
-                    sC = new StationConfiguration(jStations.getJSONObject(j).getLong(this.category));
-                    //Load pictograms associated with the station
-                    JSONArray jAceptedPictograms = jStations.getJSONObject(j).getJSONArray(this.acceptPitograms);
-                    for (int k = 0; k < jAceptedPictograms.length(); k++) {
-                        long pictogramID = jAceptedPictograms.getLong(k);
-                        Log.d(this.TAG, "PictogramID: " + pictogramID);
-                        sC.addAcceptPictogram(pictogramID);
-                    }
-                    gC.addStation(sC);
-                }
-                this.listOfConfiguration.add(gC);
-            }
-        }
-        catch (JSONException e) {
-            e.printStackTrace();
-        }*/
 
     }
 
@@ -120,7 +85,7 @@ public class ConfigurationList {
         ArrayList<GameConfiguration> games = new ArrayList<GameConfiguration>();
         for (int i = 0; i < configs.length; i++) {
             GameConfiguration gC =  null;
-            String[] parts = configs[i].split(",");
+            String[] parts = configs[i].split("-");
             String gameName = parts[0];
             int distanceBetweenStations = Integer.parseInt(parts[1]);
 
@@ -131,7 +96,7 @@ public class ConfigurationList {
             for(int j = 0; j < stations.length; j++) {
                 //split into category and accepted pictograms
                 Log.d(this.TAG, "Number of stations to parse: " + stations.length);
-                String[] stationParts = stations[j].split(":");
+                String[] stationParts = stations[j].split("@");
                 long categoryID = Long.parseLong(stationParts[0]);
                 StationConfiguration sC = new StationConfiguration(categoryID);
                 //Split into array of accepted pictograms
@@ -154,25 +119,20 @@ public class ConfigurationList {
         Log.d(this.TAG, "Saving settings for currentProfile");
         Settings s = new Settings();
 
-        //Save an id
-        //s.createSetting(this.context, this.profileID, Long.toString(this.currentProfile.getId()));
-
-        //Any configurations to save?
-
         if (this.listOfConfiguration.size() > 0) {
             String gameConfigurations = "";
             for (GameConfiguration gc : this.listOfConfiguration) {
                 //Iterate through all game configurations
-                gameConfigurations += gc.getGameName() + ",";
-                gameConfigurations += gc.getDistanceBetweenStations() + ",";
+                gameConfigurations += gc.getGameName() + "-";
+                gameConfigurations += Integer.toString(gc.getDistanceBetweenStations()) + "-";
 
-                //Iterate through all stations in an configuration
+                //Iterate through all stations in a configuration
                 for (StationConfiguration station : gc.getStations()) {
-                    gameConfigurations += station.getCategory() + ":";
+                    gameConfigurations += Long.toString(station.getCategory()) + "@";
 
                     for (long acceptPictogram : station.getAcceptPictograms()) {
 
-                        gameConfigurations += acceptPictogram + ".";
+                        gameConfigurations += Long.toString(acceptPictogram) + ".";
                     }
                     gameConfigurations = gameConfigurations.substring(0, gameConfigurations.length() - 1);
 
@@ -183,15 +143,88 @@ public class ConfigurationList {
                 gameConfigurations += "\n";
 
 
-                Log.d(this.TAG, gameConfigurations);
-            }
+            Log.d(this.TAG, gameConfigurations);
+        }
             gameConfigurations = gameConfigurations.substring(0, gameConfigurations.length()-1);
-            s.createSetting(this.context, this.getGames, gameConfigurations);
+            s.createSetting(this.context, "getGames", gameConfigurations);
         }
 
         this.currentProfile.setNewSettings(s);
+        Log.d(this.TAG, s.toJSON());
         this.profileController.modify(currentProfile);
 
+    }
+
+   /* public void loadPredefinedGames() {
+        //Load predefined categories
+
+        new ArrayList<Integer>(Arrays.asList(1,2,3,5,8,13,21));
+
+        StationConfiguration station1 = new StationConfiguration(2);
+        //Add pictograms to station
+        ArrayList<Long> acceptedpictogramsStation1 = new ArrayList<Long>(Arrays.asList(ids));
+        for (long acceptedpictogram : acceptedpictogramsStation1) {
+            station1.addAcceptPictogram(acceptedpictogram);
+        }
+
+        StationConfiguration station2 = new StationConfiguration(2);
+        //Add pictograms to station
+        ArrayList<Long> acceptedpictogramsStation2 = new ArrayList<Long>(Arrays.asList(ids));
+        for (long acceptedpictogram : acceptedpictogramsStation2) {
+            station2.addAcceptPictogram(acceptedpictogram);
+        }
+
+        StationConfiguration station3 = new StationConfiguration(2);
+        //Add pictograms to station
+        ArrayList<Long> acceptedpictogramsStation3 = new ArrayList<Long>(Arrays.asList(ids));
+        for (long acceptedpictogram : acceptedpictogramsStation3) {
+            station3.addAcceptPictogram(acceptedpictogram);
+        }
+        StationConfiguration station4 = new StationConfiguration(2);
+        //Add pictograms to station
+        ArrayList<Long> acceptedpictogramsStation4 = new ArrayList<Long>(Arrays.asList(ids));
+        for (long acceptedpictogram : acceptedpictogramsStation3) {
+            station4.addAcceptPictogram(acceptedpictogram);
+        }
+
+        GameConfiguration gameConfiguration = null;
+
+    }*/
+
+
+    private void makePremadeGames() {
+
+        ArrayList<StationConfiguration> stationConfigurationsGame1 = new ArrayList<StationConfiguration>();
+
+        ArrayList<Long> categoriesForGame1 = new ArrayList<Long>();
+
+        for (long category : categoriesForGame1){
+            StationConfiguration stationConfiguration = new StationConfiguration(category);
+            //for ()
+        }
+
+
+    }
+
+    private GameConfiguration makeGameconfiguration(String name, int distanceBetweenStations, ArrayList<StationConfiguration> stations) {
+        GameConfiguration gameConfiguration = new GameConfiguration(name, distanceBetweenStations);
+        gameConfiguration.setStations(stations);
+        return gameConfiguration;
+
+
+
+
+
+    }
+
+    private StationConfiguration makeStation(long category, ArrayList<Long> acceptedpictograms ) {
+        ArrayList<StationConfiguration> stationConfigurations = new ArrayList<StationConfiguration>();
+        StationConfiguration stationConfiguration = new StationConfiguration(category);
+        for (long acceptedpictogram : acceptedpictograms) {
+            stationConfiguration.addAcceptPictogram(acceptedpictogram);
+
+        }
+        return stationConfiguration;
     }
 
 }

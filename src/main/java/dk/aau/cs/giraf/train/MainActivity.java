@@ -157,7 +157,8 @@ public class MainActivity extends Activity {
         }
 
         Log.d("Train", "number of saved gameconfigurations: " + this.configurationHandler.getGameconfiguration().size());
-
+        //Load predefined games
+        //this.configurationHandler.loadPredefinedGames();
         gameListAdapter = new GGameListAdapter(this, this.configurationHandler.getGameconfiguration());
         saveConfigurationList.setAdapter(gameListAdapter);
         saveConfigurationList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
