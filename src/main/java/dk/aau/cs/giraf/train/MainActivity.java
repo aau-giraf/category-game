@@ -1,5 +1,4 @@
 package dk.aau.cs.giraf.train;
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -18,30 +17,39 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import dk.aau.cs.giraf.activity.GirafActivity;
 import dk.aau.cs.giraf.core.data.Constants;
 import dk.aau.cs.giraf.core.data.Data;
 import dk.aau.cs.giraf.dblib.Helper;
 import dk.aau.cs.giraf.dblib.models.Profile;
-import dk.aau.cs.giraf.gui.GButtonProfileSelect;
 import dk.aau.cs.giraf.gui.GComponent;
 import dk.aau.cs.giraf.gui.GDialogAlert;
 import dk.aau.cs.giraf.gui.GList;
 import dk.aau.cs.giraf.gui.GToast;
+import dk.aau.cs.giraf.gui.GirafButton;
+import dk.aau.cs.giraf.gui.GirafProfileSelectorDialog;
 import dk.aau.cs.giraf.pictosearch.PictoAdminMain;
 import dk.aau.cs.giraf.train.opengl.GameActivity;
 import dk.aau.cs.giraf.utilities.IntentConstants;
 
-public class MainActivity extends Activity {
+public class MainActivity extends GirafActivity implements GirafProfileSelectorDialog.OnSingleProfileSelectedListener{
     public static final String SAVEFILE_PATH = "game_configurations.txt";
     public static final String GAME_CONFIGURATION = "GameConfiguration";
     public static final String GAME_CONFIGURATIONS = "GameConfigurations";
     public static final String SELECTED_CHILD_ID = "selectedChildId";
     public static final String SELECTED_CHILD_NAME = "selectedChildName";
 
+    private static final int CHANGE_USER_SELECTOR_DIALOG = 100;
     public static final int RECEIVE_SINGLE = 0;
     public static final int RECEIVE_MULTIPLE = 1;
     public static final int RECEIVE_GAME_NAME = 2;
     public static final int APPLICATIONBACKGROUND = 0xFFFFBB55;
+
+    //Identifier for fragment
+    private static final int CHANGE_USER_DIALOG = 113;
+    // Profiles of which the categories will be loaded from
+    private Profile childProfile;
+    private Profile guardianProfile;
 
     private int distanceBetweenStations;
 
@@ -54,7 +62,7 @@ public class MainActivity extends Activity {
 
 	private ProgressDialog progressDialog;
 
-    private GButtonProfileSelect gButtonProfileSelect;
+
     private AlertDialog errorDialog;
     private ProfileData currentProfileData = null;
     private GGameListAdapter gameListAdapter;
@@ -70,6 +78,15 @@ public class MainActivity extends Activity {
 
     public StationList listOfStations = null;
     private GStationListAdapter stationListAdapter;
+    private GirafButton changeUserButton;
+    private GirafButton addStationButton;
+    private GirafButton saveGameButton;
+    private GirafButton helpButton;
+
+    private Profile mCurrentUser;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +111,6 @@ public class MainActivity extends Activity {
         }
         else {
             //Find the gButton in your View (needs to be disabled if it is a guest session)
-            gButtonProfileSelect = (GButtonProfileSelect) findViewById(R.id.ChangeProfile);
 
             // If the launcher is running it is not a guest session
             this.isGuestSession = !Data.isProcessRunning("dk.aau.cs.giraf.launcher", this);
@@ -102,7 +118,7 @@ public class MainActivity extends Activity {
             if (isGuestSession) {
                 new GToast(this, super.getResources().getString(R.string.guest_toast), 100).show();
                 // Disable button to switch profile as there are no other profile than Guest in standalone execution
-                gButtonProfileSelect.setEnabled(false);
+                changeUserButton.setVisibility(View.INVISIBLE);
                 // Empty Data constructor creates a guest profile
                 this.downloadAllPictograms();
                 //Get guest guardian profile
@@ -121,8 +137,10 @@ public class MainActivity extends Activity {
             }
         }
 
+        createButtons();
             //Call the method setup with a Profile guardian, no currentProfile (which means that the guardian is the current Profile) and the onCloseListener
-            gButtonProfileSelect.setup(this.currentProfileData.guardianProfile, null, new GButtonProfileSelect.onCloseListener() {
+            /*
+            gButtonProfileSelect.setOnClickListener(this.currentProfileData.guardianProfile, null, new gButtonProfileSelect.onCloseListener() {
                 @Override
                 public void onClose(Profile guardianProfile, Profile currentProfile) {
                     //If the guardian is the selected profile create GToast displaying the name
@@ -139,6 +157,7 @@ public class MainActivity extends Activity {
                     }
                 }
             });
+            */
 
 		/* Not used anymore but maybe the performClick method can be called in some cases
         if(extras == null){
@@ -174,8 +193,93 @@ public class MainActivity extends Activity {
 
         this.PreConfigure();
     }
+    /**
+     * Will return the current profile. If the application is launched from a child profile,
+     * this method will return that profile. If the application is launched from a guardian profile,
+     * this method will return that profile instead.
+     * <p/>
+     * Notice that when the application is launched from a child profile, the guardian profile is
+     * also assigned.
+     *
+     * @return the current profile. {@code null} if no current profile.
+     */
+    public Profile getCurrentUser() {
+        if (currentProfileData.childProfile != null) {
+            return childProfile;
+        } else if (currentProfileData.guardianProfile != null) {
+            return guardianProfile;
+        }
 
+        return null;
+    }
 
+    private void createButtons(){
+        changeUserButton = new GirafButton(this, getResources().getDrawable(R.drawable.icon_give_tablet));
+        changeUserButton.setId(R.id.change_user);
+        changeUserButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {//todo fix lige 37
+                GirafProfileSelectorDialog changeUser = GirafProfileSelectorDialog.newInstance(MainActivity.this, (long)37, false, false, "Vælg den borger du vil skifte til.", CHANGE_USER_SELECTOR_DIALOG);
+                changeUser.show(getSupportFragmentManager(), "" + CHANGE_USER_SELECTOR_DIALOG);
+            }
+        });
+        addGirafButtonToActionBar(changeUserButton, GirafActivity.RIGHT);
+        addStationButton = new GirafButton(this, getResources().getDrawable(R.drawable.icon_add));
+        addStationButton.setId(R.id.addStationButton);
+        addStationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickAddStation(v);
+            }
+        });
+        addGirafButtonToActionBar(addStationButton, GirafActivity.RIGHT);
+        saveGameButton = new GirafButton(this, getResources().getDrawable(R.drawable.icon_save));;
+        saveGameButton.setId(R.id.saveGameButton);
+        saveGameButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    onClickSaveGame(v);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        addGirafButtonToActionBar(saveGameButton, GirafActivity.RIGHT);
+        helpButton = new GirafButton(this, getResources().getDrawable(R.drawable.icon_help));;
+        helpButton.setId(R.id.Info);
+        helpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickInfo(v);//Todo implmentshowcase
+            }
+        });
+        addGirafButtonToActionBar(helpButton, GirafActivity.RIGHT);
+    }
+
+    @Override
+    public void onProfileSelected(final int i, final Profile profile) {
+
+        if (i == CHANGE_USER_SELECTOR_DIALOG) {
+
+            // Update the profile
+            mCurrentUser = profile;
+
+            if (profile == null) {
+
+                GToast w = new GToast(getApplicationContext(), "Den valgte profil er " + guardianProfile.getName().toString(), 2);
+                onChangeProfile(guardianProfile, null);
+                w.show();
+            }
+            //If another current Profile is the selected profile create GToast displaying the name
+            else {
+                GToast w = new GToast(getApplicationContext(), "Den valgte profil er " + mCurrentUser.getName().toString(), 2);
+                onChangeProfile(guardianProfile, mCurrentUser);
+                w.show();
+            }
+        }
+
+    }
 
     private void PreConfigure() {
         this.progressDialog = new ProgressDialog(this);
@@ -231,6 +335,7 @@ public class MainActivity extends Activity {
         this.stationListAdapter.notifyDataSetChanged();
     }
 
+
     private class OnItemClickListener implements AdapterView.OnItemClickListener {
         private GameConfiguration gameConfiguration;
 
@@ -280,6 +385,7 @@ public class MainActivity extends Activity {
             this.startActivity(this.gameIntent);
         }
     }
+
     public void onClickInfo(View view){
         GDialogAlert diag = new GDialogAlert(view.getContext(),
                 R.drawable.ic_launcher,
