@@ -31,6 +31,7 @@ import dk.aau.cs.giraf.gui.GList;
 import dk.aau.cs.giraf.gui.GToast;
 import dk.aau.cs.giraf.gui.GirafButton;
 import dk.aau.cs.giraf.gui.GirafProfileSelectorDialog;
+import dk.aau.cs.giraf.pictosearch.PictoAdminMain;
 import dk.aau.cs.giraf.showcaseview.targets.ViewTarget;
 import dk.aau.cs.giraf.train.opengl.GameActivity;
 import dk.aau.cs.giraf.utilities.IntentConstants;
@@ -85,7 +86,6 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
     private GirafButton addStationButton;
     private GirafButton saveGameButton;
     private GirafButton helpButton;
-    private ShowcaseManager showcaseManager;
     private Profile mCurrentUser;
 
 
@@ -140,27 +140,6 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
         }
 
         createButtons();
-            //Call the method setup with a Profile guardian, no currentProfile (which means that the guardian is the current Profile) and the onCloseListener
-            /*
-            gButtonProfileSelect.setOnClickListener(this.currentProfileData.guardianProfile, null, new gButtonProfileSelect.onCloseListener() {
-                @Override
-                public void onClose(Profile guardianProfile, Profile currentProfile) {
-                    //If the guardian is the selected profile create GToast displaying the name
-                    if (currentProfile == null) {
-                        GToast w = new GToast(getApplicationContext(), "Den valgte profil er " + guardianProfile.getName().toString(), 2);
-                        onChangeProfile(guardianProfile, null);
-                        w.show();
-                    }
-                    //If another current Profile is the selected profile create GToast displaying the name
-                    else {
-                        GToast w = new GToast(getApplicationContext(), "Den valgte profil er " + currentProfile.getName().toString(), 2);
-                        onChangeProfile(guardianProfile, currentProfile);
-                        w.show();
-                    }
-                }
-            });
-            */
-
 		/* Not used anymore but maybe the performClick method can be called in some cases
         if(extras == null){
             this.gButtonProfileSelect.performClick();
@@ -247,17 +226,6 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
                 }
             }
         });
-        addGirafButtonToActionBar(saveGameButton, GirafActivity.RIGHT);
-        helpButton = new GirafButton(this, getResources().getDrawable(R.drawable.icon_help));;
-        helpButton.setId(R.id.Info);
-        helpButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //final ShowcaseManager.ShowcaseCapable currentContent = (ShowcaseManager.ShowcaseCapable) (MainActivity)(R.layout.activity_main);
-                //currentContent.toggleShowcase();
-            }
-        });
-        addGirafButtonToActionBar(helpButton, GirafActivity.RIGHT);
     }
 
     @Override
