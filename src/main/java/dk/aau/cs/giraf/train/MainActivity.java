@@ -340,7 +340,7 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
         }
     }
     public void onClickCategory(View view) {
-        super.startActivityForResult(this.categoryIntent, MainActivity.RECEIVE_GAME_NAME);
+        super.startActivityForResult(this.categoryIntent, MainActivity.RECEIVE_GAME6_NAME);
     }
 
     public void onClickStartGame(View view) {
