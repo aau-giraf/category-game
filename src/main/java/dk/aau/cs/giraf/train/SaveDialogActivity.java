@@ -79,7 +79,7 @@ public class SaveDialogActivity extends Activity {
         }
         
         //Check for illegal symbols
-        if (gameName.contains(",") || gameName.contains(";")) {
+        if (gameName.contains(".") || gameName.contains("-")|| gameName.contains("&") || gameName.contains("@") || gameName.contains("-")) {
             this.showAlertMessage(super.getResources().getString(R.string.invalid_symbols));
             return false;
         }

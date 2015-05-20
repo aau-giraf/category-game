@@ -19,7 +19,6 @@ public class GameConfiguration implements Parcelable {
     private long   guardianID;
     private String gameName;
     private long   childID;
-    private long   gameID;
     private int  distanceBetweenStations;
     private ArrayList<StationConfiguration> stations = new ArrayList<StationConfiguration>();
 	
@@ -28,10 +27,9 @@ public class GameConfiguration implements Parcelable {
 		this.distanceBetweenStations = distanceBetweenStations;
 	}
 
-    public GameConfiguration(String gameName, long gameID, long childID, long guardianID, int distanceBetweenStations) {
+    public GameConfiguration(String gameName, long childID, long guardianID, int distanceBetweenStations) {
         this.gameName = gameName;
         this.childID = childID;
-        this.gameID = gameID;
         this.guardianID = guardianID;
         this.distanceBetweenStations = distanceBetweenStations;
     }
@@ -50,7 +48,6 @@ public class GameConfiguration implements Parcelable {
         return this.childID;
     }
     public long getGuardianID(){ return this.guardianID; }
-    public long getGameID() {return this.gameID;}
 
 
     public void addStation(StationConfiguration station) {
@@ -100,7 +97,6 @@ public class GameConfiguration implements Parcelable {
         out.writeLong(this.guardianID);
         out.writeString(this.gameName);
         out.writeLong(this.childID);
-        out.writeLong(this.gameID);
         out.writeInt(this.distanceBetweenStations);
         out.writeList(this.stations);
     }
@@ -122,7 +118,6 @@ public class GameConfiguration implements Parcelable {
         this.guardianID = in.readLong();
         this.gameName = in.readString();
         this.childID = in.readLong();
-        this.gameID = in.readLong();
         this.distanceBetweenStations = in.readInt();
         in.readList(this.stations, StationConfiguration.class.getClassLoader());
     }
@@ -142,8 +137,6 @@ public class GameConfiguration implements Parcelable {
         sWriter.append(",");
         sWriter.write(String.valueOf(this.childID));
         sWriter.append(",");
-        sWriter.write(String.valueOf(this.gameID));
-        sWriter.append(",");
         sWriter.write(String.valueOf(this.distanceBetweenStations));
 
         for(StationConfiguration station : stations) {
@@ -157,10 +150,5 @@ public class GameConfiguration implements Parcelable {
         sWriter.close();
 
         return result;
-    }
-
-    public boolean readConfiguration(int gameID) {
-
-        return true;
     }
 }

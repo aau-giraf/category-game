@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import dk.aau.cs.giraf.dblib.controllers.ProfileController;
 import dk.aau.cs.giraf.dblib.models.Profile;
@@ -16,16 +17,6 @@ public class ConfigurationList {
     private ProfileController profileController;
     private ArrayList<GameConfiguration> listOfConfiguration = new ArrayList<GameConfiguration>();
     private static final String TAG = ConfigurationList.class.getName();
-    //Strong constants used in the class
-    public final String getGames = "getGames";
-    public final String game = "game";
-    public final String gameID = "gameID";
-    public final String profileID = "profileID";
-    public final String guardianID = "guardianID";
-    public final String distanceBetweenStations = "distanceBetweenStations";
-    public final String stations = "stations";
-    public final String category = "category";
-    public final String acceptPitograms = "acceptPitograms";
 
 
     public ConfigurationList(Activity a, Profile c){
@@ -33,12 +24,14 @@ public class ConfigurationList {
         this.currentProfile = c;
         this.caller = a;
         this.GetSavedSettings();
+        this.getPremadeGames();
     }
 
     public void update(Profile c){
         this.listOfConfiguration.clear();
         this.currentProfile = c;
         this.GetSavedSettings();
+        this.getPremadeGames();
     }
 
     public void addConfiguration(GameConfiguration g){
@@ -72,7 +65,74 @@ public class ConfigurationList {
 
     }
 
+
+    private void getPremadeGames() {
+        Log.d(this.TAG, "Trying to parse premade games");
+        //Read the games into a string
+        String gamesString = Utility.readRawFileToString(this.caller, R.raw.premade_games);
+
+        //Parse the games
+        ArrayList<GameConfiguration> gameConfigurations = this.parseConfigurations(gamesString);
+        int numberOfGames = gameConfigurations.size();
+        /*Check if the games created already exists in the users list of games
+        Since we do not want to add them twice
+         */
+        int numberOfGamesDeleted = 0;
+        Iterator<GameConfiguration> iterator = gameConfigurations.iterator();
+        gameConfigurations = new ArrayList<GameConfiguration>();
+        while (iterator.hasNext()) {
+            GameConfiguration g = iterator.next();
+            if (gameExists(g)) {
+                //Remove the game from the list.
+                Log.d(this.TAG, "Premade game already exists: " + g.getGameName());
+                iterator.remove();
+                //Log.d(this.TAG, "Size of premadeconfigs: " + gameConfigurations.size());
+                numberOfGamesDeleted++;
+
+            }
+            else{
+                gameConfigurations.add(g);
+            }
+
+        }
+
+        //Check if all games hasn't been removed
+        if (numberOfGames != numberOfGamesDeleted) {
+            //Get the games from the iterator
+            Log.d(this.TAG, "Adding premade games");
+            this.listOfConfiguration.addAll(gameConfigurations);
+        }
+        else{
+            Log.d(this.TAG, "All premade games already exists");
+        }
+
+
+    }
+
+    private boolean gameExists(GameConfiguration gameConfiguration) {
+        //Check for gameName
+        for (GameConfiguration gC : this.listOfConfiguration) {
+            if (gameConfiguration.getGameName().equals(gC.getGameName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
     private ArrayList<GameConfiguration> parseConfigurations(String configurations) {
+        /*Saved games are on the form Gm-30-104@11618.1760.529&105@105.1762.6368
+        where:
+        Gm is the game name,
+        - is a sperator due to db settings implementation
+        30 is the distance betweenstations
+        104 is the category id of a station
+        @ seperates category id from acceptPictogram ids
+        11618.1760.529 is acceptPictograms
+        & seperates stations
+        _ seperates other game configurations
+         */
+
         String[] configs = configurations.split("_");
         ArrayList<GameConfiguration> games = new ArrayList<GameConfiguration>();
         for (int i = 0; i < configs.length; i++) {
@@ -108,6 +168,17 @@ public class ConfigurationList {
     }
 
     public void SaveSettings() {
+        /*Saved games are on the form Gm-30-104@11618.1760.529&105@105.1762.6368
+        where:
+        Gm is the game name,
+        - is a sperator due to db settings implementation
+        30 is the distance betweenstations
+        104 is the category id of a station
+        @ seperates category id from acceptPictogram ids
+        11618.1760.529 is acceptPictograms
+        & seperates stations
+        _ seperates other game configurations
+         */
         Log.d(this.TAG, "Saving settings for currentProfile");
         Settings s = new Settings();
 
@@ -145,78 +216,6 @@ public class ConfigurationList {
         Log.d(this.TAG, s.toJSON());
         this.profileController.modify(currentProfile);
 
-    }
-
-   /* public void loadPredefinedGames() {
-        //Load predefined categories
-
-        new ArrayList<Integer>(Arrays.asList(1,2,3,5,8,13,21));
-
-        StationConfiguration station1 = new StationConfiguration(2);
-        //Add pictograms to station
-        ArrayList<Long> acceptedpictogramsStation1 = new ArrayList<Long>(Arrays.asList(ids));
-        for (long acceptedpictogram : acceptedpictogramsStation1) {
-            station1.addAcceptPictogram(acceptedpictogram);
-        }
-
-        StationConfiguration station2 = new StationConfiguration(2);
-        //Add pictograms to station
-        ArrayList<Long> acceptedpictogramsStation2 = new ArrayList<Long>(Arrays.asList(ids));
-        for (long acceptedpictogram : acceptedpictogramsStation2) {
-            station2.addAcceptPictogram(acceptedpictogram);
-        }
-
-        StationConfiguration station3 = new StationConfiguration(2);
-        //Add pictograms to station
-        ArrayList<Long> acceptedpictogramsStation3 = new ArrayList<Long>(Arrays.asList(ids));
-        for (long acceptedpictogram : acceptedpictogramsStation3) {
-            station3.addAcceptPictogram(acceptedpictogram);
-        }
-        StationConfiguration station4 = new StationConfiguration(2);
-        //Add pictograms to station
-        ArrayList<Long> acceptedpictogramsStation4 = new ArrayList<Long>(Arrays.asList(ids));
-        for (long acceptedpictogram : acceptedpictogramsStation3) {
-            station4.addAcceptPictogram(acceptedpictogram);
-        }
-
-        GameConfiguration gameConfiguration = null;
-
-    }*/
-
-
-    private void makePremadeGames() {
-
-        ArrayList<StationConfiguration> stationConfigurationsGame1 = new ArrayList<StationConfiguration>();
-
-        ArrayList<Long> categoriesForGame1 = new ArrayList<Long>();
-
-        for (long category : categoriesForGame1){
-            StationConfiguration stationConfiguration = new StationConfiguration(category);
-            //for ()
-        }
-
-
-    }
-
-    private GameConfiguration makeGameconfiguration(String name, int distanceBetweenStations, ArrayList<StationConfiguration> stations) {
-        GameConfiguration gameConfiguration = new GameConfiguration(name, distanceBetweenStations);
-        gameConfiguration.setStations(stations);
-        return gameConfiguration;
-
-
-
-
-
-    }
-
-    private StationConfiguration makeStation(long category, ArrayList<Long> acceptedpictograms ) {
-        ArrayList<StationConfiguration> stationConfigurations = new ArrayList<StationConfiguration>();
-        StationConfiguration stationConfiguration = new StationConfiguration(category);
-        for (long acceptedpictogram : acceptedpictograms) {
-            stationConfiguration.addAcceptPictogram(acceptedpictogram);
-
-        }
-        return stationConfiguration;
     }
 
 }
