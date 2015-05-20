@@ -4,4 +4,5 @@
     <item name="addStationButton" type="id"/>
     <item name="saveGameButton" type="id"/>
     <item name="Info" type="id"/>
+    <item name="startGameFromProfileButton" type="id"/>
 </resources>
