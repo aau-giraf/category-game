@@ -1,4 +1,5 @@
 package dk.aau.cs.giraf.train;
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -9,8 +10,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -28,7 +31,7 @@ import dk.aau.cs.giraf.gui.GList;
 import dk.aau.cs.giraf.gui.GToast;
 import dk.aau.cs.giraf.gui.GirafButton;
 import dk.aau.cs.giraf.gui.GirafProfileSelectorDialog;
-import dk.aau.cs.giraf.pictosearch.PictoAdminMain;
+import dk.aau.cs.giraf.showcaseview.targets.ViewTarget;
 import dk.aau.cs.giraf.train.opengl.GameActivity;
 import dk.aau.cs.giraf.utilities.IntentConstants;
 
@@ -82,7 +85,7 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
     private GirafButton addStationButton;
     private GirafButton saveGameButton;
     private GirafButton helpButton;
-
+    private ShowcaseManager showcaseManager;
     private Profile mCurrentUser;
 
 
@@ -95,7 +98,6 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
         GComponent.SetBaseColor(APPLICATIONBACKGROUND);
         LayoutInflater li = LayoutInflater.from(this);
         View mainView = li.inflate(R.layout.activity_main, null);
-
         Intent intent = getIntent();
 
         //Set the background
@@ -251,7 +253,8 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
         helpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onClickInfo(v);//Todo implmentshowcase
+                //final ShowcaseManager.ShowcaseCapable currentContent = (ShowcaseManager.ShowcaseCapable) (MainActivity)(R.layout.activity_main);
+                //currentContent.toggleShowcase();
             }
         });
         addGirafButtonToActionBar(helpButton, GirafActivity.RIGHT);
@@ -334,7 +337,6 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
         this.gameListAdapter.notifyDataSetChanged();
         this.stationListAdapter.notifyDataSetChanged();
     }
-
 
     private class OnItemClickListener implements AdapterView.OnItemClickListener {
         private GameConfiguration gameConfiguration;
