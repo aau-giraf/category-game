@@ -115,7 +115,7 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
                 Bundle extras = getIntent().getExtras();
                 if(extras == null) {
                     Log.d("Train", "Extras are null, shutdown application");
-                    return;
+                    currentProfileData = new ProfileData(37, -1, this.getApplicationContext());
                 }
                 else{
                     long guardianID = extras.getLong("currentGuardianID");
@@ -313,12 +313,10 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
     public void onChangeProfile(Profile guardianProfile, Profile currentProfile) {
         if(currentProfile == null){
             this.currentProfileData.guardianProfile = guardianProfile;
-            //this.configurationHandler = new ConfigurationList(this, guardianProfile);
             this.configurationHandler.update(guardianProfile);
         }
         else{
             this.currentProfileData.childProfile = currentProfile;
-            //this.configurationHandler = new ConfigurationList(this, currentProfile);
             this.configurationHandler.update(currentProfile);
         }
 
@@ -354,10 +352,10 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
         // TODO: ID should be implemented, instead of giving all games the id of '1337'
         if(this.isValidConfiguration(view)) {
             if(this.currentProfileData.childProfile != null){
-                this.gameIntent.putExtra(MainActivity.GAME_CONFIGURATION, this.getGameConfiguration("the new game", 1337, this.currentProfileData.childProfile.getId()));
+                this.gameIntent.putExtra(MainActivity.GAME_CONFIGURATION, this.getGameConfiguration("the new game", this.currentProfileData.childProfile.getId(), distanceBetweenStations));
             }
             else {
-                this.gameIntent.putExtra(MainActivity.GAME_CONFIGURATION, this.getGameConfiguration("the new game", 1337, this.currentProfileData.guardianProfile.getId()));
+                this.gameIntent.putExtra(MainActivity.GAME_CONFIGURATION, this.getGameConfiguration("the new game", this.currentProfileData.guardianProfile.getId(), distanceBetweenStations));
             }
             this.startActivity(this.gameIntent);
         }
@@ -429,8 +427,10 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
         return ((distanceSelector.getProgress() * 350 - 1750));
     }
 
-    private GameConfiguration getGameConfiguration(String gameName, int gameID, long childID) {
-        GameConfiguration gameConfiguration = new GameConfiguration(gameName, gameID, childID, currentProfileData.guardianProfile.getId(), getDistanceBetweenStations());//TODO Set appropriate IDs
+
+    private GameConfiguration getGameConfiguration(String gameName, long childID, int distanceBetweenStations) {
+
+        GameConfiguration gameConfiguration = new GameConfiguration(gameName, childID, currentProfileData.guardianProfile.getId(), distanceBetweenStations); //TODO Set appropriate IDs
         gameConfiguration.setStations(this.listOfStations.getStations());
         return gameConfiguration;
     }
@@ -479,10 +479,10 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
                 String gameName = data.getExtras().getString(SaveDialogActivity.GAME_NAME);
                 GameConfiguration gameConfiguration;
                 if(this.currentProfileData.childProfile != null){
-                    gameConfiguration = getGameConfiguration(gameName, 1337, this.currentProfileData.childProfile.getId());
+                    gameConfiguration = getGameConfiguration(gameName, this.currentProfileData.childProfile.getId(),distanceBetweenStations);
                 }
                 else{
-                    gameConfiguration = getGameConfiguration(gameName, 1337, this.currentProfileData.guardianProfile.getId());
+                    gameConfiguration = getGameConfiguration(gameName, this.currentProfileData.guardianProfile.getId(),distanceBetweenStations);
                 }
                 this.configurationHandler.addConfiguration(gameConfiguration);
                 this.gameListAdapter.notifyDataSetChanged();
