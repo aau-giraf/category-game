@@ -10,13 +10,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import dk.aau.cs.giraf.activity.GirafActivity;
 import dk.aau.cs.giraf.core.data.Constants;
 import dk.aau.cs.giraf.core.data.Data;
@@ -39,7 +36,6 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
     public static final String GAME_CONFIGURATIONS = "GameConfigurations";
     public static final String SELECTED_CHILD_ID = "selectedChildId";
     public static final String SELECTED_CHILD_NAME = "selectedChildName";
-
     private static final int CHANGE_USER_SELECTOR_DIALOG = 100;
     public static final int RECEIVE_SINGLE = 0;
     public static final int RECEIVE_MULTIPLE = 1;
@@ -49,43 +45,32 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
     private static final int NOTIFY_DIALOG_ID = 1;
     // Fragment tag (android specific)
     private static final String NOTIFY_DIALOG_TAG = "DIALOG_TAG";
-
     //Identifier for fragment
     private static final int CHANGE_USER_DIALOG = 113;
     // Profiles of which the categories will be loaded from
-
-    //private int distanceBetweenStations;
-
+    private int distanceBetweenStations;
     private boolean isGuestSession;
-
     private Intent gameIntent;
     private Intent saveIntent;
     private Intent categoryIntent;
     private Intent pictoAdminIntent = new Intent();
-
 	private ProgressDialog progressDialog;
-
-
     private AlertDialog errorDialog;
     private ProfileData currentProfileData = null;
     private GGameListAdapter gameListAdapter;
     public ConfigurationList configurationHandler;
-
     public static final int ALLOWED_PICTOGRAMS = 12;
     public static final int ALLOWED_STATIONS = ALLOWED_PICTOGRAMS;
-
     private final int MINIMUM_TIME = 15;
     private final int MAXIMUM_TIME = 300;
-
     private GameConfiguration currentGameConfiguration;
-
     public StationList listOfStations = null;
     private GStationListAdapter stationListAdapter;
     private GirafButton changeUserButton;
     private GirafButton addStationButton;
     private GirafButton saveGameButton;
     private GirafButton startGameButton;
-    private SeekBar timeSlider;
+    private SeekBar distanceSelector;
 
 
 
@@ -139,7 +124,7 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
         }
 
         createTopBarButtons();
-        createTimeSlider();
+        createDistanceSelector();
 		/* Not used anymore but maybe the performClick method can be called in some cases
         if(extras == null){
             this.gButtonProfileSelect.performClick();
@@ -175,26 +160,6 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
         this.PreConfigure();
     }
     /**
-     * Will return the current profile. If the application is launched from a child profile,
-     * this method will return that profile. If the application is launched from a guardian profile,
-     * this method will return that profile instead.
-     * <p/>
-     * Notice that when the application is launched from a child profile, the guardian profile is
-     * also assigned.
-     *
-     * @return the current profile. {@code null} if no current profile.
-     */
-    public Profile getCurrentUser() {
-        if (currentProfileData.childProfile != null) {
-            return currentProfileData.childProfile;
-        } else if (currentProfileData.guardianProfile != null) {
-            return currentProfileData.guardianProfile;
-        }
-
-        return null;
-    }
-
-    /**
      * Creates and initilizes buttons for the actionbar,
      * furthermore it adds onClickListeners for the buttons.
      */
@@ -214,10 +179,10 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
             public void onClick(View view) {
                 if(isValidConfiguration(view)) {
                     if(currentProfileData.childProfile != null){
-                        gameIntent.putExtra(MainActivity.GAME_CONFIGURATION, getGameConfiguration("the new game", 1337, currentProfileData.childProfile.getId(), timeSlider.getProgress()));
+                        gameIntent.putExtra(MainActivity.GAME_CONFIGURATION, getGameConfiguration("the new game", 1337, currentProfileData.childProfile.getId()));
                     }
                     else {
-                        gameIntent.putExtra(MainActivity.GAME_CONFIGURATION, getGameConfiguration("the new game", 1337, currentProfileData.guardianProfile.getId(), timeSlider.getProgress()));
+                        gameIntent.putExtra(MainActivity.GAME_CONFIGURATION, getGameConfiguration("the new game", 1337, currentProfileData.guardianProfile.getId()));
                     }
                     startActivity(gameIntent);
                 }
@@ -357,7 +322,7 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
     public void noticeDialog(int i) {
 
     }
-
+/*
     private class OnItemClickListener implements AdapterView.OnItemClickListener {
         private GameConfiguration gameConfiguration;
 
@@ -370,25 +335,25 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
 
         }
     }
-
+*/
     public void onClickCategory(View view) {
         super.startActivityForResult(this.categoryIntent, MainActivity.RECEIVE_GAME_NAME);
     }
 
-/* //todo lassse
+    //todo lassse
     public void onClickStartGame(View view) {
         // TODO: ID should be implemented, instead of giving all games the id of '1337'
         if(this.isValidConfiguration(view)) {
             if(this.currentProfileData.childProfile != null){
-                this.gameIntent.putExtra(MainActivity.GAME_CONFIGURATION, this.getGameConfiguration("the new game", 1337, this.currentProfileData.childProfile.getId(), distanceBetweenStations));
+                this.gameIntent.putExtra(MainActivity.GAME_CONFIGURATION, this.getGameConfiguration("the new game", 1337, this.currentProfileData.childProfile.getId()));
             }
             else {
-                this.gameIntent.putExtra(MainActivity.GAME_CONFIGURATION, this.getGameConfiguration("the new game", 1337, this.currentProfileData.guardianProfile.getId(), distanceBetweenStations));
+                this.gameIntent.putExtra(MainActivity.GAME_CONFIGURATION, this.getGameConfiguration("the new game", 1337, this.currentProfileData.guardianProfile.getId()));
             }
             this.startActivity(this.gameIntent);
         }
     }
-*/
+
     public void onClickInfo(View view){
         GDialogAlert diag = new GDialogAlert(view.getContext(),
                 R.drawable.ic_launcher,
@@ -412,28 +377,10 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
 
     private boolean isValidConfiguration(View view) {
         ArrayList<StationConfiguration> currentStation = this.listOfStations.getStations();
-       // EditText text = (EditText)findViewById(R.id.distanceForStations);
-       /*
-        if (text == null || text.getText().toString().equals(""))
-        {
-            this.showAlertMessage("Du skal skrive køretiden mellem stationer" + " for at kunne starte og gemme spillet", view);
-            currentStation = null; //Free memory
-            return false;
-        }
-        try{
-            distanceBetweenStations = Integer.parseInt(text.getText().toString());
-        } catch (NumberFormatException e){
-            text.getText().clear();
-            return false;
-        }*/
-
-        if (timeSlider.getProgress() < MINIMUM_TIME || timeSlider.getProgress() > MAXIMUM_TIME) {
+        if (distanceSelector.getProgress() < MINIMUM_TIME || distanceSelector.getProgress() > MAXIMUM_TIME) {
             this.showAlertMessage("Værdien skal mellem 15 og 300 sekunder.", view);
             return false;
         }
-
-
-
         //There needs to be at least one station
         if(currentStation.size() < 1) {
             this.showAlertMessage(super.getResources().getString(R.string.station_error),view);
@@ -469,8 +416,8 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
         return true;
     }
 
-    private GameConfiguration getGameConfiguration(String gameName, int gameID, long childID, int distanceBetweenStations) {
-        GameConfiguration gameConfiguration = new GameConfiguration(gameName, gameID, childID, currentProfileData.guardianProfile.getId(), distanceBetweenStations); //TODO Set appropriate IDs
+    private GameConfiguration getGameConfiguration(String gameName, int gameID, long childID) {
+        GameConfiguration gameConfiguration = new GameConfiguration(gameName, gameID, childID, currentProfileData.guardianProfile.getId(), distanceSelector.getProgress());//TODO Set appropriate IDs
         gameConfiguration.setStations(this.listOfStations.getStations());
         return gameConfiguration;
     }
@@ -482,8 +429,6 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
         }
         this.listOfStations.setStationConfigurations(newReference);
         this.stationListAdapter.notifyDataSetChanged();
-        //EditText text = (EditText)findViewById(R.id.distanceForStations);
-        //text.setText(Integer.toString(gameConfiguration.getDistanceBetweenStations()));
     }
 
     @Override
@@ -519,21 +464,16 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
             case MainActivity.RECEIVE_GAME_NAME:
 
                 String gameName = data.getExtras().getString(SaveDialogActivity.GAME_NAME);
-                //EditText text = (EditText)findViewById(R.id.distanceForStations);
-                //int distanceBetweenStations = Integer.parseInt(text.getText().toString());
-                //distanceBetweenStations = timeSlider.getProgress();
                 GameConfiguration gameConfiguration;
                 if(this.currentProfileData.childProfile != null){
-                    gameConfiguration = getGameConfiguration(gameName, 1337, this.currentProfileData.childProfile.getId(),timeSlider.getProgress());
+                    gameConfiguration = getGameConfiguration(gameName, 1337, this.currentProfileData.childProfile.getId());
                 }
                 else{
-                    gameConfiguration = getGameConfiguration(gameName, 1337, this.currentProfileData.guardianProfile.getId(),timeSlider.getProgress());
+                    gameConfiguration = getGameConfiguration(gameName, 1337, this.currentProfileData.guardianProfile.getId());
                 }
                 this.configurationHandler.addConfiguration(gameConfiguration);
                 this.gameListAdapter.notifyDataSetChanged();
-
                 this.configurationHandler.SaveSettings();
-
                 break;
         }
         this.stationListAdapter.notifyDataSetChanged();
@@ -581,26 +521,25 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
         List<ResolveInfo> list = getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
         return list.size() > 0;
     }
-    private void createTimeSlider(){
-        timeSlider = (SeekBar) findViewById(R.id.timeSlider);
-        timeSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-        @Override
-        public void onStopTrackingTouch(SeekBar seekBar) {
-            GToast w;
-            timeSlider.setProgress(timeSlider.getProgress() < 15 ? MINIMUM_TIME : (int)Math.ceil(timeSlider.getProgress()));
+    private void createDistanceSelector(){
+        distanceSelector = (SeekBar) findViewById(R.id.timeSlider);
+        distanceSelector.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                GToast w;
+                distanceSelector.setProgress(distanceSelector.getProgress() < 15 ? MINIMUM_TIME : (int) Math.ceil(distanceSelector.getProgress()));
+                w = new GToast(getApplicationContext(), "Tiden mellem stationerne er nu: " + String.valueOf(distanceSelector.getProgress()) + " sekunder", 4);
+                w.show();
+            }
 
-            w = new GToast(getApplicationContext(),"Tiden mellem stationerne er nu: " + String.valueOf(timeSlider.getProgress()) + " sekunder", 4);
-            w.show();
-        }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
 
-        @Override
-        public void onStartTrackingTouch(SeekBar seekBar) {
+            }
 
-        }
-
-        @Override
-        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        }
-    });
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            }
+        });
     }
 }
