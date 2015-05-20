@@ -42,6 +42,7 @@ dependencies {
     compile(group: 'dk.aau.cs.giraf', name: 'meta-database', version: '3.2.2')
     compile(group: 'dk.aau.cs.giraf', name: 'corelib', version: '1.5.2', ext: 'aar')
     compile(group: 'dk.aau.cs.giraf', name: 'pictosearch', version: '2.0.6', ext: 'aar')
+
 }
 
 android {
