@@ -91,8 +91,9 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
             Helper h = new Helper(this);
             h.CreateDummyData();
             currentProfileData = new ProfileData(h.profilesHelper.getGuardians().get(0).getId(),
-                    h.profilesHelper.getChildren().get(0).getId(),
-                    this.getApplicationContext());
+
+            h.profilesHelper.getChildren().get(0).getId(),
+            this.getApplicationContext());
         }
         else {
             //Find the gButton in your View (needs to be disabled if it is a guest session)
@@ -533,6 +534,7 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
     private boolean isCallable(Intent intent) {
         List<ResolveInfo> list = getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
         return list.size() > 0;
+
     }
     private void createDistanceSelector(){
         distanceSelector = (SeekBar) findViewById(R.id.timeSlider);
