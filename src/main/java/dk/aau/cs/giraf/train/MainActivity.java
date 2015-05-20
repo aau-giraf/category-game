@@ -322,7 +322,7 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
     public void noticeDialog(int i) {
 
     }
-/*
+
     private class OnItemClickListener implements AdapterView.OnItemClickListener {
         private GameConfiguration gameConfiguration;
 
@@ -335,7 +335,7 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
 
         }
     }
-*/
+
     public void onClickCategory(View view) {
         super.startActivityForResult(this.categoryIntent, MainActivity.RECEIVE_GAME_NAME);
     }
