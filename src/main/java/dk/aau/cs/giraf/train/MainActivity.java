@@ -1,5 +1,4 @@
 package dk.aau.cs.giraf.train;
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -11,64 +10,69 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
+import android.widget.SeekBar;
 import android.widget.TextView;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
+import dk.aau.cs.giraf.activity.GirafActivity;
 import dk.aau.cs.giraf.core.data.Constants;
 import dk.aau.cs.giraf.core.data.Data;
 import dk.aau.cs.giraf.dblib.Helper;
 import dk.aau.cs.giraf.dblib.models.Profile;
-import dk.aau.cs.giraf.gui.GButtonProfileSelect;
 import dk.aau.cs.giraf.gui.GComponent;
 import dk.aau.cs.giraf.gui.GDialogAlert;
 import dk.aau.cs.giraf.gui.GList;
 import dk.aau.cs.giraf.gui.GToast;
+import dk.aau.cs.giraf.gui.GirafButton;
+import dk.aau.cs.giraf.gui.GirafNotifyDialog;
+import dk.aau.cs.giraf.gui.GirafProfileSelectorDialog;
 import dk.aau.cs.giraf.pictosearch.PictoAdminMain;
 import dk.aau.cs.giraf.train.opengl.GameActivity;
 import dk.aau.cs.giraf.utilities.IntentConstants;
 
-public class MainActivity extends Activity {
+public class MainActivity extends GirafActivity implements GirafProfileSelectorDialog.OnSingleProfileSelectedListener, GirafNotifyDialog.Notification{
     public static final String SAVEFILE_PATH = "game_configurations.txt";
     public static final String GAME_CONFIGURATION = "GameConfiguration";
     public static final String GAME_CONFIGURATIONS = "GameConfigurations";
     public static final String SELECTED_CHILD_ID = "selectedChildId";
     public static final String SELECTED_CHILD_NAME = "selectedChildName";
-
+    private static final int CHANGE_USER_SELECTOR_DIALOG = 100;
     public static final int RECEIVE_SINGLE = 0;
     public static final int RECEIVE_MULTIPLE = 1;
     public static final int RECEIVE_GAME_NAME = 2;
     public static final int APPLICATIONBACKGROUND = 0xFFFFBB55;
-
+    // Identifier for callback
+    private static final int NOTIFY_DIALOG_ID = 1;
+    // Fragment tag (android specific)
+    private static final String NOTIFY_DIALOG_TAG = "DIALOG_TAG";
+    //Identifier for fragment
+    private static final int CHANGE_USER_DIALOG = 113;
+    // Profiles of which the categories will be loaded from
     private int distanceBetweenStations;
-
     private boolean isGuestSession;
-
     private Intent gameIntent;
     private Intent saveIntent;
     private Intent categoryIntent;
     private Intent pictoAdminIntent = new Intent();
-
 	private ProgressDialog progressDialog;
-
-    private GButtonProfileSelect gButtonProfileSelect;
     private AlertDialog errorDialog;
     private ProfileData currentProfileData = null;
     private GGameListAdapter gameListAdapter;
     public ConfigurationList configurationHandler;
-
     public static final int ALLOWED_PICTOGRAMS = 12;
     public static final int ALLOWED_STATIONS = ALLOWED_PICTOGRAMS;
-
     private final int MINIMUM_TIME = 15;
     private final int MAXIMUM_TIME = 300;
-
-
     public StationList listOfStations = null;
     private GStationListAdapter stationListAdapter;
+    private GirafButton changeUserButton;
+    private GirafButton addStationButton;
+    private GirafButton saveGameButton;
+    private GirafButton startGameButton;
+    private SeekBar distanceSelector;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +81,6 @@ public class MainActivity extends Activity {
         GComponent.SetBaseColor(APPLICATIONBACKGROUND);
         LayoutInflater li = LayoutInflater.from(this);
         View mainView = li.inflate(R.layout.activity_main, null);
-
         Intent intent = getIntent();
 
         //Set the background
@@ -93,7 +96,6 @@ public class MainActivity extends Activity {
         }
         else {
             //Find the gButton in your View (needs to be disabled if it is a guest session)
-            gButtonProfileSelect = (GButtonProfileSelect) findViewById(R.id.ChangeProfile);
 
             // If the launcher is running it is not a guest session
             this.isGuestSession = !Data.isProcessRunning("dk.aau.cs.giraf.launcher", this);
@@ -101,7 +103,7 @@ public class MainActivity extends Activity {
             if (isGuestSession) {
                 new GToast(this, super.getResources().getString(R.string.guest_toast), 100).show();
                 // Disable button to switch profile as there are no other profile than Guest in standalone execution
-                gButtonProfileSelect.setEnabled(false);
+                changeUserButton.setVisibility(View.INVISIBLE);
                 // Empty Data constructor creates a guest profile
                 this.downloadAllPictograms();
                 //Get guest guardian profile
@@ -125,25 +127,8 @@ public class MainActivity extends Activity {
             }
         }
 
-            //Call the method setup with a Profile guardian, no currentProfile (which means that the guardian is the current Profile) and the onCloseListener
-            gButtonProfileSelect.setup(this.currentProfileData.guardianProfile, null, new GButtonProfileSelect.onCloseListener() {
-                @Override
-                public void onClose(Profile guardianProfile, Profile currentProfile) {
-                    //If the guardian is the selected profile create GToast displaying the name
-                    if (currentProfile == null) {
-                        GToast w = new GToast(getApplicationContext(), "Den valgte profil er " + guardianProfile.getName().toString(), 2);
-                        onChangeProfile(guardianProfile, null);
-                        w.show();
-                    }
-                    //If another current Profile is the selected profile create GToast displaying the name
-                    else {
-                        GToast w = new GToast(getApplicationContext(), "Den valgte profil er " + currentProfile.getName().toString(), 2);
-                        onChangeProfile(guardianProfile, currentProfile);
-                        w.show();
-                    }
-                }
-            });
-
+        createTopBarButtons();
+        createDistanceSelector();
 		/* Not used anymore but maybe the performClick method can be called in some cases
         if(extras == null){
             this.gButtonProfileSelect.performClick();
@@ -179,8 +164,110 @@ public class MainActivity extends Activity {
 
         this.PreConfigure();
     }
+    /**
+     * Creates and initilizes buttons for the actionbar,
+     * furthermore it adds onClickListeners for the buttons.
+     */
+    private void createTopBarButtons(){
+        createChangeUserButton();
+        createAddStationButton();
+        createSaveGameButton();
+        createStartGameButton();
 
 
+    }
+    private void createStartGameButton() {
+        startGameButton = new GirafButton(this, getResources().getDrawable(R.drawable.icon_play));
+        startGameButton.setId(R.id.startGameFromProfileButton);
+        startGameButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(isValidConfiguration(view)) {
+                    if(currentProfileData.childProfile != null){
+                        gameIntent.putExtra(MainActivity.GAME_CONFIGURATION, getGameConfiguration("the new game", 1337, currentProfileData.childProfile.getId()));
+                    }
+                    else {
+                        gameIntent.putExtra(MainActivity.GAME_CONFIGURATION, getGameConfiguration("the new game", 1337, currentProfileData.guardianProfile.getId()));
+                    }
+                    startActivity(gameIntent);
+                }
+            }
+        });
+        addGirafButtonToActionBar(startGameButton, GirafActivity.RIGHT);
+    }
+
+    private void createAddStationButton() {
+        addStationButton = new GirafButton(this, getResources().getDrawable(R.drawable.icon_add));
+        addStationButton.setId(R.id.addStationButton);
+        addStationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listOfStations.stations.add(new StationConfiguration());
+                stationListAdapter.notifyDataSetChanged();
+            }
+        });
+        addGirafButtonToActionBar(addStationButton, GirafActivity.RIGHT);
+    }
+
+    private void createChangeUserButton() {
+        changeUserButton = new GirafButton(this, getResources().getDrawable(R.drawable.icon_give_tablet));
+        changeUserButton.setId(R.id.change_user);
+        changeUserButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {//todo fix lige 37
+                GirafProfileSelectorDialog changeUser = GirafProfileSelectorDialog.newInstance(MainActivity.this, currentProfileData.guardianProfile.getId(), false, false, "Vælg den borger du vil skifte til.", CHANGE_USER_SELECTOR_DIALOG);
+                changeUser.show(getSupportFragmentManager(), "" + CHANGE_USER_SELECTOR_DIALOG);
+            }
+        });
+        addGirafButtonToActionBar(changeUserButton, GirafActivity.RIGHT);
+    }
+
+    private void createSaveGameButton() {
+        saveGameButton = new GirafButton(this, getResources().getDrawable(R.drawable.icon_save));
+        saveGameButton.setId(R.id.saveGameButton);
+        saveGameButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isValidConfiguration(view)) {
+                    saveIntent.putExtra(MainActivity.GAME_CONFIGURATIONS, configurationHandler.getGameconfiguration());
+                    if(currentProfileData.childProfile != null){
+                        saveIntent.putExtra(MainActivity.SELECTED_CHILD_NAME, currentProfileData.childProfile.getName());
+                        saveIntent.putExtra(MainActivity.SELECTED_CHILD_ID, currentProfileData.childProfile.getId());
+                    }
+                    else {
+                        saveIntent.putExtra(MainActivity.SELECTED_CHILD_NAME, currentProfileData.guardianProfile.getName());
+                        saveIntent.putExtra(MainActivity.SELECTED_CHILD_ID, currentProfileData.guardianProfile.getId());
+                    }
+                    startActivityForResult(saveIntent, MainActivity.RECEIVE_GAME_NAME);
+                }
+            }
+        });
+        addGirafButtonToActionBar(saveGameButton, GirafActivity.RIGHT);
+    }
+
+    @Override
+    public void onProfileSelected(final int i, final Profile profile) {
+
+        if (i == CHANGE_USER_SELECTOR_DIALOG) {
+
+            // Update the profile
+            currentProfileData.childProfile = profile;
+
+            if (profile == null) {
+
+                GToast w = new GToast(getApplicationContext(), "Den valgte profil er " + currentProfileData.guardianProfile.getName().toString(), 2);
+                onChangeProfile(currentProfileData.guardianProfile, null);
+                w.show();
+            }
+            //If another current Profile is the selected profile create GToast displaying the name
+            else {
+                GToast w = new GToast(getApplicationContext(), "Den valgte profil er " + currentProfileData.childProfile.getName().toString(), 2);
+                onChangeProfile(currentProfileData.guardianProfile, currentProfileData.childProfile);
+                w.show();
+            }
+        }
+
+    }
 
     private void PreConfigure() {
         this.progressDialog = new ProgressDialog(this);
@@ -240,6 +327,11 @@ public class MainActivity extends Activity {
         this.gameListAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void noticeDialog(int i) {
+
+    }
+
     private class OnItemClickListener implements AdapterView.OnItemClickListener {
         private GameConfiguration gameConfiguration;
 
@@ -253,42 +345,24 @@ public class MainActivity extends Activity {
         }
     }
 
-    public void onClickAddStation(View view) {
-        this.listOfStations.stations.add(new StationConfiguration());
-        this.stationListAdapter.notifyDataSetChanged();
-    }
-
-    public void onClickSaveGame(View view) throws IOException {
-        if (this.isValidConfiguration(view)) {
-            this.saveIntent.putExtra(MainActivity.GAME_CONFIGURATIONS, this.configurationHandler.getGameconfiguration());
-            if(this.currentProfileData.childProfile != null){
-                this.saveIntent.putExtra(MainActivity.SELECTED_CHILD_NAME, this.currentProfileData.childProfile.getName());
-                this.saveIntent.putExtra(MainActivity.SELECTED_CHILD_ID, this.currentProfileData.childProfile.getId());
-            }
-            else {
-                this.saveIntent.putExtra(MainActivity.SELECTED_CHILD_NAME, this.currentProfileData.guardianProfile.getName());
-                this.saveIntent.putExtra(MainActivity.SELECTED_CHILD_ID, this.currentProfileData.guardianProfile.getId());
-            }
-
-            super.startActivityForResult(this.saveIntent, MainActivity.RECEIVE_GAME_NAME);
-        }
-    }
     public void onClickCategory(View view) {
         super.startActivityForResult(this.categoryIntent, MainActivity.RECEIVE_GAME_NAME);
     }
 
+    //todo lassse
     public void onClickStartGame(View view) {
         // TODO: ID should be implemented, instead of giving all games the id of '1337'
         if(this.isValidConfiguration(view)) {
             if(this.currentProfileData.childProfile != null){
-                this.gameIntent.putExtra(MainActivity.GAME_CONFIGURATION, this.getGameConfiguration("the new game", 1337, this.currentProfileData.childProfile.getId(), distanceBetweenStations));
+                this.gameIntent.putExtra(MainActivity.GAME_CONFIGURATION, this.getGameConfiguration("the new game", 1337, this.currentProfileData.childProfile.getId()));
             }
             else {
-                this.gameIntent.putExtra(MainActivity.GAME_CONFIGURATION, this.getGameConfiguration("the new game", 1337, this.currentProfileData.guardianProfile.getId(), distanceBetweenStations));
+                this.gameIntent.putExtra(MainActivity.GAME_CONFIGURATION, this.getGameConfiguration("the new game", 1337, this.currentProfileData.guardianProfile.getId()));
             }
             this.startActivity(this.gameIntent);
         }
     }
+
     public void onClickInfo(View view){
         GDialogAlert diag = new GDialogAlert(view.getContext(),
                 R.drawable.ic_launcher,
@@ -304,32 +378,18 @@ public class MainActivity extends Activity {
     }
 
     private void showAlertMessage(String message, View view) {
-        new GDialogAlert(view.getContext(),message, null).show();
+        // Creates an instance of the dialog
+        GirafNotifyDialog notifyDialog = GirafNotifyDialog.newInstance("Hovsa", message, NOTIFY_DIALOG_ID);
+        // Shows the dialog
+        notifyDialog.show(getSupportFragmentManager(), NOTIFY_DIALOG_TAG);
     }
 
     private boolean isValidConfiguration(View view) {
         ArrayList<StationConfiguration> currentStation = this.listOfStations.getStations();
-        EditText text = (EditText)findViewById(R.id.distanceForStations);
-        if (text == null || text.getText().toString().equals(""))
-        {
-            this.showAlertMessage("Du skal skrive køretiden mellem stationer" +
-                    " for at kunne starte og gemme spillet", view);
-            currentStation = null; //Free memory
-            return false;
-        }
-        try{
-            distanceBetweenStations = Integer.parseInt(text.getText().toString());
-        } catch (NumberFormatException e){
-            text.getText().clear();
-            return false;
-        }
-
-        if (distanceBetweenStations < MINIMUM_TIME || distanceBetweenStations > MAXIMUM_TIME) {
+        if (distanceSelector.getProgress() < MINIMUM_TIME || distanceSelector.getProgress() > MAXIMUM_TIME) {
             this.showAlertMessage("Værdien skal mellem 15 og 300 sekunder.", view);
             return false;
         }
-
-        distanceBetweenStations =(int)Math.ceil((Integer.parseInt(text.getText().toString()) * 350) - 1750);
         //There needs to be at least one station
         if(currentStation.size() < 1) {
             this.showAlertMessage(super.getResources().getString(R.string.station_error),view);
@@ -360,16 +420,17 @@ public class MainActivity extends Activity {
                 return false;
             }
         }
-
-
         currentStation = null; //Free memory
         //If we have come this far, then the configuration is valid
         return true;
     }
+    //WTF?? //Lasse. todo
+    private int getDistanceBetweenStations(){
+        return ((distanceSelector.getProgress() * 350 - 1750));
+    }
 
-    private GameConfiguration getGameConfiguration(String gameName, int gameID, long childID, int distanceBetweenStations) {
-
-        GameConfiguration gameConfiguration = new GameConfiguration(gameName, gameID, childID, currentProfileData.guardianProfile.getId(), distanceBetweenStations); //TODO Set appropriate IDs
+    private GameConfiguration getGameConfiguration(String gameName, int gameID, long childID) {
+        GameConfiguration gameConfiguration = new GameConfiguration(gameName, gameID, childID, currentProfileData.guardianProfile.getId(), getDistanceBetweenStations());//TODO Set appropriate IDs
         gameConfiguration.setStations(this.listOfStations.getStations());
         return gameConfiguration;
     }
@@ -381,8 +442,6 @@ public class MainActivity extends Activity {
         }
         this.listOfStations.setStationConfigurations(newReference);
         this.stationListAdapter.notifyDataSetChanged();
-        EditText text = (EditText)findViewById(R.id.distanceForStations);
-        text.setText(Integer.toString(gameConfiguration.getDistanceBetweenStations()));
     }
 
     @Override
@@ -418,20 +477,16 @@ public class MainActivity extends Activity {
             case MainActivity.RECEIVE_GAME_NAME:
 
                 String gameName = data.getExtras().getString(SaveDialogActivity.GAME_NAME);
-                EditText text = (EditText)findViewById(R.id.distanceForStations);
-                int distanceBetweenStations = Integer.parseInt(text.getText().toString());
                 GameConfiguration gameConfiguration;
                 if(this.currentProfileData.childProfile != null){
-                    gameConfiguration = getGameConfiguration(gameName, 1337, this.currentProfileData.childProfile.getId(),distanceBetweenStations);
+                    gameConfiguration = getGameConfiguration(gameName, 1337, this.currentProfileData.childProfile.getId());
                 }
                 else{
-                    gameConfiguration = getGameConfiguration(gameName, 1337, this.currentProfileData.guardianProfile.getId(),distanceBetweenStations);
+                    gameConfiguration = getGameConfiguration(gameName, 1337, this.currentProfileData.guardianProfile.getId());
                 }
                 this.configurationHandler.addConfiguration(gameConfiguration);
                 this.gameListAdapter.notifyDataSetChanged();
-
                 this.configurationHandler.SaveSettings();
-
                 break;
         }
         this.stationListAdapter.notifyDataSetChanged();
@@ -478,5 +533,26 @@ public class MainActivity extends Activity {
     private boolean isCallable(Intent intent) {
         List<ResolveInfo> list = getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
         return list.size() > 0;
+    }
+    private void createDistanceSelector(){
+        distanceSelector = (SeekBar) findViewById(R.id.timeSlider);
+        distanceSelector.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                GToast w;
+                distanceSelector.setProgress(distanceSelector.getProgress() < 15 ? MINIMUM_TIME : distanceSelector.getProgress());
+                w = new GToast(getApplicationContext(), "Tiden mellem stationerne er nu: " + String.valueOf(distanceSelector.getProgress()) + " sekunder", 4);
+                w.show();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            }
+        });
     }
 }

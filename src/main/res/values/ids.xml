@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="change_user" type="id"/>
+    <item name="addStationButton" type="id"/>
+    <item name="saveGameButton" type="id"/>
+    <item name="Info" type="id"/>
+    <item name="startGameFromProfileButton" type="id"/>
+</resources>
