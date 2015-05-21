@@ -419,7 +419,7 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
     }
 
     private GameConfiguration getGameConfiguration(String gameName, long childID) {
-        GameConfiguration gameConfiguration = new GameConfiguration(gameName, childID, currentProfileData.guardianProfile.getId(), getDistanceBetweenStations()); //TODO Set appropriate IDs
+        GameConfiguration gameConfiguration = new GameConfiguration(gameName, getDistanceBetweenStations());
         gameConfiguration.setStations(this.listOfStations.getStations());
         return gameConfiguration;
     }

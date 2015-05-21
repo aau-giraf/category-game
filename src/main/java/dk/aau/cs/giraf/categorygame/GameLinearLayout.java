@@ -181,7 +181,7 @@ public class GameLinearLayout extends LinearLayout {
                 stations.add(station);
             }
 
-            GameConfiguration gameConf = new GameConfiguration(gameName, childID, guardianID, TempdistanceBetweenStations);
+            GameConfiguration gameConf = new GameConfiguration(gameName, TempdistanceBetweenStations);
             gameConf.setStations(stations);
 
             this.addGameConfiguration(gameConf);

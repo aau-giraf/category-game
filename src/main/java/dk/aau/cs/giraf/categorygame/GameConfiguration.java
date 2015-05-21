@@ -16,9 +16,7 @@ import java.util.ArrayList;
  */
 public class GameConfiguration implements Parcelable {
 
-    private long   guardianID;
     private String gameName;
-    private long   childID;
     private int  distanceBetweenStations;
     private ArrayList<StationConfiguration> stations = new ArrayList<StationConfiguration>();
 	
@@ -27,27 +25,10 @@ public class GameConfiguration implements Parcelable {
 		this.distanceBetweenStations = distanceBetweenStations;
 	}
 
-    public GameConfiguration(String gameName, long childID, long guardianID, int distanceBetweenStations) {
-        this.gameName = gameName;
-        this.childID = childID;
-        this.guardianID = guardianID;
-        this.distanceBetweenStations = distanceBetweenStations;
-    }
-
-    public GameConfiguration(long childID, long guardianID, int distanceBetweenStations){
-        this.childID = childID;
-        this.guardianID = guardianID;
-        this.distanceBetweenStations = distanceBetweenStations;
-    }
 
     public int getDistanceBetweenStations(){
         return this.distanceBetweenStations;
     };
-
-    public long getChildID() {
-        return this.childID;
-    }
-    public long getGuardianID(){ return this.guardianID; }
 
 
     public void addStation(StationConfiguration station) {
@@ -94,9 +75,7 @@ public class GameConfiguration implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel out, int flags) {
-        out.writeLong(this.guardianID);
         out.writeString(this.gameName);
-        out.writeLong(this.childID);
         out.writeInt(this.distanceBetweenStations);
         out.writeList(this.stations);
     }
@@ -115,9 +94,7 @@ public class GameConfiguration implements Parcelable {
     };
 
     private GameConfiguration(Parcel in) {
-        this.guardianID = in.readLong();
         this.gameName = in.readString();
-        this.childID = in.readLong();
         this.distanceBetweenStations = in.readInt();
         in.readList(this.stations, StationConfiguration.class.getClassLoader());
     }
@@ -131,11 +108,7 @@ public class GameConfiguration implements Parcelable {
     public String writeConfiguration() throws IOException {
         StringWriter sWriter = new StringWriter(1024);
 
-        sWriter.write(String.valueOf(this.guardianID));
-        sWriter.append(",");
         sWriter.write(this.gameName);
-        sWriter.append(",");
-        sWriter.write(String.valueOf(this.childID));
         sWriter.append(",");
         sWriter.write(String.valueOf(this.distanceBetweenStations));
 
