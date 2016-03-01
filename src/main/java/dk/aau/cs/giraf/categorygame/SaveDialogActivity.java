@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-
+import com.google.analytics.tracking.android.EasyTracker;
 import java.util.ArrayList;
 
 public class SaveDialogActivity extends Activity {
@@ -46,8 +46,21 @@ public class SaveDialogActivity extends Activity {
             
             ((TextView) super.findViewById(R.id.saveDescription)).append(" " + this.selectedChildName);
         }
+        // Start logging this activity
+        EasyTracker.getInstance(this).activityStart(this);
     }
-    
+
+    /**
+     * Stops Google Analytics logging.
+     */
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        // Stop logging this activity
+        EasyTracker.getInstance(this).activityStop(this);
+    }
+
     private void showAlertMessage(String message) {
         this.errorDialog.setMessage(message);
         this.errorDialog.show();

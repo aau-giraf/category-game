@@ -9,7 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-
+import com.google.analytics.tracking.android.EasyTracker;
 import java.util.List;
 
 import dk.aau.cs.giraf.gui.GList;
@@ -53,10 +53,20 @@ public class CategoryDialogActivity extends Activity{
         alertDialogBuilder.setNegativeButton(super.getResources().getString(R.string.okay), null);
         this.errorDialog = alertDialogBuilder.create();
 
-
+        // Start logging this activity
+        EasyTracker.getInstance(this).activityStart(this);
 
     }
+    /**
+     * Stops Google Analytics logging.
+     */
+    @Override
+    protected void onStop() {
+        super.onStop();
 
+        // Stop logging this activity
+        EasyTracker.getInstance(this).activityStop(this);
+    }
     private void showAlertMessage(String message) {
         this.errorDialog.setMessage(message);
         this.errorDialog.show();

@@ -29,6 +29,7 @@ import dk.aau.cs.giraf.gui.GirafProfileSelectorDialog;
 import dk.aau.cs.giraf.pictosearch.PictoAdminMain;
 import dk.aau.cs.giraf.categorygame.opengl.GameActivity;
 import dk.aau.cs.giraf.utilities.IntentConstants;
+import com.google.analytics.tracking.android.EasyTracker;
 
 public class MainActivity extends GirafActivity implements GirafProfileSelectorDialog.OnSingleProfileSelectedListener, GirafNotifyDialog.Notification{
     public static final String SAVEFILE_PATH = "game_configurations.txt";
@@ -157,7 +158,20 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
         stationList.setAdapter(stationListAdapter);
 
         this.PreConfigure();
+        // Start logging this activity
+        EasyTracker.getInstance(this).activityStart(this);
     }
+    /**
+     * Stops Google Analytics logging.
+     */
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        // Stop logging this activity
+        EasyTracker.getInstance(this).activityStop(this);
+    }
+
     /**
      * Creates and initilizes buttons for the actionbar,
      * furthermore it adds onClickListeners for the buttons.
