@@ -46,19 +46,18 @@ public class SaveDialogActivity extends Activity {
             
             ((TextView) super.findViewById(R.id.saveDescription)).append(" " + this.selectedChildName);
         }
-        // Start logging this activity
-        EasyTracker.getInstance(this).activityStart(this);
     }
-
-    /**
-     * Stops Google Analytics logging.
-     */
+    //Google analytics - start logging
     @Override
-    protected void onStop() {
+    public void onStart() {
+        super.onStart();
+        EasyTracker.getInstance(this).activityStart(this);  // Start logging
+    }
+    //Google analytics - Stop logging
+    @Override
+    public void onStop() {
         super.onStop();
-
-        // Stop logging this activity
-        EasyTracker.getInstance(this).activityStop(this);
+        EasyTracker.getInstance(this).activityStop(this);  // stop logging
     }
 
     private void showAlertMessage(String message) {
