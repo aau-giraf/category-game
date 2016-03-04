@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
-        <dk.aau.cs.giraf.categorygame.opengl.GlView
+        <dk.aau.cs.giraf.train.opengl.GlView
             android:id="@+id/openglview"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
@@ -37,7 +37,7 @@
 
     <!-- Cart1 -->
 
-    <dk.aau.cs.giraf.categorygame.opengl.WagonLinearLayout
+    <dk.aau.cs.giraf.train.opengl.WagonLinearLayout
         android:id="@+id/Cart1LinearLayout"
         android:layout_width="231dp"
         android:layout_height="120dp"
@@ -45,11 +45,11 @@
         android:layout_marginBottom="50dp"
         android:layout_marginLeft="139dp"
         android:orientation="horizontal" >
-    </dk.aau.cs.giraf.categorygame.opengl.WagonLinearLayout>
+    </dk.aau.cs.giraf.train.opengl.WagonLinearLayout>
 
     <!-- Cart2 -->
 
-    <dk.aau.cs.giraf.categorygame.opengl.WagonLinearLayout
+    <dk.aau.cs.giraf.train.opengl.WagonLinearLayout
         android:id="@+id/Cart2LinearLayout"
         android:layout_width="231dp"
         android:layout_height="120dp"
@@ -57,11 +57,11 @@
         android:layout_marginLeft="30dp"
         android:layout_toRightOf="@id/Cart1LinearLayout"
         android:orientation="horizontal" >
-    </dk.aau.cs.giraf.categorygame.opengl.WagonLinearLayout>
+    </dk.aau.cs.giraf.train.opengl.WagonLinearLayout>
 
     <!-- TrainStation -->
 
-    <dk.aau.cs.giraf.categorygame.opengl.StationLinearLayout
+    <dk.aau.cs.giraf.train.opengl.StationLinearLayout
         android:id="@+id/StationLeftLinearLayout"
         android:layout_width="231dp"
         android:layout_height="120dp"
@@ -69,11 +69,11 @@
         android:layout_marginBottom="-8dp"
         android:layout_marginLeft="90dp"
         android:orientation="horizontal" >
-    </dk.aau.cs.giraf.categorygame.opengl.StationLinearLayout>
+    </dk.aau.cs.giraf.train.opengl.StationLinearLayout>
 
     <!-- StationRight -->
 
-    <dk.aau.cs.giraf.categorygame.opengl.StationLinearLayout
+    <dk.aau.cs.giraf.train.opengl.StationLinearLayout
         android:id="@+id/StationRightLinearLayout"
         android:layout_width="231dp"
         android:layout_height="120dp"
@@ -81,7 +81,7 @@
         android:layout_marginLeft="100dp"
         android:layout_toRightOf="@id/StationLeftLinearLayout"
         android:orientation="horizontal" >
-    </dk.aau.cs.giraf.categorygame.opengl.StationLinearLayout>
+    </dk.aau.cs.giraf.train.opengl.StationLinearLayout>
 
     <LinearLayout
         android:id="@+id/FluteLinearLayout"
@@ -104,7 +104,7 @@
     
         <!-- TrainDriver -->
 
-    <dk.aau.cs.giraf.categorygame.opengl.StationLinearLayout
+    <dk.aau.cs.giraf.train.opengl.StationLinearLayout
         android:id="@+id/TrainDriverLinearLayout"
         android:layout_width="74dp"
         android:layout_height="74dp"
@@ -113,11 +113,11 @@
         android:layout_marginLeft="47dp"
         android:layout_toRightOf="@id/Cart2LinearLayout"
         android:orientation="horizontal" >
-    </dk.aau.cs.giraf.categorygame.opengl.StationLinearLayout>
+    </dk.aau.cs.giraf.train.opengl.StationLinearLayout>
 
     <!-- StationCategory -->
 
-    <dk.aau.cs.giraf.categorygame.opengl.StationLinearLayout
+    <dk.aau.cs.giraf.train.opengl.StationLinearLayout
         android:id="@+id/StationCategoryLinearLayout"
         android:layout_width="74dp"
         android:layout_height="74dp"
@@ -125,6 +125,6 @@
         android:layout_marginTop="28dp"
         android:layout_marginLeft="323.75dp"
         android:orientation="horizontal" >
-    </dk.aau.cs.giraf.categorygame.opengl.StationLinearLayout>
+    </dk.aau.cs.giraf.train.opengl.StationLinearLayout>
 
 </RelativeLayout>

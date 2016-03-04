@@ -1,4 +1,4 @@
-package dk.aau.cs.giraf.categorygame.test;
+package dk.aau.cs.giraf.train.test;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
