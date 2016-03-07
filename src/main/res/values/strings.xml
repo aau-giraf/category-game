@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="error_must_be_started_from_giraf">"Kategorispillet skal startes fra GIRAF"</string>
 
     <string name="app_name">Kategorispillet</string>
     <string name="action_settings">Settings</string>

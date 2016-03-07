@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 import dk.aau.cs.giraf.activity.GirafActivity;
@@ -90,6 +91,8 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
         createTopBarButtons();
         createDistanceSelector();
 
+        final Bundle extras = getIntent().getExtras();
+
         if (ActivityManager.isUserAMonkey()) {
             Helper h = new Helper(this);
             h.CreateDummyData();
@@ -98,7 +101,13 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
             h.profilesHelper.getChildren().get(0).getId(),
             this.getApplicationContext());
         }
-        else {
+
+        //Looking if app is not opened from launcher. And posting a Toast
+        else if (extras == null || (!extras.containsKey(getString(R.string.current_child_id)) && !extras.containsKey(getString(R.string.current_guardian_id)))) {
+            Toast.makeText(this, String.format(getString(R.string.error_must_be_started_from_giraf), getString(R.string.pictoreader)), Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        } else {
             //Find the gButton in your View (needs to be disabled if it is a guest session)
 
             // If the launcher is running it is not a guest session
@@ -114,7 +123,6 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
                 this.currentProfileData = new ProfileData(Constants.guestGuardianID, -1, this.getApplicationContext());
             } else {
             /* Get data from launcher */
-                Bundle extras = getIntent().getExtras();
                 long guardianID = extras.getLong("currentGuardianID");
                 long childID = extras.getLong("currentChildID");
                 Log.d("Train", "Extra values: " + guardianID + " - " + childID);
