@@ -19,7 +19,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-
+import com.google.analytics.tracking.android.EasyTracker;
 import java.util.ArrayList;
 
 import dk.aau.cs.giraf.train.GameConfiguration;
@@ -110,6 +110,20 @@ public class GameActivity extends Activity {
 		this.alertDialog = this.createAlertDialog();
 		
 		this.hideSystemUI();
+	}
+
+
+	//Google analytics - start logging
+	@Override
+	public void onStart() {
+		super.onStart();
+		EasyTracker.getInstance(this).activityStart(this);  // Start logging
+	}
+	//Google analytics - Stop logging
+	@Override
+	public void onStop() {
+		super.onStop();
+		EasyTracker.getInstance(this).activityStop(this);  // stop logging
 	}
 	
 	@SuppressLint("InlinedApi")
