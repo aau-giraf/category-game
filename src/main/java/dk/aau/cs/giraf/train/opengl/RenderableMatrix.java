@@ -201,7 +201,6 @@ public class RenderableMatrix extends Renderable {
                 }
             }
         }
-        
         gl.glPopMatrix();
     }
 }

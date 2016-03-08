@@ -53,7 +53,7 @@ public final class Clouds extends GameDrawable {
     private Texture[] cloudArray = {small_cloud, medium_cloud, large_cloud};
     private CloudContainer[] cloudContainer = new CloudContainer[this.numberOfClouds]; 
     
-    private final void updateClouds() {
+    private void updateClouds() {
         //Updates position and alpha channels
         for (int i = 0; i < this.numberOfClouds; i++) {
             // update all clouds at once

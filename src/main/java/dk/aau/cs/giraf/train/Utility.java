@@ -31,6 +31,4 @@ public class Utility {
         }
         return dataString;
     }
-
-
 }

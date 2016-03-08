@@ -28,7 +28,7 @@ public final class TrainSmoke extends GameDrawable {
     private float timeSinceLastReset = 0f;
     private final float ySpeed = 0.15f;
     
-    private final void resetOneSmokeCloud() {
+    private void resetOneSmokeCloud() {
         //Increment the reset index
         this.resetIndex = ++this.resetIndex % this.numberOfSmokeClouds;
         
@@ -37,7 +37,7 @@ public final class TrainSmoke extends GameDrawable {
         this.colors[this.resetIndex].setColor(1f, 1f, 1f, 1f);
     }
     
-    private final void updateSmokeClouds() {
+    private void updateSmokeClouds() {
         //Updates position and alpha channels
         for (int i = 0; i < this.numberOfSmokeClouds; i++) {
             //Always move smoke vertically, move smoke horizontally relative to the train speed.

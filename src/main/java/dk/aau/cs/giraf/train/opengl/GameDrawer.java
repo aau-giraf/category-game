@@ -136,7 +136,7 @@ public final class GameDrawer {
 	 * @param y direction
 	 * @param z direction
 	 */
-	private final void translate(float x, float y, float z) {
+	private void translate(float x, float y, float z) {
 	    this.gl.glTranslatef(x, y, z);
 
         this.currentPosition.moveX(x);
@@ -145,7 +145,7 @@ public final class GameDrawer {
 	}
 	
 	/** Load identity and reset the current coordinate to 0. */
-	private final void resetPosition() {
+	private void resetPosition() {
 	    this.gl.glLoadIdentity();
 	    this.currentPosition.resetCoordinate();
 	}

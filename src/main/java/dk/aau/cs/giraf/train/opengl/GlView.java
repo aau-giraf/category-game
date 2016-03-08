@@ -71,5 +71,4 @@ public class GlView extends GLSurfaceView {
         
         return super.onTouchEvent(event);
     }
-
 }

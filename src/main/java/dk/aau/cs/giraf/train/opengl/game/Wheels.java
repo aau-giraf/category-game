@@ -30,7 +30,7 @@ public final class Wheels extends GameDrawable {
     private final int mediumWheelIndex = 1;
     private final int smallWheelIndex = 2;
     
-    private final float calculateRotation(int wheelIndex) {
+    private float calculateRotation(int wheelIndex) {
         if(wheelIndex - 1 > this.wheelDiameter.length) { //perform error check
             return 0;
         }

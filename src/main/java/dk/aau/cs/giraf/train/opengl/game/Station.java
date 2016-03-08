@@ -116,7 +116,7 @@ public final class Station extends GameDrawable implements RuntimeLoader {
         }
     }
 
-    private final LinkedList<StationContainer> getQueue(ArrayList<StationContainer> list) {
+    private LinkedList<StationContainer> getQueue(ArrayList<StationContainer> list) {
         LinkedList<StationContainer> queue = new LinkedList<Station.StationContainer>();
         for (StationContainer stationContainer : list) {
             queue.add(stationContainer);

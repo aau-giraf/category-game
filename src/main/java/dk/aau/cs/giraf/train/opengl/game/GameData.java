@@ -133,12 +133,12 @@ public class GameData {
     }
     
     /** Get the braking distance for the train at max velocity. */
-    private synchronized final float brakingDistance() {
+    private synchronized float brakingDistance() {
         return (float) (-Math.pow(GameData.MAX_TRAIN_SPEED, 2.0)) / (2 * -Math.abs(this.deltaVelocity));
     }
     
     /** Change the velocity, and update data accordingly. */
-    private synchronized final void updateVelocity() {
+    private synchronized void updateVelocity() {
         this.performAcceleration();
         
         this.pixelMovementForThisFrame = -this.currentTrainVelocity * this.timeDifference;
@@ -162,7 +162,7 @@ public class GameData {
     }
     
     /** If we are currently chaing velocity, then either accelerate or decelerate the velocity. */
-    private synchronized final void performAcceleration() {
+    private synchronized void performAcceleration() {
         if (this.changingVelocity) {
             // if accelerating
             if (this.deltaVelocity > 0) {
