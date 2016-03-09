@@ -17,9 +17,10 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
 
+import dk.aau.cs.giraf.dblib.Helper;
+import dk.aau.cs.giraf.dblib.models.Pictogram;
 import dk.aau.cs.giraf.dblib.models.Profile;
-import dk.aau.cs.giraf.pictogram.PictoFactory;
-//Bliver ikke brugt længere!
+
 public class GameLinearLayout extends LinearLayout {
 
     private ArrayList<GameConfiguration> gameConfigurations = new ArrayList<GameConfiguration>();
@@ -102,8 +103,12 @@ public class GameLinearLayout extends LinearLayout {
         ImageView profilePictureImageView = (ImageView) gameListItem.findViewById(R.id.profilePic);
         profilePictureImageView.setImageResource(R.drawable.default_profile);
 
-        @SuppressWarnings("static-access")
-        Bitmap bitmap = PictoFactory.INSTANCE.getPictogram(super.getContext(),gameConfiguration.getStation(0).getCategory()).getImageData();
+        //getting images with the help of helper class.
+        Helper helper = new Helper(this.getContext());
+        Long category = gameConfiguration.getStation(0).getCategory();
+
+        Pictogram pictogram = helper.pictogramHelper.getById(category);
+        Bitmap bitmap = helper.pictogramHelper.getImage(pictogram);
         profilePictureImageView.setImageBitmap(bitmap);
 
         gameListItem.setOnClickListener(new OnItemClickListener(gameConfiguration));

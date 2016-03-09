@@ -12,8 +12,9 @@ import android.widget.ImageView;
 
 import java.util.ArrayList;
 
+import dk.aau.cs.giraf.dblib.Helper;
+import dk.aau.cs.giraf.dblib.models.Pictogram;
 import dk.aau.cs.giraf.gui.GTextView;
-import dk.aau.cs.giraf.pictogram.PictoFactory;
 
 public class GGameListAdapter extends BaseAdapter{
 
@@ -52,7 +53,13 @@ public class GGameListAdapter extends BaseAdapter{
         ImageView categoryPic = (ImageView) vi.findViewById(R.id.categoryPic);
         categoryPic.setImageResource(R.drawable.default_profile);
 
-        Bitmap bitmap = PictoFactory.INSTANCE.getPictogram(activity.getApplicationContext(), data.get(position).getStation(0).getCategory()).getImageData();
+        //Needs a helper to get the images
+        Helper helper = new Helper(activity.getApplicationContext());
+        Long category =  data.get(position).getStation(0).getCategory();
+
+
+        Pictogram pictogram = helper.pictogramHelper.getById(category);
+        Bitmap bitmap = helper.pictogramHelper.getImage(pictogram);
         categoryPic.setImageBitmap(bitmap);
 
         ImageButton deleteButton = (ImageButton) vi.findViewById(R.id.deleteConfigButton);
